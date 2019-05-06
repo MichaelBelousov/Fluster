@@ -1,72 +1,29 @@
-
 #include "type.h"
+#include "primitives.h"
 
-namespace Fluster {
+namespace fluster {
 
 
 
+//// Public Interface 
 
-//void compile(const AST&);
-
-bool operator==(const Type& lhs, const Type& rhs)
-{ return lhs.id == rhs.id; }
-
-bool operator!=(const Type& lhs, const Type& rhs);
-{ return !(lhs == rhs); }
-
-Type operator&(const Type& lhs, const Type& rhs)
-{
-    //XXX: T&U should be a unique type determined by T&U
-    return Type({},{}
-                intersection(lhs.inst_props,
-                             rhs.inst_props),
-                intersection(lhs.type_props,
-                             rhs.type_props));
+//return a clone
+TypePtr Type::cloneof() const {
+    return Type(*this);
 }
 
-Type operator|(const Type& lhs, const Type& rhs);
-
-Type operator~(const Type& rhs);
-
-
-Type Type::is(const Type& lhs, const Type& rhs);
-Type Type::is(const Type& rhs);
-Type Type::has(const Type& lhs, const Type& rhs);
-
-Type cloneof();
-void Type::defineConversion(Type& u, Type& v, Conversion convert_func) {
-    conversion_graph.add(tuple(u, v), convert_func);
+//return the type of types, TheType
+const TypePtr Type::typeof() const override {
+    return TheType;
 }
-//TODO: this is runtime, that shouldn't be done!
 
-Type::MetaType = Type();
+//// Operators
 
-struct Array 
-{
-    Type& type;
-    int size;
-};
+bool operator==(const TypePtr& lhs, const TypePtr& rhs) {
+    return lhs.kind == rhs.kind
+        && lhs.props == rhs.props;
+}
 
-namespace builtin
-{
-    namespace types {
-        Type int_;
-        Type int8;
-        Type uint8;
-        Type int16;
-        Type uint16;
-        Type int32;
-        Type uint32;
-        Type int64;
-        Type uint64;
 
-        Type float_;
-        Type float32;
-        Type float64;
 
-        Type bool_;
-        Type byte_;
-        Type bit_;
-    };
-};
-
+}; //namespace fluster
