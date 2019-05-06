@@ -1,21 +1,21 @@
 
 # Fluster
 
-A general programming language with an emphasis on density,
-core concepts, and abstraction.
+A general programming language with an emphasis on simplicity, power, and interop.
+Meant to provide too much power such that you never, *ever* repeat yourself.
 
 ## Introduction
 
 Fluster code constructs can be made parametric
 uniformly and effortlessly
 
-```TypeScript
+```Fluster
 
 struct PriorityQueue<ContainerType: Container<T: Type>, 
                      weight: Func<R: ComparableType, T>>
     private
         container: ContainerType
-    @public meth add(t: T): void
+    @publ meth add(t: T): void
         i = container.length
         for x: T in reversed(container)
             if weight(t) > weight(x)
@@ -40,7 +40,7 @@ Fluster code is strongly typed and heavily inferred.
 Value idioms and constructs are used on types wherever appropriate
 including operators.
 
-```TypeScript
+```Fluster
 
 val: int = 4            //typed declaration
 MyFloat: Type = float64 //type alias
@@ -51,14 +51,16 @@ decimal = val: float64  //casting is the same syntax
 Fluster code is expressive and readable with core data structure
 literals, idiomatic byte literals, and more.
 
-```TypeScript
+```Fluster
 
-vals: int[] = 1, 5, 10, -4
-val: byte[4] = 0x00fa43fc
-val: byte[1] = 0b11010100
-string_array = ["foo", "bar"]
+MyType = {foo: i64, bar: Dbl}
+int_array: []int = 1, 5, 10, -4
+val: [4]byte = 0x00fa43fc  //implicit conversion
+val: [1]byte = 0b11010100  //implicit conversion
+string_array = "foo", "bar"
 string_list = ["foo", "bar"]
-string_map: Map<String, int32>  = {"foo" = 40}
+string_map: Map<String, u32>  = {foo = 40}  //conversion from static analysis
+string_map = {"foo" = 40}
 
 struct Person
     name: char[10]
@@ -70,12 +72,12 @@ dan = 0x6d696b6500000000000014: Person
 
 Fluster has pack idioms
 
-```TypeScript
+```Fluster
 
-val2 = 0x5f            //inferred to byte[1]
+val2 = 0x5f            //inferred to [1]byte
 val3, = 0x5f           //inferred to byte
-x = 'hello'            //char[5]
-y: String = 'hello'    //converted from char to string of length 6
+x = 'hello'            //[5]char
+y: String = 'hello'    //converted from char array to string of length 5
 
 a, b, c, ...rest = [5, 6, -2, 20, 4]
 a == 5
@@ -91,7 +93,7 @@ mylist: List2D<T> = (1, 2), (), (0,), (4, 5, 8, 2)
 Fluster code has granular declarative composition
 for easy code reuse
 
-```TypeScript
+```Fluster
 
 class A
     is B            // inheritance
@@ -108,7 +110,7 @@ Fluster code supports every level of abstraction, with strong
 code generation and static reflection, or runtime reflection
 only when you need it.
 
-```TypeScript
+```Fluster
 
 tran flag_enum<target: Enum>
     for i, m in enumerate(target._members)
@@ -146,9 +148,9 @@ Fluster can even let you modify modules to add appropriate
 functions, transform others, or even ignore other people's 
 demented casing choices.
 
-```TypeScript
+```Fluster
 
-aclass, b_class, cClass = import gross.bile
+aclass, b_class, cClass = import('gross.bile')
 
 ```
 
@@ -157,7 +159,7 @@ but we will need to fix at least the aclass declaration
 ourselves which we can do with a custom transformer
 
 
-```TypeScript
+```Fluster
 
 snake_caser, = import casing
 
