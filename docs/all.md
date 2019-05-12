@@ -2,8 +2,20 @@
 # Everything interesting you can do in one file
 
 ```Fluster
+//empty type
+struct A
 
+
+//scope-based-destruction
 struct B
+    start
+    op init(this)
+        this.start = time.now()
+    op del(this)
+        now = time.now()
+        interval = now - this.start
+        stdout.write(interval.toStr())
+
 
 params<ContainerType: Container<T: Type>>
 class A \ is B
@@ -119,13 +131,13 @@ x = @heap String('hello')
 
 //use a reference, raw memory access, and return value
 //in-place construction to allocate an object on the heap
-comp heap<F: FuncCall<..As, R = _ReturnType>>  //template arg types by default is Type
+comp heap<F: FuncCall<Func<..As, R = _ReturnType>>>  //template arg types by default is Type
     //something with arenas
     addr = cstdlib.malloc(sizeof(R))
     slot: !&R =
         mem.access<sizeof(R)>(addr): R
     slot = F(..As)
-    return ptr<R>(addr)
+    return slot: &R
     
 
 //can one implement stackless coroutines with composers?
@@ -134,5 +146,31 @@ comp heap<F: FuncCall<..As, R = _ReturnType>>  //template arg types by default i
 func mystackless(): void
     url = api.routes.login
     @async.await(() => blockingLogin(url))
+
+namespace async
+    cur_threads
+    thread_table = [MAX_THREADS]!&Thread
+
+    struct FrozenStacklessCoroutine<F>
+        program_counter: i32
+        frame: F._Frame
+        
+    comp stackless<F: Func<..>>
+        frozen: !FrozenStacklessCoroutine<F>
+        meth restore(): void
+            //_stack.current_frame = frozen.frame
+            _stack = frozen.frame
+            _program_counter = frozen.program_counter
+        meth freeze(): void
+            frozen.program_counter = _program_counter
+            frozen.frame = _stack[-F._Frame.size..]
+        return F
+
+    struct FrozenStackfullCoroutine<frame: StackFrame>
+        program_counter: i32
+
+    priv
+        switchContext()
+            ...
 
 ```
