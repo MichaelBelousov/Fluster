@@ -1,10 +1,87 @@
 
 # Everything interesting you can do in one file
 
-```Fluster
-//empty type
-struct A
+### Structs
 
+```Fluster
+struct A  //empty type
+
+struct B
+    a  //member type inferred from constructor invocations
+
+b = B{4}
+//b: B = {a="hello"}  //if uncommented, will fail on ambiguity
+
+struct C
+    a: i32
+
+struct D
+    a: f32
+    b: Str
+
+struct Node<T>
+    val: !T
+    next: &!Node<T>
+
+// structs cannot be subtypes and must use composition
+// instead of inheritance
+struct E
+    has D
+
+assert(() => E subtypeof D)  //will fail
+
+// rename embedded D instance and its member
+struct F
+    has D as d  //allows access to embedded D using name d
+    has D.a as b  //allows access to D.a with F.b
+    @priv has D as e //second embedded D, privately, with different name
+
+// constructors
+struct G
+    op init(this)
+        this.x = 
+
+// methods, static variables, static functions
+struct Log
+    /* A log for logging */
+    name: Path
+    @static
+    log_dir: !Path
+    func open_log_file()
+        flags = fs.file.create | fs.flags.overwrite
+        with fs.open(append=true) as f
+            return f
+        handle FileDoesntExist
+            fs.create(fs.join(log_dir, '#<name>.log'))
+            retry
+        
+    meth log(this,
+             format: CFormatStr,
+             prefix: CFormatStr = 'Log Entry: ',
+             ..args): void
+        with fs.append(Path.join(Log.log_dir,this.path)) as file
+            entry = cformat(prefix+format, ..args)
+            file.write(entry)
+    func change_path
+
+//members are public by default
+struct
+    @priv a
+    priv
+        b: [3]byte
+        c: f64
+
+```
+
+### Functions
+
+```Fluster
+
+```
+
+### Classes and Inheritance
+
+```Fluster
 
 //scope-based-destruction
 struct B
@@ -173,4 +250,22 @@ namespace async
         switchContext()
             ...
 
+```
+
+Simultaneous algorithms
+
+```Fluster
+
+namespace Json
+    class Value
+    func validate(input: Stream<Char>, version=1): Bool
+        ...
+    func unsafe_parse(input: Stream<Char>, version=1): Value
+        ...
+    func parse(input: Stream<Char>, version): Value
+        ...
+        run validate(input, version) as v,
+        parse(input, version) as p over input
+            if ~v
+                raise InvalidJson
 ```
