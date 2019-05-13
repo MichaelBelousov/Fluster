@@ -9,7 +9,7 @@ struct A  //empty type
 struct B
     a  //member type inferred from constructor invocations
 
-b = B{4}
+b = B(4)
 //b: B = {a="hello"}  //if uncommented, will fail on ambiguity
 
 struct C
@@ -37,9 +37,19 @@ struct F
     @priv has D as e //second embedded D, privately, with different name
 
 // constructors
-struct G
-    op init(this)
-        this.x = 
+struct Point2D
+    x
+    y
+    op init(this, in_x, in_y)
+        this.x = in_x
+        this.y = in_y
+
+//members are public by default
+struct
+    @priv a
+    priv
+        b: [3]byte
+        c: f64
 
 // methods, static variables, static functions
 struct Log
@@ -47,9 +57,9 @@ struct Log
     name: Path
     @static
     log_dir: !Path
+
     func open_log_file()
-        flags = fs.file.create | fs.flags.overwrite
-        with fs.open(append=true) as f
+        with fs.open(append=true, overwrite=true) as f
             return f
         handle FileDoesntExist
             fs.create(fs.join(log_dir, '#<name>.log'))
@@ -64,12 +74,6 @@ struct Log
             file.write(entry)
     func change_path
 
-//members are public by default
-struct
-    @priv a
-    priv
-        b: [3]byte
-        c: f64
 
 ```
 
@@ -252,20 +256,29 @@ namespace async
 
 ```
 
-Simultaneous algorithms
+### Simultaneous algorithms
+
+the instructions of the first iteration are interleaved.
 
 ```Fluster
+namespace Svg
 
-namespace Json
+    default_version = 1.1
+
     class Value
-    func validate(input: Stream<Char>, version=1): Bool
+
+    enum Errors
+        InvalidSyntax
+
+    func validate(input: Stream<Char>): Bool
         ...
-    func unsafe_parse(input: Stream<Char>, version=1): Value
+    func unsafe_parse(input: Stream<Char>, version=default_version): Value
         ...
-    func parse(input: Stream<Char>, version): Value
-        ...
-        run validate(input, version) as v,
-        parse(input, version) as p over input
-            if ~v
-                raise InvalidJson
+
+    func parse(input: Stream<Char>, version=default_version): Value
+        run validate as valid,
+        run parse(input, version) as parse_result  //custom arguments including iterator
+        over input
+            if ~valid \ raise Errors.InvalidSyntax
+        return parse_result
 ```
