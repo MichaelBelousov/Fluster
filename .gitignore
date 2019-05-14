@@ -1,0 +1,8 @@
+# build artifacts
+build
+
+# vim
+*.sw*
+
+# meson
+meson-llvm.ini
