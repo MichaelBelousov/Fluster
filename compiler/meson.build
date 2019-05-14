@@ -9,7 +9,7 @@ project('Fluster', ['cpp'],
   default_options : ['warning_level=3', 'cpp_std=c++17']
 )
 
-// generate lexer and parser source
+# generate lexer and parser source
 prog_reflex = find_program('reflex', required : true)
 prog_bison = find_program('bison', required : true)
 run_command([prog_reflex, 'src/lexer.l'])
