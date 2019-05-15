@@ -1,0 +1,54 @@
+/*
+Fluster's support for asynchronous concepts
+built off libpthreads
+*/
+    
+/*
+@async.stackless
+func mystackless(): void
+    url = api.routes.login
+    @async.await(() => blockingLogin(url))
+*/
+
+namespace pthreads
+    cpthreads = import<c>('<pthread.h>')
+
+    enum Error
+        PThread
+
+    struct Mutex \ is cpthreads.pthread_mutex_t
+
+    struct Thread \ is cpthreads.pthread_t
+        op init(this, start, args)
+            err = cpthreads.pthread_create(#this, 0, start, args)
+            if err != 0 \ raise Error.Pthread
+        func join()
+            err = cpthreads.pthread_join(#this, 0)
+            if err != 0 \ raise Error.Pthread
+
+    namespace threading
+        cur_thread: !&Thread
+        thread_table: [MAX_THREADS]!&Thread
+
+//implementing stackless coroutines with composers
+namespace coroutines
+
+    @priv
+    struct FrozenStacklessCoroutine<F: Func>
+        program_counter: i32
+        frame: F._Frame
+        
+    comp stackless<F: Func>
+        frozen: !FrozenStacklessCoroutine<F>
+        meth restore(): void
+            //_stack.current_frame = frozen.frame
+            _stack = frozen.frame
+            _program_counter = frozen.program_counter
+        meth freeze(): void
+            frozen.program_counter = _program_counter
+            frozen.frame = _stack[-F._Frame.size..]
+        return F
+
+    struct FrozenStackfullCoroutine<frame: StackFrame>
+        program_counter: i32
+        stack: _runtime.Stack
