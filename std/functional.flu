@@ -4,11 +4,53 @@ Functional base for standard library
 
 // min, max
 
+WeightFunc<ResultType: Comparable> = Func<
+    T: Type,
+    _result: ResultType
+>
+ComparisonFunc<T> = Func<T, T, _result: Boolean>
+
+/* get the most-something out of an iterable, using
+   some predicate comparator. Used to implement max and min
+*/
+func comparedMost
+    <IteredType: Type,
+     WeightFunc: Func<
+        IteredType,
+        _result: Comparable<WeightType: Type>
+     > = (t => t),
+     comp: Func<
+        IteredType,
+        IteredType,
+        _result: Boolean
+     >
+    >
+    (iterable: Iterable<IteredType>,
+     weight: WeightFunc
+    )
+
+    iterator = iterable.Iterator()
+
+    rolling_most: !IteredType = iterator.next()
+    handle IteratorEnd
+        raise EmptyIterable
+
+    repeat
+        curr = iterator.next()
+        if comp(weight(rolling_most), weight(curr))
+            rolling_most = curr
+    handle IteratorEnd
+        return rolling_most
+
+min<T, W> = comparedMost<T, W, ((a,b) => a < b)>
+max<T, W> = comparedMost<T, W, ((a,b) => a > b)>
+
+
 // enumerate/index
 
 func index(iter: Iterable)
     i = 0
-    return Stream<(i) => (iter.next(), i++)>
+    return Stream<(i => iter.next();i++)>
 
 // nth
 

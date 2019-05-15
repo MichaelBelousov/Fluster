@@ -12,8 +12,8 @@ project('Fluster', ['cpp'],
 # generate lexer and parser source
 prog_reflex = find_program('reflex', required : true)
 prog_bison = find_program('bison', required : true)
-run_command([prog_reflex, 'src/lexer.l'])
-run_command([prog_bison, 'src/parser.y'])
+run_command([prog_reflex, 'src/lexer.lpp'])
+run_command([prog_bison, 'src/parser.ypp'])
 
 on_linux = host_machine.system() == 'linux'
 on_windows = ['windows', 'cygwin'].contains(host_machine.system())
