@@ -9,8 +9,8 @@
 
 %skeleton "lalr1.cc"
 %require "3.2"
-%output "parser.cpp"
-%defines "parser.h"
+%output "parser.gen.cpp"
+%defines "parser.gen.h"
 
 /* C++ */
 

@@ -1,0 +1,5 @@
+# generated file
+*.gen.*
+
+# build data
+build

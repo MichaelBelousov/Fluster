@@ -1,14 +1,7 @@
-# generated code
-src/lexer.h
-src/lexer.cpp
-src/parser.h
-src/parser.cpp
-
-# build data
-build
-
 # vim
 *.sw*
 
-# meson
-meson-llvm.ini
+# python cruft
+.venv
+__pycache__
+*.pyc
