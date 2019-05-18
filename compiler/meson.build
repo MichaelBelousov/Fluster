@@ -37,7 +37,10 @@ endif
 prog_bison = find_program('bison')
 parser_cpp_path = join_paths(src_dir, 'parser.gen.cpp')
 parser_h_path = join_paths(src_dir, 'parser.gen.h')
-parser_gen_result = run_command(prog_bison, 'src/parser.ypp', '-o', parser_cpp_path)
+parser_gen_result = run_command(prog_bison, 'src/parser.ypp',
+    '-o', parser_cpp_path,
+    '--defines=@0@'.format(parser_h_path)
+)
 if parser_gen_result.returncode() != 0
   error('parser generation failed\n'
         +parser_gen_result.stderr())
