@@ -1,11 +1,13 @@
+#include <iostream>
+#include "lexer.gen.h"
+#include "parser.gen.h"
 
-#include "lexer.h"
-#include "parser.tab.h"
+using Parser = yy::parser;
+using yy::Lexer;
 
 int main(int argc, char*[] argv)
 {
-    using Parser = yy::parser;
-    using yy::Lexer;
+    std::ios::sync_with_stdio(false);
 
     Lexer lexer(std::cin);
     Parser parser(lexer);

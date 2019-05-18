@@ -32,7 +32,6 @@ string_content      {any}*[^\\]
 
 %o debug
 
-%o outfile="lexer.gen.cpp" header-file="lexer.gen.h"
 %o namespace=yy
 %o lexer=Lexer
 /*%o lex=yylex*/

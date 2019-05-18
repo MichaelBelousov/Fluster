@@ -17,27 +17,42 @@ compiler = meson.get_compiler('cpp')
 # dependencies
 deps = []
 
-# generate lexer and parser source
-prog_reflex = find_program('reflex', 'reflex.exe')
-prog_bison = find_program('bison', 'bison.exe')
-run_command(prog_reflex, 'src/lexer.lpp')
-run_command(prog_bison, 'src/parser.ypp')
+# generate lexer
+prog_reflex = find_program('reflex')
+src_dir = 'src/'
+lexer_cpp_path = join_paths(src_dir, 'lexer.gen.cpp')
+lexer_h_path = join_paths(src_dir, 'lexer.gen.h')
+lexer_gen_result = run_command(prog_reflex, 'src/lexer.lpp',
+    '-o', lexer_cpp_path,
+    '--header-file=@0@'.format(lexer_h_path)
+)
+if lexer_gen_result.returncode() != 0
+  error('lexer generation failed\n'
+        +lexer_gen_result.stderr())
+else
+  message('Finished lexer generation')
+endif
 
-on_linux = host_machine.system() == 'linux'
-on_windows = ['windows', 'cygwin'].contains(host_machine.system())
-on_macos = host_machine.system() == 'darwin'
+# generate parser
+prog_bison = find_program('bison')
+parser_cpp_path = join_paths(src_dir, 'parser.gen.cpp')
+parser_h_path = join_paths(src_dir, 'parser.gen.h')
+parser_gen_result = run_command(prog_bison, 'src/parser.ypp', '-o', parser_cpp_path)
+if parser_gen_result.returncode() != 0
+  error('parser generation failed\n'
+        +parser_gen_result.stderr())
+else
+  message('finished parser generation')
+endif
+
 
 llvm_modules = ['all-targets']
 llvm_version = '>= 6.0.0'
-
-# required by llvm
-zlib_dep = dependency('zlib')
 
 llvm_dep = dependency('llvm',
   version : llvm_version,
   modules : llvm_modules
 )
-
   
 if not llvm_dep.found()
   error('LLVM (version at least 8.0.0) not found')
@@ -52,7 +67,7 @@ if get_option('buildtype') == 'debug'
   add_project_arguments('-DDEBUG', language : ['cpp'])
 endif
 
-inc_include = include_directories('include')
+# inc_include = include_directories('include')
 
 exe = executable('flusterc', 'src/main.cpp',
   dependencies : deps,
