@@ -53,95 +53,93 @@
 %define api.token.prefix {TOK_}
 %token
     END                 0           "end of file"
-    EQ                  "="         "value assignment"
-    LANGLE              "<"         "less than"
-    LANGLE_EQ           "<="        "less than or equal to"
-    EQ_EQ               "=="        "value comparison"
-    HASH_EQ             "#="        "identity comparision"
-    LANGLE_EQ_RANGLE    "<=>"       "ternary comparison"
-    TILDE               "~"         "complement"
-    TILDE_TILDE         "~~"        "unknown"
-    EXCLAIM             "!"         "mutable type"
-    EXCLAIM_EQ          "!="        "complement of value comparison"
-    RANGLE_EQ           ">="        "greater than or equal to"
-    RANGLE              ">"         "greater than"
-    PLUS                "+"         "addition, structural type inheritance"
-    DASH                "-"         "subtraction"
-    STAR                "*"         "multiplication"
-    FSLASH              "/"         "division"
-    FSLASH_FSLASH       "//"        "integer division (yields tuple of result and remainder)"
-    PERCENT             "%"         "modular division?"
-    CARET               "^"         "bitwise xor, power"
-    CARET_FSLASH        "^/"        "root"
-    HAS                 "has"       "composition/implementation, type implementors qualifier"
-    IS                  "is"        "inheritance, type inheritance qualifier"
-    AMPERSAND           "&"         "logical and, bitwise and, set intersection, structural type intersection"
-    PIPE                "|"         "logical or, bitwise or, set union, structural type union"
-    RANGLE_RANGLE       ">>"        "bitwise shift right"
-    LANGLE_LANGLE       "<<"        "bitwise shift left"
-    DASH_RANGLE         "->"        "logical implication, case indication"
-    PLUS_EQ             "+="        "addition assignment"
-    DASH_EQ             "-="        "subtraction assignment"
-    STAR_EQ             "*="        "multiplication assignment"
-    FSLASH_EQ           "/="        "division assignment"
-    FSLASH_FSLASH_EQ    "//="       "integer division assignment (discards remainder)"
-    CARET_FSLASH_EQ     "^/="       "root assignment"
-    CARET_EQ            "^="        "bitwise xor assignment, power assignment"
-    AMPERSAND_EQ        "&="        "ampersand assignment"
-    PIPE_EQ             "|="        "pipe assignment"
-    TILDE_EQ            "~="        "complement assignment"
-    RANGLE_RANGLE_EQ    ">>="       "right-shift assignment"
-    LANGLE_LANGLE_EQ    "<<="       "left-shift assignment"
-    DASH_RANGLE_EQ      "->="       "implication assignment"
-    DOLLAR              "$"         "unknown"
-/*  LANGLE_DASH         "<-"        "CONFLICT since - is unary" */
-    DOT                 "."         "structural access"
-    DOT_DOT             ".."        "slice range opening, pack expansion, pack declaration"
-    DOT_DOT_DOT         "..."       "empty"
-    LBRACK              "["         "start access expression, start list literal"
-    RBRACK              "]"         "end access expression, end list literal"
-    LBRACE              "{"         "start set or object type/value expression"
-    RBRACE              "}"         "end set or object type/value expression
-    LPAR                "("         "start separate expression, start tuple literal"
-    RPAR                ")"         "end separate expression, end tuple literal"
-    COMMA               ","         "separate values"
-    EQ_RANGLE           "=>"        "anonymous function"
-    COLON               ":"         "type assertion"
-    COLON               ";"         "chain expression"
-    AT                  "@"         "decorator invocation"
-    QUES                "?"         "optional type"
-    IN                  "in"        "containment expression"
-    CONTAINS            "contains"  "containment expression"
-    MOD                 "mod"       "modular division"
-    IF                  "if"        "start if statement"
-    ELSE                "else"      "start else statement"
-    ELIF                "elif"      "start else if statement"
-    FOR                 "for"       "start for loop"
-    WHILE               "while"     "start while loop"
-    UNTIL               "until"     "start until loop"
-    REPEAT              "repeat"    "start infinite loop"
-    TRY                 "try"       "attempt expression"
-    RETRY               "retry"     "retry attempted expression"
-    HANDLE              "handle"    "declare exception handling case"
-    RAISE               "raise"     "raise an exception case"
-    WITH                "with"      "declare context"
-    STRUCT              "struct"    "declare structure"
-    CLASS               "class"     "declare dynamic-type reference structure"
-    TYPEOF              "typeof"    "get type of expression"
-    CLONEOF             "cloneof"   "get clone of type"
-    IMPORT              "import"    "import a path"
+    EQ                  "="         /* value assignment */
+    LANGLE              "<"         /* less than */
+    LANGLE_EQ           "<="        /* less than or equal to */
+    EQ_EQ               "=="        /* value comparison */
+    HASH_EQ             "#="        /* identity comparision */
+    LANGLE_EQ_RANGLE    "<=>"       /* ternary comparison */
+    TILDE               "~"         /* complement */
+    TILDE_TILDE         "~~"        /* unknown */
+    EXCLAIM             "!"         /* mutable type */
+    EXCLAIM_EQ          "!="        /* complement of value comparison */
+    RANGLE_EQ           ">="        /* greater than or equal to */
+    RANGLE              ">"         /* greater than */
+    PLUS                "+"         /* addition, structural type inheritance */
+    DASH                "-"         /* subtraction */
+    STAR                "*"         /* multiplication */
+    FSLASH              "/"         /* division */
+    FSLASH_FSLASH       "//"        /* integer division (yields tuple of result and remainder) */
+    PERCENT             "%"         /* modular division? */
+    CARET               "^"         /* bitwise xor, power */
+    CARET_FSLASH        "^/"        /* root */
+    HAS                 "has"       /* composition/implementation, type implementors qualifier */
+    IS                  "is"        /* inheritance, type inheritance qualifier */
+    AMPERSAND           "&"         /* logical and, bitwise and, set intersection, structural type intersection */
+    PIPE                "|"         /* logical or, bitwise or, set union, structural type union */
+    RANGLE_RANGLE       ">>"        /* bitwise shift right */
+    LANGLE_LANGLE       "<<"        /* bitwise shift left */
+    DASH_RANGLE         "->"        /* logical implication, case indication */
+    PLUS_EQ             "+="        /* addition assignment */
+    DASH_EQ             "-="        /* subtraction assignment */
+    STAR_EQ             "*="        /* multiplication assignment */
+    FSLASH_EQ           "/="        /* division assignment */
+    FSLASH_FSLASH_EQ    "//="       /* integer division assignment (discards remainder) */
+    CARET_FSLASH_EQ     "^/="       /* root assignment */
+    CARET_EQ            "^="        /* bitwise xor assignment, power assignment */
+    AMPERSAND_EQ        "&="        /* ampersand assignment */
+    PIPE_EQ             "|="        /* pipe assignment */
+    TILDE_EQ            "~="        /* complement assignment */
+    RANGLE_RANGLE_EQ    ">>="       /* right-shift assignment */
+    LANGLE_LANGLE_EQ    "<<="       /* left-shift assignment */
+    DASH_RANGLE_EQ      "->="       /* implication assignment */
+    DOLLAR              "$"         /* unknown */
+/*  LANGLE_DASH         "<-"        /* CONFLICT since - is unary" * */
+    DOT                 "."         /* structural access */
+    DOT_DOT             ".."        /* slice range opening, pack expansion, pack declaration */
+    DOT_DOT_DOT         "..."       /* empty */
+    LBRACK              "["         /* start access expression, start list literal */
+    RBRACK              "]"         /* end access expression, end list literal */
+    LBRACE              "{"         /* start set or object type/value expression */
+    RBRACE              "}"         /* end set or object type/value expressio */
+    LPAR                "("         /* start separate expression, start tuple literal */
+    RPAR                ")"         /* end separate expression, end tuple literal */
+    COMMA               ","         /* separate values */
+    EQ_RANGLE           "=>"        /* anonymous function */
+    COLON               ":"         /* type assertion */
+    SEMICOLON           ";"         /* chain and discard expressions */
+    AT                  "@"         /* decorator invocation */
+    QUES                "?"         /* optional type */
+    IN                  "in"        /* containment expression */
+    CONTAINS            "contains"  /* containment expression */
+    MOD                 "mod"       /* modular division */
+    IF                  "if"        /* start if statement */
+    ELSE                "else"      /* start else statement */
+    ELIF                "elif"      /* start else if statement */
+    FOR                 "for"       /* start for loop */
+    WHILE               "while"     /* start while loop */
+    UNTIL               "until"     /* start until loop */
+    REPEAT              "repeat"    /* start infinite loop */
+    TRY                 "try"       /* attempt expression */
+    RETRY               "retry"     /* retry attempted expression */
+    HANDLE              "handle"    /* declare exception handling case */
+    RAISE               "raise"     /* raise an exception case */
+    WITH                "with"      /* declare context */
+    STRUCT              "struct"    /* declare structure */
+    CLASS               "class"     /* declare dynamic-type reference structure */
+    TYPEOF              "typeof"    /* get type of expression */
+    CLONEOF             "cloneof"   /* get clone of type */
+    IMPORT              "import"    /* import a path */
 ;
 
 %token <Fluster::data::Identifier> IDENTIFIER "identifier"
-%token <Fluster::data::NaturalNum> INTEGER_LIT "integer"
-%token <Fluster::data::RationalNum> FLOAT_LIT "float"
-/* TODO: use std::bitset or something */
-%token <Fluster::data::ByteArray> BYTES_LIT "bytes"
-%token <Fluster::data::BitArray> BITS_LIT "bits"
+%token <Fluster::data::NaturalNum> INTEGER_LIT "integer_lit"
+%token <Fluster::data::RationalNum> FLOAT_LIT "float_lit"
+%token <Fluster::data::ByteArray> BYTES_LIT "bytes_lit"
+%token <Fluster::data::BitArray> BITS_LIT "bits_lit"
 %type <Fluster::ast::Expression> expr
 
 %printer { yyo << $$; } <*>;
-
 
 %%
 
