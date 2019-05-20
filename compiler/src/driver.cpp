@@ -1,39 +1,46 @@
-
 #include "driver.h"
-
-#include <string>
-#include <map>
-
 #include "parser.h"
+
+namespace Fluster {
+
 
 /// Construction
 
 Driver::Driver()
-    : variables()
-    , trace_scanning(false)
+    : context()
+    , trace_lexing(false)
     , trace_parsing(false)
     , location()
-    , target_file()
+    , file_path()
 {}
 
 /// Methods
 
 int Driver::parse(const std::string& in_file)
 {
-    target_file = in_file;
+    int result;
+
+    file_path = in_file;
     location.initialize(&file);
-    scan_begin();
-    yy::parser parse(*this);
-    parse.set_debug_level(trace_parsing);
-    int res = parse();
-    scan_end();
-    return res;
+
+    begin_lexing();
+    {
+        yy::parser parse(*this);
+        parse.set_debug_level(trace_parsing);
+        result = parse();
+    }
+    end_lexing();
+
+    return result;
 }
 
-void Driver::begin_scan()
+void Driver::begin_lexing()
 {
 }
 
-void Driver::end_scan()
+void Driver::end_lexing()
 {
 }
+
+
+};  //namespace Fluster

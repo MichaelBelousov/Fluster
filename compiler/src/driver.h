@@ -3,27 +3,42 @@
 
 #include <string>
 #include <map>
-#include "parser.h"
+#include "parser.gen.h"
+
+#define YY_DECL \
+    yy::parser::symbol_type lex(Driver& d)
+
+YY_DECL;
+
+namespace Fluster {
+
+struct ParseContext {
+    std::map<std::string, int> variables;
+    //Type expression_type;
+    //Decl declaration_type;
+};
 
 /* Driver for connecting the lexer and parser
- * with a ~~shared~~ context
+ * with a context
  */
-struct Driver
-{
+struct Driver {
     /// Members
-    std::map<std::string, int> variables;
-    bool trace_scanning;
+    ParseContext context;
+    bool trace_lexing;
     bool trace_parsing;
     yy::location location;
-    std::string target_file;
+    std::string file_path;
 
     /// Construction
     Driver();
 
     /// Methods
-    int parse(const std::string& in_file);
-    void begin_scan();
-    void end_scan();
-}
+    int parse(const std::string& in_file_path);
+    void begin_lexing();
+    void end_lexing();
+};
+
+
+};  //namespace Fluster
 
 #endif //FLUSTER_COMPILER_DRIVER_H
