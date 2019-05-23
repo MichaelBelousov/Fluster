@@ -49,8 +49,8 @@ a #= b
 | `a == b`    | eq (a, b)         | *a* is equal to *b* |
 | `a #= b`    | ptreq (a, b)      | `ptr<a> == ptr<b>`, *a*'s address is equivalent to the address of *b* |
 | `a <=> b`   | spaceship (a, b)  | result is negative if `a < b`, positive if `a > b`, 0 if `a == b` |
-| `a ~= b`    | approxeq\<epsilon\> (a, b)   | *a* is approximately equal to *b*, which is idoimatically modified in your scope |
-| `a ~ b`    | similar \<epsilon\> (a, b)   | *a* is similar to *b* |
+| `a ~= b`    | approxeq\<epsilon: f32\> (a, b)   | *a* is approximately equal to *b*, which is idoimatically modified in your scope |
+| `a ~ b`    | similar\<epsilon: f32\> (a, b)   | *a* is similar to *b* |
 | `a != b`    | neq (a, b)        | *a* is not equal to *b* |
 | `a >= b`    | gteq (a, b)       | *a* is greater than or equal to *b* |
 | `a > b`     | gt (a, b)         | *a* is greater than *b* |
@@ -116,12 +116,12 @@ a #= b
 | `+a`        | copy              | copy of *a* |
 | `$a`        | name              | a name literal |
 | `$name =`   | name              | read the binding of a name |
-| `a <- b`    | replace           | name replacement of *a* |
-| `a <-`      | remove            | name deletion of *a* |
+| `a <- b`    | replace           | name replacement of *a* **(this one might introduce ambiguity)** |
+| `a <-`      | remove            | name deletion of *a*  |
 ||||
 | **iteration**    |||
-| `a,...c = d`| pack              | *a* is single-packed while c is packed from d |
-| `...a`      | unpack            | *a* is pack-expanded in the expression |
+| `a,..c = d`| pack              | *a* is single-packed while c is packed from d |
+| `..a`      | unpack            | *a* is pack-expanded in the expression |
 | `a in b`    | contain           | true if *b* contains *a* |
 | `b has a`   | contain           | true if *b* contains *a* |
 | `b contains a` | contain        | true if *b* contains *a* |
@@ -137,18 +137,19 @@ a #= b
 | `.a`        | global (a)        | access a name, *a* from global scope
 ||||
 | **function**   |||
-| `[...captures](...args) => expr` | lambda (...args): b | create a struct containing the captures objects, and a function with a reference to the struct over arguments `args` |
-| a(..args) | call (a, ...args) | call *a* with arguments *args* |
+| `(..args) => expr` | lambda (..args): b | create a closure with arguments `args` |
+| `a(..args)` | call (a, ..args) | call *a* with arguments *args* |
+| `|>` | pipe | take the output of the left handside expression and pass it as an argument to the right hand side, e.g. `x |> f |> g == g(f(x))`  |
 ||||
 | **other**      |||
-| `c ? a : b` | ternary (c, a, b) | if c: *a*, else *b* |
+| `c ? a : b` | ternary (c, a, b) | if c: *a*, else *b* **(probably not included)** |
 | `if a`      | truth             | conversion of *a* to bool type |
 | `while a`   | truth             | conversion of *a* to bool type |
 | `until a`   | truth             | conversion of *a* to bool type |
 ||||
 | **compiler**    |||
-| `import name`  | import<...Ts>(path: ImportPath, ...args) | import a package with import arguments *args* |
-|                | load (...args) | code with arguments for when the module is loaded |
+| `import name`  | import<..Ts>(path: ImportPath, ..args) | import a package with import arguments *args* |
+|                | load (..args) | code with arguments for when the module is loaded |
 
 <!-- 
 add a copy operator? 
