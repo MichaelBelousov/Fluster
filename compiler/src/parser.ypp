@@ -14,7 +14,7 @@
 
 %define api.token.constructor
 /* can switch to custom type here */
-%define api.value.type  variant
+%define api.value.type variant
 %define parse.assert
 
 %{
@@ -63,7 +63,10 @@ namespace yy {
 /* TODO: reorder by precendence */
 
 %define api.token.prefix {TOK_}
+
 %token      END     0  "end of file"
+%token INDENT OUTDENT 
+%token NEWLINE "\n"
 
 /*** binary operators ***/
 %right      EQ                  "="         /* value assignment */
@@ -146,15 +149,18 @@ namespace yy {
 %nonassoc   CLONEOF             "cloneof"   /* get clone of type */
 %nonassoc   IMPORT              "import"    /* import a path */
 
-%token
 
-%token <const std::string> identf "identifier"
-/*%token <fluster::data::NaturalNum> INTEGER_LIT "integer_lit"
-%token <fluster::data::RationalNum> FLOAT_LIT "float_lit"
-%token <fluster::data::ByteArray> BYTES_LIT "bytes_lit"
-%token <fluster::data::BitArray> BITS_LIT "bits_lit"*/
-/*%type <fluster::ast::Expression> expr */
-%type <fluster::ast::Expr> expr
+/*ast::Identifier*/
+%token <fluster::ast::Identifier> Identifier
+%token <fluster::data::NaturalNum> Integer_literal
+%token <fluster::data::RationalNum> Float_literal
+%token <fluster::data::ByteArray> Bytes_literal
+%token <fluster::data::BitArray> Bits_literal
+%token <fluster::data::String> String_literal
+
+/*%type <fluster::ast::Node> Expr */
+%type <fluster::ast::Expression> Expr
+%type <fluster::ast::Statement> Statement
 
 %printer { yyo << $$; } <*>;
 
@@ -186,9 +192,9 @@ code
   ;
 
 line
-  : expr
+  : Expr
   | '\n'
-  | stmt
+  | statement
   | error {
       yy::errok();
     }
@@ -198,34 +204,74 @@ block
   : INDENT code OUTDENT
   ;
 
-/* expressions */
+/* Expressions */
 
-type_expr: expr;
+type_expr: Expr;
 
-postfix_expr
-  :
-;
+statement
+  : var_decl
+  ;
 
-prefix_expr
-  :
-;
+Expr
+  : Expr
+  | Identifier
+    { $$ = fluster::rt::symbol[$1]; }
+  | String_literal 
+    { $$ = fluster::ast::StringLiteral($1); }
+  | Integer_literal
+    { $$ = fluster::ast::IntegerLiteral($1); }
+  | Float_literal
+    { $$ = fluster::ast::FloatLiteral($1); }
+  | LPAR Expr RPAR
+    { $$ = $2; }
+  /* unary postfix */
+  | Expr PLUS_PLUS
+    { $$ = fluster::ast::ops::PostIncrement($1); }
+  | Expr DASH_DASH
+    { $$ = fluster::ast::ops::PostDecrement($1); }
+  /* unary prefix */
+  | PLUS_PLUS Expr
+    { $$ = fluster::ast::ops::PreIncrement($2); }
+  | DASH_DASH Expr
+    { $$ = fluster::ast::ops::PreDecrement($2); }
+  /* binary */
+  | Expr PLUS Expr
+    { $$ = fluster::ast::ops::Add($1, $3); }
+  | Expr DASH Expr
+    { $$ = fluster::ast::ops::Subtract($1, $3); }
+  | Expr STAR Expr
+    { $$ = fluster::ast::ops::Multiply($1, $3); }
+  | Expr FSLASH Expr
+    { $$ = fluster::ast::ops::Divide($1, $3); }
+  | Expr FSLASH_FSLASH Expr
+    { $$ = fluster::ast::ops::IntegerDivision($1, $3); }
+  ;
 
 /* control flow */
 
 if
-  : IF expr ENDLINE block %empty
-  | ELSE block
-  | ELIF
-    block
+  : IF Expr NEWLINE
+      block
+    elifs
+  | IF Expr NEWLINE
+      block
+    elifs
+    ELSE
+      block
   ;
 
-var
-  : var_lhs EQ expr
+elifs
+  : %empty
+  | elifs ELIF Expr NEWLINE block
   ;
 
-var_lhs
-  : identf
-  | identf COLON type_expr
+var_decl
+  : var_decl_lhs EQ Expr
+  ;
+
+var_decl_lhs
+  : Identifier
+  | Identifier COLON type_expr
   ;
 
 /*
@@ -250,12 +296,10 @@ lambda:
   ;
 */
 
-commalist:
-  %empty
-  | commalist COMMA
-    /*{ $$ += $2; }*/
-  | commalist ID
-    /*{ $$ += $2; }*/
+commalist
+  : %empty
+  | Expr
+  | commalist COMMA Expr
   ;
 
 parlist:    LPAR   commalist RPAR

@@ -23,9 +23,13 @@ struct _blah {};
 struct _blah<standard> { member; };
 */
 
+struct Node {
+};
+
 using Name = const std::string;
 
-struct Def : public PtrType<Def> {
+struct Def : public Node
+           , public PtrType<Def> {
     Def::Ptr next;
     //ScopePtr _outer;
 };
@@ -34,12 +38,20 @@ using Statement = Def;
 
 struct NamedDef : public Def
                 , public PtrType<Def> {
-    const Name name;
-}
-
-struct Expr : public PtrType<Def> {
-    const fluster::rt::Operation::Ptr underlying;
+    Name name;
 };
+
+struct Expr : public Node
+            , public PtrType<Def> {
+    //const fluster::rt::Operation::Ptr underlying;
+};
+
+using Expression = Expr;
+
+struct Identifier : public Expr {
+    Name name;
+};
+
 
 template<int N>
 struct NaryExpr : public Expr {};
