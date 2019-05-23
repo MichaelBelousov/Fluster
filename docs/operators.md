@@ -78,8 +78,11 @@ a #= b
 | `A has B`   | has (A, B)        | type *A*'s composition contains a *B* object |
 | `A is B`    | is (A, B)         | type *A* is of type *B* |
 | `is A`      | is (A)            | returns a metatype unique to the type tree rooted at type *A* (all types convertible to *A*) |
-| `A?`        | opt (A)            | sugar for `A | null` |
-| ``      |             | |
+| `?A`        | opt            | sugar for `A | null` |
+| `[n]A`      | array\<n: u32\>    | create an array of length *n* of type *A* |
+| `&A`      | ref    | create reference type to type A |
+| `*A`      | ptr | create a pointer type to type A |
+| `!A`      | mut | create a mutable type of type A |
 | types also have all the set operators |||
 ||||
 | **bitwise**    |||
@@ -120,7 +123,7 @@ a #= b
 | `a <-`      | remove            | name deletion of *a*  |
 ||||
 | **iteration**    |||
-| `a,..c = d`| pack              | *a* is single-packed while c is packed from d |
+| `a, ..c = d`| pack              | *a* is single-packed while c is packed from d |
 | `..a`      | unpack            | *a* is pack-expanded in the expression |
 | `a in b`    | contain           | true if *b* contains *a* |
 | `b has a`   | contain           | true if *b* contains *a* |
