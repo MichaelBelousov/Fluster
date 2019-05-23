@@ -2,8 +2,7 @@
 #include "lexer.gen.h"
 #include "parser.gen.h"
 
-using Parser = yy::parser;
-using yy::Lexer;
+using yy::Lexer, yy::Parser;
 
 int main(int argc, char*[] argv)
 {

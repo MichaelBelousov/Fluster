@@ -13,28 +13,38 @@
 /* C++ */
 
 %define api.token.constructor
-%define api.value.type.variant
+/* can switch to custom type here */
+%define api.value.type  variant
 %define parse.assert
 
 %{
-  #include <iostream>
-  #define DEBUG
+#include <iostream>
+#define DEBUG
 %}
 
 %code requires {
-  #include <string>
-  class Fluster::Driver;
-  /*
-  namespace yy {
-    class Lexer;
-  }
-  */
+
+#include <string>
+#include "ast/base.h"
+class fluster::Driver;
+/*
+namespace yy {
+  class Lexer;
+}
+*/
+
 }
 
 %param { Driver& driver }
 %locations
 %define parse.trace
 %define parse.error verbose
+%define api.namespace {fluster::}
+/*%define api.location.file "lexer.h"*/
+%define api.parser.class "Parser"
+%define api.prefix {}
+
+%define api.pure full
 
 %parse-param { yy::Lexer& lexer }
 
@@ -50,96 +60,105 @@
 
 /* tokens */
 
-%define api.token.prefix {TOK_}
-%token
-    END                 0           "end of file"
-    EQ                  "="         /* value assignment */
-    LANGLE              "<"         /* less than */
-    LANGLE_EQ           "<="        /* less than or equal to */
-    EQ_EQ               "=="        /* value comparison */
-    HASH_EQ             "#="        /* identity comparision */
-    LANGLE_EQ_RANGLE    "<=>"       /* ternary comparison */
-    TILDE               "~"         /* complement */
-    TILDE_TILDE         "~~"        /* unknown */
-    EXCLAIM             "!"         /* mutable type */
-    EXCLAIM_EQ          "!="        /* complement of value comparison */
-    RANGLE_EQ           ">="        /* greater than or equal to */
-    RANGLE              ">"         /* greater than */
-    PLUS                "+"         /* addition, structural type inheritance */
-    DASH                "-"         /* subtraction */
-    STAR                "*"         /* multiplication */
-    FSLASH              "/"         /* division */
-    FSLASH_FSLASH       "//"        /* integer division (yields tuple of result and remainder) */
-    PERCENT             "%"         /* modular division? */
-    CARET               "^"         /* bitwise xor, power */
-    CARET_FSLASH        "^/"        /* root */
-    HAS                 "has"       /* composition/implementation, type implementors qualifier */
-    IS                  "is"        /* inheritance, type inheritance qualifier */
-    AMPERSAND           "&"         /* logical and, bitwise and, set intersection, structural type intersection */
-    PIPE                "|"         /* logical or, bitwise or, set union, structural type union */
-    RANGLE_RANGLE       ">>"        /* bitwise shift right */
-    LANGLE_LANGLE       "<<"        /* bitwise shift left */
-    DASH_RANGLE         "->"        /* logical implication, case indication */
-    PLUS_EQ             "+="        /* addition assignment */
-    DASH_EQ             "-="        /* subtraction assignment */
-    STAR_EQ             "*="        /* multiplication assignment */
-    FSLASH_EQ           "/="        /* division assignment */
-    FSLASH_FSLASH_EQ    "//="       /* integer division assignment (discards remainder) */
-    CARET_FSLASH_EQ     "^/="       /* root assignment */
-    CARET_EQ            "^="        /* bitwise xor assignment, power assignment */
-    AMPERSAND_EQ        "&="        /* ampersand assignment */
-    PIPE_EQ             "|="        /* pipe assignment */
-    TILDE_EQ            "~="        /* complement assignment */
-    RANGLE_RANGLE_EQ    ">>="       /* right-shift assignment */
-    LANGLE_LANGLE_EQ    "<<="       /* left-shift assignment */
-    DASH_RANGLE_EQ      "->="       /* implication assignment */
-    DOLLAR              "$"         /* unknown */
-/*  LANGLE_DASH         "<-"        /* CONFLICT since - is unary" * */
-    DOT                 "."         /* structural access */
-    DOT_DOT             ".."        /* slice range opening, pack expansion, pack declaration */
-    DOT_DOT_DOT         "..."       /* empty */
-    LBRACK              "["         /* start access expression, start list literal */
-    RBRACK              "]"         /* end access expression, end list literal */
-    LBRACE              "{"         /* start set or object type/value expression */
-    RBRACE              "}"         /* end set or object type/value expressio */
-    LPAR                "("         /* start separate expression, start tuple literal */
-    RPAR                ")"         /* end separate expression, end tuple literal */
-    COMMA               ","         /* separate values */
-    EQ_RANGLE           "=>"        /* anonymous function */
-    COLON               ":"         /* type assertion */
-    SEMICOLON           ";"         /* chain and discard expressions */
-    AT                  "@"         /* decorator invocation */
-    QUES                "?"         /* optional type */
-    IN                  "in"        /* containment expression */
-    CONTAINS            "contains"  /* containment expression */
-    MOD                 "mod"       /* modular division */
-    IF                  "if"        /* start if statement */
-    ELSE                "else"      /* start else statement */
-    ELIF                "elif"      /* start else if statement */
-    FOR                 "for"       /* start for loop */
-    WHILE               "while"     /* start while loop */
-    UNTIL               "until"     /* start until loop */
-    REPEAT              "repeat"    /* start infinite loop */
-    TRY                 "try"       /* attempt expression */
-    RETRY               "retry"     /* retry attempted expression */
-    HANDLE              "handle"    /* declare exception handling case */
-    RAISE               "raise"     /* raise an exception case */
-    WITH                "with"      /* declare context */
-    STRUCT              "struct"    /* declare structure */
-    CLASS               "class"     /* declare dynamic-type reference structure */
-    TYPEOF              "typeof"    /* get type of expression */
-    CLONEOF             "cloneof"   /* get clone of type */
-    IMPORT              "import"    /* import a path */
-;
+/* TODO: reorder by precendence */
 
-%token <Fluster::data::Identifier> IDENTIFIER "identifier"
-%token <Fluster::data::NaturalNum> INTEGER_LIT "integer_lit"
-%token <Fluster::data::RationalNum> FLOAT_LIT "float_lit"
-%token <Fluster::data::ByteArray> BYTES_LIT "bytes_lit"
-%token <Fluster::data::BitArray> BITS_LIT "bits_lit"
-%type <Fluster::ast::Expression> expr
+%define api.token.prefix {TOK_}
+%token      END     0  "end of file"
+
+/*** binary operators ***/
+%right      EQ                  "="         /* value assignment */
+%token      LANGLE              "<"         /* less than */
+%token      LANGLE_EQ           "<="        /* less than or equal to */
+%left       EQ_EQ               "=="        /* value comparison */
+%left       HASH_EQ             "#="        /* identity comparision */
+%left       LANGLE_EQ_RANGLE    "<=>"       /* ternary comparison */
+%nonassoc   TILDE               "~"         /* complement */
+%nonassoc   TILDE_TILDE         "~~"        /* unknown */
+%token      EXCLAIM             "!"         /* mutable type */
+%right      EXCLAIM_EQ          "!="        /* complement of value comparison */
+%left       RANGLE_EQ           ">="        /* greater than or equal to */
+%left       RANGLE              ">"         /* greater than */
+%left       PLUS                "+"         /* addition, structural type inheritance */
+%left       DASH                "-"         /* subtraction */
+%left       STAR                "*"         /* multiplication */
+%left       FSLASH              "/"         /* division */
+%left       FSLASH_FSLASH       "//"        /* integer division (yields tuple of result and remainder) */
+%left       PERCENT             "%"         /* modular division? */
+%left       CARET               "^"         /* bitwise xor, power */
+%left       CARET_FSLASH        "^/"        /* binary root, unary square root */
+%nonassoc   HAS                 "has"       /* composition/implementation, type implementors qualifier */
+%nonassoc   IS                  "is"        /* inheritance, type inheritance qualifier */
+%left       AMPERSAND           "&"         /* logical and, bitwise and, set intersection, structural type intersection */
+%left       PIPE                "|"         /* logical or, bitwise or, set union, structural type union */
+%left       RANGLE_RANGLE       ">>"        /* bitwise shift right */
+%left       LANGLE_LANGLE       "<<"        /* bitwise shift left */
+%left       DASH_RANGLE         "->"        /* logical implication, case indication */
+%right      PLUS_EQ             "+="        /* addition assignment */
+%right      DASH_EQ             "-="        /* subtraction assignment */
+%right      STAR_EQ             "*="        /* multiplication assignment */
+%right      FSLASH_EQ           "/="        /* division assignment */
+%right      FSLASH_FSLASH_EQ    "//="       /* integer division assignment (discards remainder) */
+%right      CARET_FSLASH_EQ     "^/="       /* root assignment */
+%right      CARET_EQ            "^="        /* bitwise xor assignment, power assignment */
+%right      AMPERSAND_EQ        "&="        /* ampersand assignment */
+%right      PIPE_EQ             "|="        /* pipe assignment */
+%right      TILDE_EQ            "~="        /* complement assignment */
+%right      RANGLE_RANGLE_EQ    ">>="       /* right-shift assignment */
+%right      LANGLE_LANGLE_EQ    "<<="       /* left-shift assignment */
+%left       DASH_RANGLE_EQ      "->="       /* implication assignment */
+%nonassoc   PLUS_PLUS           "++"        /* increment */
+%nonassoc   DASH_DASH           "--"        /* decrement */
+%nonassoc   DOLLAR              "$"         /* unknown */
+/* %left     LANGLE_DASH         "<-"          CONFLICT since '-' is unary" */
+%nonassoc   DOT                 "."         /* hierarchical/structural access */
+%nonassoc   DOT_DOT             ".."        /* slice range opening, pack expansion, pack declaration */
+%nonassoc   DOT_DOT_DOT         "..."       /* empty */
+%nonassoc   LBRACK              "["         /* start access expression, start list literal */
+%nonassoc   RBRACK              "]"         /* end access expression, end list literal */
+%nonassoc   LBRACE              "{"         /* start set or object type/value expression */
+%nonassoc   RBRACE              "}"         /* end set or object type/value expression */
+%nonassoc   LPAR                "("         /* start separate expression, start tuple literal, start invoke */
+%nonassoc   RPAR                ")"         /* end separate expression, end tuple literal, end invoke */
+%left       COMMA               ","         /* separate values */
+%right      EQ_RANGLE           "=>"        /* anonymous function */
+%right      COLON               ":"         /* type assertion */
+%right      SEMICOLON           ";"         /* chain and discard expressions */
+%nonassoc   AT                  "@"         /* decorator invocation */
+%nonassoc   QUES                "?"         /* optional type */
+%right      IN                  "in"        /* containment expression */
+%right      CONTAINS            "contains"  /* containment expression */
+%left       MOD                 "mod"       /* modular division */
+%nonassoc   IF                  "if"        /* start if statement */
+%nonassoc   ELSE                "else"      /* start else statement */
+%nonassoc   ELIF                "elif"      /* start else if statement */
+%nonassoc   FOR                 "for"       /* start for loop */
+%nonassoc   WHILE               "while"     /* start while loop */
+%nonassoc   UNTIL               "until"     /* start until loop */
+%nonassoc   REPEAT              "repeat"    /* start infinite loop */
+%nonassoc   TRY                 "try"       /* attempt expression */
+%nonassoc   RETRY               "retry"     /* retry attempted expression */
+%nonassoc   HANDLE              "handle"    /* declare exception handling case */
+%nonassoc   RAISE               "raise"     /* raise an exception case */
+%nonassoc   WITH                "with"      /* declare context */
+%nonassoc   STRUCT              "struct"    /* declare structure */
+%nonassoc   CLASS               "class"     /* declare dynamic-type reference structure */
+%nonassoc   TYPEOF              "typeof"    /* get type of expression */
+%nonassoc   CLONEOF             "cloneof"   /* get clone of type */
+%nonassoc   IMPORT              "import"    /* import a path */
+
+%token
+
+%token <const std::string> identf "identifier"
+/*%token <fluster::data::NaturalNum> INTEGER_LIT "integer_lit"
+%token <fluster::data::RationalNum> FLOAT_LIT "float_lit"
+%token <fluster::data::ByteArray> BYTES_LIT "bytes_lit"
+%token <fluster::data::BitArray> BITS_LIT "bits_lit"*/
+/*%type <fluster::ast::Expression> expr */
+%type <fluster::ast::Expr> expr
 
 %printer { yyo << $$; } <*>;
+
+%start input
 
 %%
 
@@ -147,7 +166,6 @@
  Grammer Rules and Actions
  **************************/
 
-%start input
 
 /* ops */
 /* %left PLUS DASH               /*|   + -       |*/
@@ -155,30 +173,60 @@
 /* %right CARET CARETFSLASH      /*|   ^ ^/      |*/
 /* %precedence UNARY             /*|   ^ ^/ -    |*/
 
-input:
-  %empty
-  | code input
+/*** structure ***/
+
+input
+  : %empty
+  | input code
+  ;
+
+code
+  : %empty
+  | code line
+  ;
+
+line
+  : expr
+  | '\n'
+  | stmt
+  | error {
+      yy::errok();
+    }
+  ;
+
+block
+  : INDENT code OUTDENT
+  ;
+
+/* expressions */
+
+type_expr: expr;
+
+postfix_expr
+  :
 ;
 
-code:
-  '\n' 
-  | any
-  | error '\n'    
-    { yyerrok; } 
+prefix_expr
+  :
 ;
 
-any:
-  lit
-| class
-| struct_decl
-| func_decl;
+/* control flow */
 
-lit:
-  INTEGER
-| FLOATING
-| BYTES
-| BITS
-;
+if
+  : IF expr ENDLINE block %empty
+  | ELSE block
+  | ELIF
+    block
+  ;
+
+var
+  : var_lhs EQ expr
+  ;
+
+var_lhs
+  : identf
+  | identf COLON type_expr
+  ;
 
 /*
 | exp PLUS exp                
@@ -217,39 +265,6 @@ bracklist:  LBRACK commalist RBRACK
 bracelist:  LBRACE commalist RBRACE
 */
 anglelist:  LANGLE commalist RANGLE
-
-class:
-  CLASS decl INDENT body
-  {
-    #ifdef DEBUG
-        //cout << "class:" << $2 << endl;
-    #endif
-  }
-;
-
-body:
-  any 
-  | body any
-;
-
-struct_decl:
-  STRUCT decl INDENT
-;
-
-func_decl: 
-  FUNC decl parlist INDENT
-;
-
-/*
-method: %empty;
-assert: %empty;
-*/
-    
-decl:
-  ID
-  | ID anglelist
-;
-  
 
 %%
 

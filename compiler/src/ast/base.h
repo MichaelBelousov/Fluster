@@ -1,5 +1,5 @@
-#ifndef FLUSTER_COMPILER_AST_BASE
-#define FLUSTER_COMPILER_AST_BASE
+#ifndef FLUSTER_COMPILER_AST_EXPRESSION
+#define FLUSTER_COMPILER_AST_EXPRESSION
 
 #include <array>
 #include <string>
@@ -23,7 +23,7 @@ struct _blah {};
 struct _blah<standard> { member; };
 */
 
-using Name = std::string;
+using Name = const std::string;
 
 struct Def : public PtrType<Def> {
     Def::Ptr next;
