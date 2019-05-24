@@ -6,7 +6,8 @@ namespace Fluster {
 
 /// Construction
 
-Driver::Driver()
+Driver
+::Driver()
     : context()
     , trace_lexing(false)
     , trace_parsing(false)
@@ -16,7 +17,9 @@ Driver::Driver()
 
 /// Methods
 
-int Driver::parse(const std::string& in_file)
+int
+Driver
+::parse(const std::string& in_file)
 {
     int result;
 
@@ -34,11 +37,15 @@ int Driver::parse(const std::string& in_file)
     return result;
 }
 
-void Driver::begin_lexing()
+void
+Driver
+::begin_lexing()
 {
 }
 
-void Driver::end_lexing()
+void
+Driver
+::end_lexing()
 {
 }
 

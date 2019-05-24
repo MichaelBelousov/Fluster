@@ -21,7 +21,7 @@ struct ParseContext {
 /* Driver for connecting the lexer and parser
  * with a context
  */
-struct Driver {
+struct Driver final {
     /// Members
     ParseContext context;
     bool trace_lexing;
@@ -30,12 +30,12 @@ struct Driver {
     std::string file_path;
 
     /// Construction
-    Driver();
+    Driver() noexcept;
 
     /// Methods
-    int parse(const std::string& in_file_path);
-    void begin_lexing();
-    void end_lexing();
+    int parse(const std::string& in_file_path) noexcept;
+    void begin_lexing() noexcept;
+    void end_lexing() noexcept;
 };
 
 
