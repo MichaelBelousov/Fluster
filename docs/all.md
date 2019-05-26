@@ -65,7 +65,7 @@ struct Log
             fs.create(fs.join(log_dir, '#<name>.log'))
             retry
         
-    meth log(this,
+    mthd log(this,
              format: CFormatStr,
              prefix: CFormatStr = 'Log Entry: ',
              ..args): void
@@ -238,11 +238,11 @@ namespace async
         
     comp stackless<F: Func<..>>
         frozen: !FrozenStacklessCoroutine<F>
-        meth restore(): void
+        mthd restore(): void
             //_stack.current_frame = frozen.frame
             _stack = frozen.frame
             _program_counter = frozen.program_counter
-        meth freeze(): void
+        mthd freeze(): void
             frozen.program_counter = _program_counter
             frozen.frame = _stack[-F._Frame.size..]
         return F
