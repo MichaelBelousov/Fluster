@@ -53,101 +53,102 @@
 %token      INDENT
 %token      OUTDENT
 %token      NL                  "\n"
-/* assignment (lowest precedence)  */
-%right      EQ                  "="         /* value assignment */
-/* comparision/relational operators */
+
+/* grouping */
+%left       SEQ_EXEC                /* a; b */
+            LIST                    /* a, b, c */
+;
+
+/* assignment */
+%right      ASSIGN                  /* value assignment */
+
+/* anonymous functions */
+%right      LAMBDA
+
+/* type assertion */
+%left       TYPE_ASSERT             /* a: T */
+
+/* arithmetic */
+%left       DISJUNCT                /* | */
+%left       CONJUNCT                /* & */
+%left       IMPLY                   /* -> */
+%left       EQ_RELATIONAL           /* ==, !=, #=, !#= */
+%nonassoc   NON_EQ_RELATIONAL       /* <=>, <, <=, >=, > */
+%left       LSHIFT
+            RSHIFT
+;
+%left       ADD
+            SUB
+;
+%left       MULT                    /* * */
+            DIV                     /* / // */
+            MOD                     /* % mod // */
+;
+%left       POW                     /* a ^ b */
+            ROOT                    /* a ^/ b */
+;
+
+/* comparision/relational tokens */
 %nonassoc   LANGLE              "<"         /* less than */
-%nonassoc   LANGLE_EQ           "<="        /* less than or equal to */
-%nonassoc   EQ_EQ               "=="        /* value comparison */
-%nonassoc   EXCLAIM_EQ          "!="        /* complement of value comparison */
-%nonassoc   HASH_EQ             "#="        /* identity comparision */
-%nonassoc   LANGLE_EQ_RANGLE    "<=>"       /* ternary comparison */
-%nonassoc   RANGLE_EQ           ">="        /* greater than or equal to */
-%nonassoc   RANGLE              ">"         /* greater than */
-/* unary operations */
-%nonassoc   TILDE               "~"         /* complement */
-%token      EXCLAIM             "!"         /* mutable type */
-%right      COMPLEMENT          /* ~t */
-%right      NEGATE              /* -t */
-%right      TYPE_MUT            /* !T */
-%right      TYPE_ARRAY          /* [N]T */
-%right      TYPE_PTR            /* *T */
-%right      TYPE_REF            /* &T */
-%right      TYPE_IS             /* is T */
-%right      TYPE_HAS            /* has T */
-%right      UNARY_MINUS         /* unary minus */
-%right      PREINCREMENT        /* ++a */
-%right      PREDECREMENT        /* --a */
-%right      POSTINCREMENT       /* a++ */
-%right      POSTDECREMENT       /* a-- */
-/* binary arithmetic tokens */
-%left       PLUS                "+"         /* addition, structural type inheritance */
-%left       DASH                "-"         /* subtraction */
-%left       STAR                "*"         /* multiplication */
-%left       FSLASH              "/"         /* division */
-%left       FSLASH_FSLASH       "//"        /* integer division (yields tuple of result and remainder) */
-%left       PERCENT             "%"         /* modular division? */
-%left       CARET               "^"         /* bitwise xor, power */
-%left       CARET_FSLASH        "^/"        /* binary root, unary square root */
-%nonassoc   HAS                 "has"       /* composition/implementation, type implementors qualifier */
-%nonassoc   IS                  "is"        /* inheritance, type inheritance qualifier */
-%left       AMPERSAND           "&"         /* logical and, bitwise and, set intersection, structural type intersection */
-%left       PIPE                "|"         /* logical or, bitwise or, set union, structural type union */
-%left       RANGLE_RANGLE       ">>"        /* bitwise shift right */
-%left       LANGLE_LANGLE       "<<"        /* bitwise shift left */
-%left       DASH_RANGLE         "->"        /* logical implication, case indication */
-%right      PLUS_EQ             "+="        /* addition assignment */
-%right      DASH_EQ             "-="        /* subtraction assignment */
-%right      STAR_EQ             "*="        /* multiplication assignment */
-%right      FSLASH_EQ           "/="        /* division assignment */
-%right      FSLASH_FSLASH_EQ    "//="       /* integer division assignment (discards remainder) */
-%right      CARET_FSLASH_EQ     "^/="       /* root assignment */
-%right      CARET_EQ            "^="        /* bitwise xor assignment, power assignment */
-%right      AMPERSAND_EQ        "&="        /* ampersand assignment */
-%right      PIPE_EQ             "|="        /* pipe assignment */
-%right      TILDE_EQ            "~="        /* complement assignment */
-%right      RANGLE_RANGLE_EQ    ">>="       /* right-shift assignment */
-%right      LANGLE_LANGLE_EQ    "<<="       /* left-shift assignment */
-%left       DASH_RANGLE_EQ      "->="       /* implication assignment */
-%right      PLUS_PLUS           "++"        /* increment */
-%right      DASH_DASH           "--"        /* decrement */
-%nonassoc   DOLLAR              "$"         /* unknown */
-/* %left     LANGLE_DASH         "<-"          CONFLICT since '-' is unary" */
-%nonassoc   DOT                 "."         /* hierarchical/structural access */
-%nonassoc   DOT_DOT             ".."        /* slice range opening, pack expansion, pack declaration */
-%nonassoc   DOT_DOT_DOT         "..."       /* empty */
-%nonassoc   LBRACK              "["         /* start access expression, start list literal */
-%nonassoc   RBRACK              "]"         /* end access expression, end list literal */
-%nonassoc   LBRACE              "{"         /* start set or object type/value expression */
-%nonassoc   RBRACE              "}"         /* end set or object type/value expression */
-%nonassoc   LPAR                "("         /* start separate expression, start tuple literal, start invoke */
-%nonassoc   RPAR                ")"         /* end separate expression, end tuple literal, end invoke */
-%left       COMMA               ","         /* separate values */
-%right      EQ_RANGLE           "=>"        /* anonymous function */
-%right      COLON               ":"         /* type assertion */
-%right      SEMICOLON           ";"         /* chain and discard expressions */
-%nonassoc   AT                  "@"         /* decorator invocation */
-%nonassoc   QUES                "?"         /* optional type */
-%right      IN                  "in"        /* containment expression */
-%right      CONTAINS            "contains"  /* containment expression */
-%left       MOD                 "mod"       /* modular division */
-%nonassoc   IF                  "if"        /* start if statement */
-%nonassoc   ELSE                "else"      /* start else statement */
-%nonassoc   ELIF                "elif"      /* start else if statement */
-%nonassoc   FOR                 "for"       /* start for loop */
-%nonassoc   WHILE               "while"     /* start while loop */
-%nonassoc   UNTIL               "until"     /* start until loop */
-%nonassoc   REPEAT              "repeat"    /* start infinite loop */
-%nonassoc   TRY                 "try"       /* attempt expression */
-%nonassoc   RETRY               "retry"     /* retry attempted expression */
-%nonassoc   HANDLE              "handle"    /* declare exception handling case */
-%nonassoc   RAISE               "raise"     /* raise an exception case */
-%nonassoc   WITH                "with"      /* declare context */
-%nonassoc   STRUCT              "struct"    /* declare structure */
-%nonassoc   CLASS               "class"     /* declare dynamic-type reference structure */
-%nonassoc   TYPEOF              "typeof"    /* get type of expression */
-%nonassoc   CLONEOF             "cloneof"   /* get clone of type */
-%nonassoc   IMPORT              "import"    /* import a path */
+            LANGLE_EQ           "<="        /* less than or equal to */
+            EQ_EQ               "=="        /* value comparison */
+            EXCLAIM_EQ          "!="        /* complement of value comparison */
+            HASH_EQ             "#="        /* identity comparision */
+            LANGLE_EQ_RANGLE    "<=>"       /* ternary comparison */
+            RANGLE_EQ           ">="        /* greater than or equal to */
+            RANGLE              ">"         /* greater than */
+;
+
+/* prefix operations */
+%right      COMPLEMENT          /* ~a */
+            NEGATE              /* -a */
+            TYPE_MUT            /* !T */
+            TYPE_ARRAY          /* [N]T */
+            TYPE_PTR            /* *T */
+            TYPE_REF            /* &T */
+            IS_OP               /* is T */
+            HAS_OP              /* has T */
+            UNARY_MINUS         /* -a */
+            SQUARE_ROOT         /* ^/a */
+            PREINCREMENT        /* ++a */
+            PREDECREMENT        /* --a */
+            SPREAD              /* ...a */
+            CLONEOF
+            TYPEOF
+            IMPORT
+            COMPOSE             /* @a */
+;
+
+/* postfix operations */
+%left
+            POSTINCREMENT       /* a++ */
+            POSTDECREMENT       /* a-- */
+            INVOKE              /* a() */
+            SUBSCRIPT           /* a[] */
+            PARAMETRIZE         /* a<> */
+            ACCESS              /* a._ */
+;
+
+%token      IN                  "in"        /* containment expression */
+%token      CONTAINS            "contains"  /* containment expression */
+%token      MOD                 "mod"       /* modular division */
+%token      IF                  "if"        /* start if statement */
+%token      ELSE                "else"      /* start else statement */
+%token      ELIF                "elif"      /* start else if statement */
+%token      FOR                 "for"       /* start for loop */
+%token      WHILE               "while"     /* start while loop */
+%token      UNTIL               "until"     /* start until loop */
+%token      REPEAT              "repeat"    /* start infinite loop */
+%token      TRY                 "try"       /* attempt expression */
+%token      RETRY               "retry"     /* retry attempted expression */
+%token      HANDLE              "handle"    /* declare exception handling case */
+%token      RAISE               "raise"     /* raise an exception case */
+%token      WITH                "with"      /* declare context */
+%token      STRUCT              "struct"    /* declare structure */
+%token      CLASS               "class"     /* declare dynamic-type reference structure */
+%token      TYPEOF              "typeof"    /* get type of expression */
+%token      CLONEOF             "cloneof"   /* get clone of type */
+%token      IMPORT              "import"    /* import a path */
 /*ast::Identifier*/
 %token <ast::Identifier> Identifier
 %token <data::NaturalNum> Integer_literal
@@ -243,30 +244,42 @@ expr
     %prec UNARY_MINUS
     { $$ = ast::ops::PreDecrement($2); }
   | "^/" expr
+    %prec SQUARE_ROOT
     { $$ = ast::ops::Root(2, $2); }
   /* postfix */
   | expr "++"
+    %prec POSTINCREMENT
     { $$ = ast::ops::PostIncrement($1); }
   | expr "--"
+    %prec POSTDECREMENT
     { $$ = ast::ops::PostDecrement($1); }
   /* binary */
-  | expr PLUS expr
+  | expr "+" expr
+    %prec ADD
     { $$ = ast::ops::Add($1, $3); }
-  | expr DASH expr
+  | expr "-" expr
+    %prec SUB
     { $$ = ast::ops::Subtract($1, $3); }
-  | expr STAR expr
+  | expr "*" expr
+    %prec MULT
     { $$ = ast::ops::Multiply($1, $3); }
-  | expr FSLASH expr
+  | expr "/" expr
+    %prec DIV
     { $$ = ast::ops::Divide($1, $3); }
-  | expr FSLASH_FSLASH expr
+  | expr "//" expr
+    %prec DIV
     { $$ = ast::ops::IntegerDivide($1, $3); }
-  | expr CARET_FSLASH expr
+  | expr "^/" expr
+    %prec ROOT
     { $$ = ast::ops::Root($1, $3); }
-  | expr CARET expr
+  | expr "^" expr
+    %prec POW
     { $$ = ast::ops::Power($1, $3); }
-  | expr EQ expr
+  | expr "=" expr
+    %prec ASSIGN
     { $$ = ast::ops::Assign($1, $3); }
-  | expr COLON expr
+  | expr ":" expr
+    %prec TYPE_ASSERT
     { $$ = ast::ops::AssertType($1, $3); }
   /* other */
   | lambda_expr
@@ -282,7 +295,8 @@ lambda_body
 
 
 lambda_expr
-  : Par_list EQ_RANGLE lambda_body
+  : Par_list "=>" lambda_body
+  %prec LAMBDA
     { $$ = ast::Lambda(args=$1, expr=$3); }
   ;
 
@@ -318,7 +332,8 @@ elifs
 commalist_
   : expr
     { $$ = ast::CommaDelimitedList::fromFirst($1); }
-  | commalist_ COMMA expr
+  | commalist_ "," expr
+    %prec LIST
     { $$ = $1.append($3); }
   ;
 
