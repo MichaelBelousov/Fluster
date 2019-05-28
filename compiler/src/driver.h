@@ -4,13 +4,18 @@
 #include <string>
 #include <map>
 #include "parser.gen.h"
+#include "location.gen.h"
 
+/*
 #define YY_DECL \
-    yy::parser::symbol_type lex(Driver& d)
+    yy::Parser::symbol_type lex(Driver& d)
 
 YY_DECL;
+*/
 
-namespace Fluster {
+//namespace fluster {
+
+
 
 struct ParseContext {
     std::map<std::string, int> variables;
@@ -18,7 +23,7 @@ struct ParseContext {
     //Decl declaration_type;
 };
 
-/* Driver for connecting the lexer and parser
+/* Driver for connecting the lexer and Parser
  * with a context
  */
 struct Driver final {
@@ -39,6 +44,7 @@ struct Driver final {
 };
 
 
-};  //namespace Fluster
+
+//};  //namespace fluster
 
 #endif //FLUSTER_COMPILER_DRIVER_H

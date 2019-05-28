@@ -24,8 +24,9 @@ struct _blah<standard> { member; };
 */
 
 // FIXME: all PtrType<..> are ambiguous
-struct Node : public PtrType<Node>
+struct Node
 {
+    using Ptr = std::shared_ptr<Node>;
 };
 
 using Name = const std::string;
@@ -33,6 +34,7 @@ using Name = const std::string;
 struct Def
   : public Node
 {
+    using Ptr = std::shared_ptr<Def>;
     //ScopePtr _outer;
 };
 

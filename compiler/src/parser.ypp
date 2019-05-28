@@ -22,32 +22,38 @@
 
 %param { Driver& driver }
 
+/* code in this block goes in parser.gen.h */
 %code requires {
-  #include <iostream>
-  #include <string>
-  #include "ast/base.h"
-  #include "data/types.h"
+  #include "driver.h"
   namespace yy {
     class Lexer;  // reflex --namespace=yy --lexer=Lexer --lex=yylex
   };
+  #undef yylex  //unlink the global yylex
+  #define yylex lexer.lex  //within bison's parse invoke lexer.yylex()
+}
+
+%code top {
+  #include <iostream>
+  #include <string>
+
+  #include "ast/base.h"
+  #include "data/types.h"
+  //XXX: remove this so inclusion doesn't use the namespace!
   namespace ast = fluster::ast;
   namespace data = fluster::data;
-  //using namespace fluster;  //XXX: remove this so inclusion doesn't use the namespace!
 }
 
 %code {
   #include "driver.h"
   #include "lexer.gen.h"
   #include "location.gen.h"
-  #undef yylex  // unlink the global yylex
-  #define yylex lexer.yylex  // within bison's parse invoke lexer.yylex()
   using namespace fluster;
 }
 
 /*** Tokens ***/
 
 /* control tokens */
-%token      EOF         0       "EOF"
+%token      END             0   "End of file"
 %token      INDENT
 %token      OUTDENT
 %token      NL                  "\n"
@@ -175,15 +181,9 @@
 %start input
 
 %%
-/**************************
- Grammer Rules and Actions
- **************************/
-/* ops */
-/* %left PLUS DASH               /*|   + -       |*/
-/* %left STAR FSLASH TWOFSLASH   /*|   * / //    |*/
-/* %right CARET CARETFSLASH      /*|   ^ ^/      |*/
-/* %precedence UNARY             /*|   ^ ^/ -    |*/
+
 /*** structure ***/
+
 input
   : %empty
   | input code

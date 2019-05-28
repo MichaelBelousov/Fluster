@@ -1,7 +1,7 @@
 #include "driver.h"
-#include "parser.h"
 
-namespace Fluster {
+namespace fluster {
+
 
 
 /// Construction
@@ -48,6 +48,7 @@ Driver
 ::end_lexing()
 {
 }
+
 
 
 };  //namespace Fluster
