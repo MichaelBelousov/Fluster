@@ -1,16 +1,21 @@
-
-/*** RE/flex Preamble ***/
+/*
+This is the RE/flex lexer specification
+for the fluster language. RE/flex generates
+efficient C++ lexing/scanning code from
+this specification.
+*/
 
 %top{
-  #include <string>
-  #include "parser.h"
+  #include "parser.gen.h"
   #include "driver.h"
   #include "lexer_routines.h"
 %}
 
+ /* additional members of the Lexer class */
 %class{
 %}
 
+ /* additional initialization of Lexer objects */
 %init{
 %}
 
@@ -32,166 +37,168 @@ string_content      {any}*[^\\]
 
 %o debug
 
+%o reentrant
+%o noyywrap nounput noinput batch debug
 %o namespace=yy
 %o lexer=Lexer
-/*%o lex=yylex*/
-%o noyywrap nounput noinput batch debug
-%o bison
-%o reentrant
+%o bison-complete
+%o bison-cc-parser=Parser
+%o bison-locations
 
 %o tabs=4
 
+%o exception="yy::Parser::syntax_error(location(), \"unknown token.\")"
 
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
+
 %%
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
+
+
+ /*** Operators ***/
+
+"<"             return yy::Parser::make_LANGLE(loc);
+"<="            return yy::Parser::make_LANGLE_EQ(loc);
+"=="            return yy::Parser::make_DOUBLE_EQ(loc);
+"#="            return yy::Parser::make_HASH_EQ(loc);
+"!#="           return yy::Parser::make_EXCLAIM_HASH_EQ(loc);
+"<=>"           return yy::Parser::make_LANGLE_EQ_RANGLE(loc);
+"~"             return yy::Parser::make_TILDE(loc);
+"~~"            return yy::Parser::make_TILDE_TILDE(loc);
+"!="            return yy::Parser::make_EXCLAIM_EQ(loc);
+"!"             return yy::Parser::make_EXCLAIM(loc);
+">="            return yy::Parser::make_RANGLE_EQ(loc);
+">"             return yy::Parser::make_RANGLE(loc);
+"+"             return yy::Parser::make_PLUS(loc);
+"-"             return yy::Parser::make_DASH(loc);
+"*"             return yy::Parser::make_STAR(loc);
+"/"             return yy::Parser::make_FSLASH(loc);
+"//"            return yy::Parser::make_FSLASH_FSLASH(loc);
+"%"             return yy::Parser::make_PERCENT(loc);
+"^"             return yy::Parser::make_CARET(loc);
+"^/"            return yy::Parser::make_CARET_FSLASH(loc);
+\<has\>         return yy::Parser::make_HAS(loc);
+\<is\>          return yy::Parser::make_IS(loc);
+"&"             return yy::Parser::make_AMPERSAND(loc);
+"|"             return yy::Parser::make_PIPE(loc);
+">>"            return yy::Parser::make_RANGLE_RANGLE(loc);
+"<<"            return yy::Parser::make_LANGLE_LANGLE(loc);
+"->"            return yy::Parser::make_DASH_RANGLE(loc);
+"="             return yy::Parser::make_EQ(loc);
+"+="            return yy::Parser::make_PLUS_EQ(loc);
+"-="            return yy::Parser::make_DASH_EQ(loc);
+"*="            return yy::Parser::make_STAR_EQ(loc);
+"/="            return yy::Parser::make_FSLASH_EQ(loc);
+"//="           return yy::Parser::make_FSLASH_FSLASH_EQ(loc);
+"^/="           return yy::Parser::make_CARET_FSLASH_EQ(loc);
+"^="            return yy::Parser::make_CARET_EQ(loc);
+"&="            return yy::Parser::make_AMPERSAND_EQ(loc);
+"|="            return yy::Parser::make_PIPE_EQ(loc);
+"~="            return yy::Parser::make_TILDE_EQ(loc);
+">>="           return yy::Parser::make_RANGLE_RANGLE_EQ(loc);
+"<<="           return yy::Parser::make_LANGLE_LANGLE_EQ(loc);
+"->="           return yy::Parser::make_DASH_RANGLE_EQ(loc);
+"$"             return yy::Parser::make_DOLLAR(loc);
+"."             return yy::Parser::make_DOT(loc);
+".."            return yy::Parser::make_DOT_DOT_DOT(loc);
+"..."           return yy::Parser::make_DOT_DOT_DOT(loc);
+"["             return yy::Parser::make_LBRACK(loc);
+"]"             return yy::Parser::make_RBRACK(loc);
+"{"             return yy::Parser::make_LBRACE(loc);
+"}"             return yy::Parser::make_RBRACE(loc);
+"("             return yy::Parser::make_LPAR(loc);
+")"             return yy::Parser::make_RPAR(loc);
+","             return yy::Parser::make_COMMA(loc);
+"=>"            return yy::Parser::make_EQ_RANGLE(loc);
+":"             return yy::Parser::make_COLON(loc);
+"@"             return yy::Parser::make_AT(loc);
+"?"             return yy::Parser::make_QUES(loc);
+
+ /*** Keywords ***/
+\<in\>          return yy::Parser::make_IN(loc);
+\<mod\>         return yy::Parser::make_MOD(loc);
+\<if\>          return yy::Parser::make_IF(loc);
+\<else\>        return yy::Parser::make_ELSE(loc);
+\<elif\>        return yy::Parser::make_ELIF(loc);
+\<for\>         return yy::Parser::make_FOR(loc);
+\<while\>       return yy::Parser::make_WHILE(loc);
+\<until\>       return yy::Parser::make_UNTIL(loc);
+\<repeat\>      return yy::Parser::make_REPEAT(loc);
+\<case\>        return yy::Parser::make_CASE(loc);
+\<try\>         return yy::Parser::make_TRY(loc);
+\<retry\>       return yy::Parser::make_RETRY(loc);
+\<handle\>      return yy::Parser::make_HANDLE(loc);
+\<raise\>       return yy::Parser::make_RAISE(loc);
+\<with\>        return yy::Parser::make_WITH(loc);
+\<struct\>      return yy::Parser::make_STRUCT(loc);
+\<class\>       return yy::Parser::make_CLASS(loc);
+\<typeof\>      return yy::Parser::make_TYPEOF(loc);
+\<cloneof\>     return yy::Parser::make_CLONEOF(loc);
+\<import\>      return yy::Parser::make_IMPORT(loc);
+
+
+ /*** identifier ***/
+
+{id}                                        return yy::Parser::make_IDENTIFIER(yytext, loc);
+
+ /*** literals ***/
+
+  /* int literals */
+{decint}                                    return yy::Parser::make_DECIMAL_INTEGER(yytext, loc);
+
+  /* float literal */
+{decint}(\.{digit}+)?([Ee][+-]?{digit}+)?   return yy::Parser::make_DECIMAL_FLOAT(yytext, loc);
+
+  /* byte literals */
+0x{hex}*                                    return yy::Parser::make_HEX_BYTES(yytext, loc);
+
+  /* bit literal */
+0b{bit}*                                    return yy::Parser::make_BINARY_BITS(yytext, loc);
+
+  /* octal literal */
+0o{octal}                                   return yy::Parser::make_OCTAL_BITS(yytext, loc);
+
+  /* string literal */                    /* TODO: use a state to dedent source */
+\"{string_content}\"                        return yy::Parser::make_STRING(yytext, loc);
+
+  /* unicode literal */
+u\"(?u:{string_content})\"                  return yy::Parser::make_UNICODE_STRING(yytext, loc);
+
+  /* raw string literal */
+\`{string_content}\`                        return yy::Parser::make_RAW_STRING(yytext, loc);
 
 
 
-/*** operators ***/
-
-"<"             return yy::parser::make_LANGLE (loc);
-"<="            return yy::parser::make_LANGLEEQ (loc);
-"=="            return yy::parser::make_DOUBLEEQ (loc);
-"#="            return yy::parser::make_HASHEQ (loc);
-"<=>"           return yy::parser::make_LANGLEEQRANGLE (loc);
-"~"             return yy::parser::make_TILDE (loc);
-"~~"            return yy::parser::make_TILDETILDE (loc);
-"!="            return yy::parser::make_BANGEQ (loc);
-">="            return yy::parser::make_RANGLEEQ (loc);
-">"             return yy::parser::make_RANGLE (loc);
-"+"             return yy::parser::make_PLUS (loc);
-"-"             return yy::parser::make_DASH (loc);
-"*"             return yy::parser::make_STAR (loc);
-"/"             return yy::parser::make_FSLASH (loc);
-"//"            return yy::parser::make_DOUBLEFSLASH (loc);
-"%"             return yy::parser::make_PERCENT (loc);
-"^"             return yy::parser::make_CARET (loc);
-"^/"            return yy::parser::make_CARETFSLASH (loc);
-\<has\>         return yy::parser::make_HAS (loc);
-\<is\>          return yy::parser::make_IS (loc);
-"&"             return yy::parser::make_AMPERSAND (loc);
-"|"             return yy::parser::make_PIPE (loc);
-">>"            return yy::parser::make_DOUBLERANGLE (loc);
-"<<"            return yy::parser::make_DOUBLELANGLE (loc);
-"->"            return yy::parser::make_DASHRANGLE (loc);
-"="             return yy::parser::make_EQ (loc);
-"+="            return yy::parser::make_PLUSEQ (loc);
-"-="            return yy::parser::make_DASHEQ (loc);
-"*="            return yy::parser::make_STAREQ (loc);
-"/="            return yy::parser::make_FSLASHEQ (loc);
-"//="           return yy::parser::make_DOUBLEFSLASHEQ (loc);
-"^/="           return yy::parser::make_CARETFSLASHEQ (loc);
-"^="            return yy::parser::make_CARETEQ (loc);
-"&="            return yy::parser::make_AMPERSANDEQ (loc);
-"|="            return yy::parser::make_PIPEEQ (loc);
-"~="            return yy::parser::make_TILDEEQ (loc);
-">>="           return yy::parser::make_DOUBLERANGLEEQ (loc);
-"<<="           return yy::parser::make_DOUBLELANGLEEQ (loc);
-"->="           return yy::parser::make_DASHRANGLEEQ (loc);
-"$"             return yy::parser::make_DOLLAR (loc);
-"<-"            return yy::parser::make_LANGLEDASH (loc);
-"..."           return yy::parser::make_DOTDOTDOT (loc);
-"["             return yy::parser::make_LBRACK (loc);
-"]"             return yy::parser::make_RBRACK (loc);
-"{"             return yy::parser::make_LBRACE (loc);
-"}"             return yy::parser::make_RBRACE (loc);
-"("             return yy::parser::make_LPAR (loc);
-")"             return yy::parser::make_RPAR (loc);
-"."             return yy::parser::make_DOT (loc);
-","             return yy::parser::make_COMMA (loc);
-"=>"            return yy::parser::make_EQRANGLE (loc);
-":"             return yy::parser::make_COLON (loc);
-"@"             return yy::parser::make_AT (loc);
-"?"             return yy::parser::make_QUES (loc);
-
-\<in\>          return yy::parser::make_IN (loc);
-\<contains\>    return yy::parser::make_CONTAINS (loc);
-\<assert\>      return yy::parser::make_ASSERT (loc);
-\<mod\>         return yy::parser::make_MOD (loc);
-\<if\>          return yy::parser::make_IF (loc);
-\<else\>        return yy::parser::make_ELSE (loc);
-\<elif\>        return yy::parser::make_ELIF (loc);
-\<for\>         return yy::parser::make_FOR (loc);
-\<while\>       return yy::parser::make_WHILE (loc);
-\<until\>       return yy::parser::make_UNTIL (loc);
-\<try\>         return yy::parser::make_TRY (loc);
-\<catch\>       return yy::parser::make_CATCH (loc);
-\<throw\>       return yy::parser::make_THROW (loc);
-\<with\>        return yy::parser::make_WITH (loc);
-\<struct\>      return yy::parser::make_STRUCT (loc);
-\<class\>       return yy::parser::make_CLASS (loc);
-\<const\>       return yy::parser::make_CONST (loc);
-\<typeof\>      return yy::parser::make_TYPEOF (loc);
-\<cloneof\>     return yy::parser::make_CLONEOF (loc);
-\<import\>      return yy::parser::make_IMPORT (loc);
+/*** comments ***/
 
 
-{id}                                        return yy::parser::make_IDENTIFIER(yytext, loc);
-
-/*** literals ***/
-
-/* int literals */
-{decint}                                    return make_DECIMINTEGER (yytext, loc);
-
-/* float literal */
-{decint}(\.{digit}+)?([Ee][+-]?{digit}+)?   return make_DECIMFLOAT (yytext, loc);
-
-/* byte literals */
-0x{hex}*                                    return make_HEXBYTES (yytext, loc);
-
-/* bit literal */
-0b{bit}*                                    return make_BINARYBITS (yytext, loc);
-
-/* octal literal */
-0o{octal}                                   return make_OCTALBITS (yytext, loc);
-
-/* string literal */                        /* TODO: use a state to dedent source */
-\"{string_content}\"                        return make_STRING (yytext, loc);
-
-/* unicode literal */
-u\"(?u:{string_content})\"                  return make_UNICODESTRING (yytext, loc);
-
-/* raw string literal */
-\`{string_content}\`                        return make_RAWSTRING (yytext, loc);
-
-
-
-/*** miscellanious ***/
-
-
-/* multiline comment */
+  /* multiline comment */
 "/*"(.|\n)*?"*/"                            //ignore
 
-/* eol comment */
+  /* eol comment */
 "//".*                                      //ignore
 
-/* eof */
-<<EOF>>                                     return yy::parser::make_END (loc);
+
+/*** control ***/
+
+  /* eof */
+<<EOF>>                                     return yy::Parser::make_END(loc);
 
 
 
 /*** indentation ***/
 
-^\h*\i          return toks::spc::indent;
+^\h*\i          return yy::Parser::make_INDENT;
+^\h*\j          return yy::Parser::make_OUTDENT;
 
-^\h*\j          return toks::spc::outdent;
-
-\j              return toks::spc::outdent;
+\j              return yy::Parser::make_OUTDENT;
 
 (?^\\\n\h*)     //ignore space after line-end backslash
 
-\\              return toks::spc::indent; //add indent after in-line backslash
+  /* skip NL */
+\\$
+
+  /* return NL, INDENT */
+\\              return yy::Parser::make_INDENT;
 
 
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
+
 %%
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
-/* ********************************************************************************** */ 
