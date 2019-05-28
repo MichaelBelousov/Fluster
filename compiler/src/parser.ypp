@@ -1,52 +1,50 @@
 /* Fluster Bison Grammar */
 
 %require "3.4"
+%language "c++" /* generates C++ */
 
-/*%define api.language "c++"*/
-%skeleton "lalr1.cc"
-%define api.token.constructor
-%printer { yyo << $$; } <*>;
+%define api.namespace {yy}
+%define api.parser.class {Parser}
 %define api.value.type variant
+%define api.token.constructor
 
-/* can switch to custom type here */
+%define parse.trace
+%define parse.error verbose
 %define parse.assert
 
-%{
-#include <iostream>
-#define DEBUG
-%}
+%locations
+%define api.location.file "location.gen.h"
+%defines "parser.gen.h"
+%output "parser.gen.cpp"
+%printer { yyo << $$; } <*>;
 
-%code requires {
-  #include <string>
-  #include "ast/base.h"
-  /*
-  namespace yy {
-    class Lexer;
-  }
-  */
-}
+%parse-param { yy::Lexer& lexer }  //construct parser object with lexer
 
 %param { Driver& driver }
 
-%locations
-%define parse.trace
-%define parse.error verbose
-%define api.namespace {fluster}
-%define api.location.file "location.gen.h"
-%define api.parser.class {Parser}
-%define api.prefix {}
-%parse-param { yy::Lexer& lexer }
-
-%code{
-  #include "driver.h"
-  #include "lexer.h"
-  //#undef yylex
-  //#define yylex lexer.yylex
+%code requires {
+  #include <iostream>
+  #include <string>
+  #include "ast/base.h"
+  #include "data/types.h"
+  namespace yy {
+    class Lexer;  // reflex --namespace=yy --lexer=Lexer --lex=yylex
+  };
+  namespace ast = fluster::ast;
+  namespace data = fluster::data;
+  //using namespace fluster;  //XXX: remove this so inclusion doesn't use the namespace!
 }
 
-/*%define api.token.prefix {TOK_}*/
-/* tokens */
-/* TODO: reorder by precendence */
+%code {
+  #include "driver.h"
+  #include "lexer.gen.h"
+  #include "location.gen.h"
+  #undef yylex  // unlink the global yylex
+  #define yylex lexer.yylex  // within bison's parse invoke lexer.yylex()
+  using namespace fluster;
+}
+
+/*** Tokens ***/
 
 /* control tokens */
 %token      EOF         0       "EOF"
@@ -151,8 +149,8 @@
 %token      IMPORT              "import"    /* import a path */
 /*ast::Identifier*/
 %token <ast::Identifier> Identifier
-%token <data::NaturalNum> Integer_literal
-%token <data::RationalNum> Float_literal
+%token <data::NaturalNumber> Integer_literal
+%token <data::RationalNumber> Float_literal
 %token <data::ByteArray> Bytes_literal
 %token <data::BitArray> Bits_literal
 %token <data::String> String_literal
@@ -162,8 +160,8 @@
 %type <ast::Node::Ptr> lambda_body
 %type <ast::Node::Ptr> code
 %type <ast::Node::Ptr> block
-%type <ast::Node::Ptr> elifs
 %type <ast::Node::Ptr> if
+%type <ast::Node::Ptr> if_follow_up
 %type <ast::Node::Ptr> line
 %type <ast::Node::Ptr> lambda_expr
 %type <ast::Node::Ptr> commalist_
@@ -304,29 +302,24 @@ lambda_expr
 if
   : IF expr NL
       block
-    elifs
+    if_follow_up
     { $$ = ast::IfStatement(condition=$2, then=$4); }
-  | IF expr NL
-      block
-    elifs
-    ELSE
-      block
-    { $$ = ast::IfStatement(condition=$2,
-                            then=$4,
-                            else_=ast::CodeBlock($5, $7)
-      );
-    }
   ;
 
-elifs
+if_follow_up
   : %empty
     { $$ = ast::CodeBlock::empty(); }
-  | elifs ELIF expr NL block
-    { $$ = $1.append(
-                ast::IfStatement(condition=$3,
-                                 then=$5
-      ));
+  | ELIF expr NL
+      block
+    if_follow_up
+    { $$ = ast::IfStatement( condition=$2
+                           , then=$4
+                           , else=$5
+                           );
     }
+  | ELSE NL
+      block
+    { $$ = $3; }
   ;
 
 commalist_
@@ -366,20 +359,8 @@ Angle_list
 %%
 
 
-// TODO: define elsewhere
-using location_type = long;
-
 //void yy::parser::error(const syntax_error& err)
-
 void yy::parser::error(const location_type& loc, const std::string& msg)
 {
   std::cerr << loc <<":\t" << msg << std::endl;
 }
-
-/*
-int main(void)
-{
-  Lexer.lex();
-  return yy::parse();
-}
-*/
