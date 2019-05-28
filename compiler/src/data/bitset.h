@@ -12,12 +12,20 @@ namespace fluster {
 namespace data {
 
 
+
+constexpr unsigned log2(unsigned n) {
+    if (n < 2)
+        return 1;
+    else
+        return 1 + log2(n/2);
+}
+
 // TODO: test/confirm that the compiler removes these constants during compilation
 
 // TODO: move to separate file of constants
 constexpr const unsigned BYTE_SIZE = 8;
 // TODO: calculate logs using recursive constexpr log
-constexpr const unsigned LOG_BYTE_SIZE = 3;
+constexpr const unsigned LOG_BYTE_SIZE = log2(BYTE_SIZE);
 constexpr const unsigned BYTE_ADDR_MASK = 0b111;
 constexpr const unsigned WORD_SIZE = 32;
 constexpr const unsigned LOG_WORD_SIZE = 5;
@@ -32,24 +40,19 @@ using byte = unsigned char;
 
 using std::size_t;
 
-/* get the ceiling of a word of bits */
-constexpr Word word_ceil (Word n) {
+/* round up to the nearest power of 2, e.g. ceil on a binary string */
+constexpr Word bit_ceil (Word n) {
     return (((n & WORD_REMAINDER_BITS) > 0)
                     ? BYTES_PER_WORD
                     : 0)
             + (n & ~WORD_REMAINDER_BITS);
 }
 // FIXME: move static_assert testing to a separate test file
-static_assert(word_ceil(3) == 4, "word_ceil regression");
-static_assert(word_ceil(4) == 4, "word_ceil regression");
-static_assert(word_ceil(5) == 8, "word_ceil regression");
-
-constexpr unsigned log2(unsigned n) {
-    if (n < 2)
-        return 1;
-    else
-        return 1 + log2(n/2);
-}
+static_assert(bit_ceil(0b011) == 0b100, "bit_ceil regression");
+static_assert(bit_ceil(3) == 4, "bit_ceil regression");
+static_assert(bit_ceil(4) == 4, "bit_ceil regression");
+static_assert(bit_ceil(0b100) == 0b100, "bit_ceil regression");
+static_assert(bit_ceil(5) == 8, "bit_ceil regression");
 
 template<size_t size>
 class BitArray {
@@ -194,7 +197,7 @@ public:
 
     template<typename T>
     static auto byte_array_from_obj(T&& obj) {
-        std::array<byte,word_ceil(sizeof(obj))> result;
+        std::array<byte,bit_ceil(sizeof(obj))> result;
         auto raw = reinterpret_cast<const void*>(&obj);
         auto bytes = reinterpret_cast<const byte*>(raw);
         for (int i = 0; i < sizeof(obj); ++i)
@@ -205,7 +208,7 @@ public:
 
 // implicit size deduction guideline
 template<typename T>
-BitArray(T&& t) -> BitArray<word_ceil(sizeof(t)<<LOG_BYTE_SIZE)>;
+BitArray(T&& t) -> BitArray<bit_ceil(sizeof(t)<<LOG_BYTE_SIZE)>;
 
 template<size_t size>
 std::ostream& operator<< (std::ostream& os, const BitArray<size>& bitarr) {
