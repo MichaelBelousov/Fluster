@@ -4,7 +4,7 @@
 #include <array>
 #include <string>
 #include <vector>
-#include "ast/util.h"
+#include "util.h"
 
 namespace fluster { namespace ast {
 
@@ -23,27 +23,30 @@ struct _blah {};
 struct _blah<standard> { member; };
 */
 
-struct Node {
+// FIXME: all PtrType<..> are ambiguous
+struct Node : public PtrType<Node>
+{
 };
 
 using Name = const std::string;
 
-struct Def : public Node
-           , public PtrType<Def> {
-    Def::Ptr next;
+struct Def
+  : public Node
+{
     //ScopePtr _outer;
 };
 
 using Statement = Def;
 
-struct NamedDef : public Def
-                , public PtrType<Def> {
+struct NamedDef
+  : public Def
+{
     Name name;
 };
 
-struct Expr : public Node
-            , public PtrType<Def> {
-    //const fluster::rt::Operation::Ptr underlying;
+struct Expr
+  : public Node
+{
 };
 
 using Expression = Expr;
