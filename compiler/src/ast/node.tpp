@@ -16,10 +16,8 @@ Node::Ptr
 Node::
 makeChild(Args&& ...args)
 {
-    Node::Ptr result =
-        new T( this->shared_from_this()
-             , std::forward<Args>(args)...
-             );
+    Node::Ptr result = new T(std::forward<Args>(args)...);
+    const_cast<Node::Ptr>(result.outer) = this->shared_from_this();
     return result;
 }
 

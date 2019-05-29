@@ -6,9 +6,6 @@
  * have been parsed, and its usage has been semantically validated
  */
 
-#include <array>
-#include <string>
-#include <vector>
 #include <memory>
 #include "node.h"
 #include "util.h"
@@ -18,7 +15,7 @@ namespace fluster { namespace ast {
 
 
 struct Expr
-  : public Node
+    : public Node
 {
     //// Types
 

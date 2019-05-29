@@ -11,7 +11,6 @@
 #include <vector>
 #include <memory>
 #include "data/construct.h"
-#include "util.h"
 
 namespace fluster { namespace ast {
 
@@ -20,18 +19,6 @@ namespace fluster { namespace ast {
 struct Node
     : public std::enable_shared_from_this<Node>
 {
-    //// Types
-    
-    using Ptr = std::shared_ptr<Node>;
-
-    //// Construction
-
-    Node(Node::Ptr outer);
-
-    //// Members
-    
-    const std::weak_ptr<Node> outer;
-
     //// Methods
 
     // finalize this node, producing it's internally consistent construct
@@ -43,6 +30,19 @@ struct Node
 
     // make an AST root node
     static Node::Ptr makeRoot();
+
+    //// Construction
+
+    Node(Node::Ptr outer);
+
+    //// Types
+    
+    using Ptr = std::shared_ptr<Node>;
+
+private:
+    //// Members
+    
+    const std::weak_ptr<Node> outer;
 };
 
 #include "node.tpp"
