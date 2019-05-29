@@ -28,7 +28,7 @@ struct IfStatement final
     //// Construction
     IfStatement( Expr::Ptr in_cond
                , Node::Ptr in_then
-               , Node::Ptr in_else
+               , Node::Ptr in_else = empty()
                );
 
     //// Members

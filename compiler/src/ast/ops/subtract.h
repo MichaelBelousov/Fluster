@@ -13,8 +13,11 @@ struct Subtract final
     : public BinaryOperator
 {
     //// Methods
-    //void
-    //finalize(Node::Ptr in);
+
+    //// Construction
+    Subtract( Expr::Ptr left_operand
+            , Expr::Ptr right_operand
+            );
 
     //// Types
     using Ptr = std::shared_ptr<Subtract>;

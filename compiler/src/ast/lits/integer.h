@@ -16,10 +16,14 @@ struct Integer final
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
-    Integer();
+    Integer(int in_value);
 
     //// Types
     using Ptr = std::shared_ptr<Integer>;
+
+private:
+    //// Members
+    int value;
 };
 
 

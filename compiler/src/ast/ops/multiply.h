@@ -13,8 +13,11 @@ struct Multiply final
     : public BinaryOperator
 {
     //// Methods
-    //void
-    //finalize(Node::Ptr in);
+
+    //// Construction
+    Multiply( Expr::Ptr left
+            , Expr::Ptr right
+            );
 
     //// Types
     using Ptr = std::shared_ptr<Multiply>;

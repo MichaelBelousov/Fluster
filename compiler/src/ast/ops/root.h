@@ -13,8 +13,11 @@ struct Root final
     : public BinaryOperator
 {
     //// Methods
-    //void
-    //finalize(Node::Ptr in);
+
+    //// Construction
+    Root( Expr::Ptr left
+        , Expr::Ptr right
+        );
 
     //// Types
     using Ptr = std::shared_ptr<Root>;

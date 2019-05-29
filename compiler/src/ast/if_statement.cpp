@@ -4,8 +4,10 @@
 namespace fluster { namespace ast {
 
 //// Methods
+
 static
 IfStatement::Ptr
+IfStatement::
 empty()
 {
     return make_shared<IfStatement>();
@@ -13,9 +15,10 @@ empty()
 
 //// Construction
 
+IfStatement::
 IfStatement( Expr::Ptr in_cond
-           , Block::Ptr in_then
-           , Block::Ptr in_else = Block::empty()
+           , Node::Ptr in_then
+           , Node::Ptr in_else = empty()
            )
     : cond(in_cond)
     , then(in_then)

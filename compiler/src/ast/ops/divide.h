@@ -13,8 +13,9 @@ struct Divide final
     : public BinaryOperator
 {
     //// Methods
-    //void
-    //finalize(Node::Ptr in);
+
+    //// Construction
+    Divide(Expr::Ptr left, Expr::Ptr right);
 
     //// Types
     using Ptr = std::shared_ptr<Divide>;

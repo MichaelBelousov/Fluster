@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_OPS_POST_DECREMENT
 
 #include <memory>
-#include "ast/node.h"
+#include "ast/expr.h"
 #include "operator.h"
 
 namespace fluster { namespace ast { namespace ops {
@@ -13,8 +13,9 @@ struct PostDecrement final
     : public UnaryOperator
 {
     //// Methods
-    //void
-    //finalize(Node::Ptr in);
+
+    //// Construction
+    PostDecrement(Expr::Ptr in_operand);
 
     //// Types
     using Ptr = std::shared_ptr<PostDecrement>;

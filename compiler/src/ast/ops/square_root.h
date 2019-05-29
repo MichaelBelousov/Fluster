@@ -13,8 +13,9 @@ struct SquareRoot final
     : public UnaryOperator
 {
     //// Methods
-    //void
-    //finalize(Node::Ptr in);
+
+    //// Construction
+    SquareRoot(Expr::Ptr in_operand);
 
     //// Types
     using Ptr = std::shared_ptr<SquareRoot>;

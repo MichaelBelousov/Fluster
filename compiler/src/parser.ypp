@@ -49,10 +49,17 @@
   #include "lexer.gen.h"
   #include "location.gen.h"
   using namespace fluster;
-  template<typename T>
 
+  template<typename T>
   ast::Expr::Ptr asExprPtr(T&& t) {
     return std::static_pointer_cast<ast::Expr>(
+      std::forward<T>(t)
+    );
+  }
+
+  template<typename T>
+  ast::Node::Ptr asNodePtr(T&& t) {
+    return std::static_pointer_cast<ast::Node>(
       std::forward<T>(t)
     );
   }
@@ -269,7 +276,7 @@ block
 /* Expressions */
 statement
   : if
-    { $$ = asExprPtr($1); }
+    { $$ = asNodePtr($1); }
   ;
 
 expr
@@ -307,14 +314,17 @@ expr
   | S_DASH expr
     %prec NEGATE
     { $$ = asExprPtr(
-          std::make_shared<ast::ops::PreDecrement>($2)
+          std::make_shared<ast::ops::Negate>($2)
       );
     }
 
   | S_CARET_FSLASH expr
     %prec SQUARE_ROOT
     { $$ = asExprPtr(
-          std::make_shared<ast::ops::Root>(2, $2)
+          std::make_shared<ast::ops::Root>(
+              std::make_shared<ast::lits::Integer>(2),
+              $2
+          )
       );
     }
 

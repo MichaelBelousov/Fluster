@@ -15,6 +15,7 @@
 #include "ops/divide.h"
 #include "ops/int_divide.h"
 #include "ops/multiply.h"
+#include "ops/negate.h"
 #include "ops/operator.h"
 #include "ops/post_decrement.h"
 #include "ops/post_increment.h"
