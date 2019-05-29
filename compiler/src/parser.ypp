@@ -25,6 +25,9 @@
 /* code in this block goes in parser.gen.h */
 %code requires {
   #include "driver.h"
+  #include "ast/ast.h"
+  namespace ast = fluster::ast;
+  namespace atoms = fluster::atoms;
   namespace yy {
     class Lexer;  // reflex --namespace=yy --lexer=Lexer --lex=yylex
   };
@@ -36,11 +39,8 @@
   #include <iostream>
   #include <string>
 
-  #include "ast/base.h"
   #include "atoms/types.h"
   //XXX: remove this so inclusion doesn't use the namespace!
-  namespace ast = fluster::ast;
-  namespace atoms = fluster::atoms;
 }
 
 %code {
@@ -186,11 +186,13 @@
 /*** Types ***/
 
 %token <ast::Identifier> Identifier
-%token <atoms::NaturalNumber> Integer_literal
-%token <atoms::RationalNumber> Float_literal
+%token <ast::lits::Integer> Integer_literal
+%token <ast::lits::Float> Float_literal
+%token <ast::lits::String> String_literal
+/*
 %token <atoms::ByteArray> Bytes_literal
 %token <atoms::BitArray> Bits_literal
-%token <atoms::String> String_literal
+*/
 
 %type <ast::Expr::Ptr> expr
 %type <ast::Node::Ptr> statement
@@ -252,17 +254,16 @@ statement
     { $$ = ast::Expr($1); }
   ;
 
-
 expr
   /* atomic */
   : Identifier
-    { $$ = rt::symbol[$1]; }
+    { $$ = ast::Identifier($1); }
   | String_literal
-    { $$ = ast::StringLiteral($1); }
+    { $$ = ast::lits::String($1); }
   | Integer_literal
-    { $$ = ast::IntegerLiteral($1); }
+    { $$ = ast::lits::Integer($1); }
   | Float_literal
-    { $$ = ast::FloatLiteral($1); }
+    { $$ = ast::lits::Float($1); }
   | S_LPAR expr S_RPAR
     { $$ = $2; }
   /* prefix */

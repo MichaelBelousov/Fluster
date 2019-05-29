@@ -14,10 +14,11 @@ namespace fluster { namespace ast {
 template<typename T, typename ...Args>
 Node::Ptr
 Node::
-makeChild(Args&& ...args)
+makeChildNode(Args&& ...args)
 {
     Node::Ptr result = new T(std::forward<Args>(args)...);
-    const_cast<Node::Ptr>(result.outer) = this->shared_from_this();
+    const_cast<std::weak_ptr<Node>&>(result->outer) =
+        this->shared_from_this();
     return result;
 }
 

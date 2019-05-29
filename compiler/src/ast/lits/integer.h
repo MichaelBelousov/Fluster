@@ -12,14 +12,14 @@ namespace fluster { namespace ast { namespace lits {
 struct Integer final
     : public Expr
 {
-    //// Types
-    using Ptr = std::shared_ptr<Integer>;
+    //// Methods
+    //const data::Construct::Ptr finalize() const final;
 
     //// Construction
     Integer();
 
-    //// Methods
-    const data::Construct::Ptr finalize() const final;
+    //// Types
+    using Ptr = std::shared_ptr<Integer>;
 };
 
 

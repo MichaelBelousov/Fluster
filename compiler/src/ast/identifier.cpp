@@ -41,12 +41,14 @@ Identifier(const std::string& in_name)
 
 //// Identifier Methods
     
+/*
 const data::Construct::Ptr
 Identifier::
 finalize() const
 {
     return data::Construct::Ptr();
 }
+*/
 
 
 

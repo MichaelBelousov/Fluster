@@ -19,7 +19,7 @@ Node(Node::Ptr in_outer)
 
 Node::Ptr
 Node::
-makeRoot()
+makeRootNode()
 {
     return Node::Ptr(std::weak_ptr<Node>());
 }

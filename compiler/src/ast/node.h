@@ -16,36 +16,30 @@ namespace fluster { namespace ast {
 struct Node
     : public std::enable_shared_from_this<Node>
 {
-    //// Methods
-
-    // finalize this node, producing its internally consistent construct
-    virtual const data::Construct::Ptr finalize() const = 0;
-
-    // make a child of this node
-    template<typename T, typename ...Args>
-    Node::Ptr makeChild(Args&& ...args); 
-
-    // make an AST root node
-    static Node::Ptr makeRoot();
-
-    //// Construction
-
-    Node(Node::Ptr outer);
-
     //// Types
-
     using Ptr = std::shared_ptr<Node>;
 
-private:
-    //// Members
+    //// Methods
+    //virtual const data::Construct::Ptr finalize() const = 0;
 
+    template<typename T, typename ...Args>
+    Node::Ptr makeChildNode(Args&& ...args); 
+
+    static Node::Ptr makeRootNode();
+
+    //// Construction
+    Node(Node::Ptr outer);
+
+private:
+
+    //// Members
     const std::weak_ptr<Node> outer;
 };
-
-#include "node.tpp"
 
 
 
 }; };
+
+#include "node.tpp"
 
 #endif //FLUSTER_COMPILER_AST_NODE

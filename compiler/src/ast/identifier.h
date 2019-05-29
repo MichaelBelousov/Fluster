@@ -38,23 +38,18 @@ public:
 struct Identifier final
     : public Expr
 {
-private:
-    //// Members
-
-    const Name name;
-
-public:
-    //// Types
-
-    using Ptr = std::shared_ptr<Identifier>;
-
     //// Construction
-
     Identifier(const std::string& in_name);
 
     //// Methods
+    //const data::Construct::Ptr finalize() const override;
 
-    const data::Construct::Ptr finalize() const override;
+    //// Types
+    using Ptr = std::shared_ptr<Identifier>;
+
+private:
+    //// Members
+    const Name name;
 };
 
 

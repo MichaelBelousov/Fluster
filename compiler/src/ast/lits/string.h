@@ -19,7 +19,7 @@ struct String final
     String();
 
     //// Methods
-    const data::Construct::Ptr finalize() const final;
+    //const data::Construct::Ptr finalize() const final;
 };
 
 

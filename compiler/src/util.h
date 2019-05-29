@@ -68,7 +68,7 @@ struct PreallocatedVector final
     {
         this->reserve(PreallocationAmt);
     }
-}
+};
 
 
 

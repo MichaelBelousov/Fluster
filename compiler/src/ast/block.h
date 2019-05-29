@@ -12,27 +12,23 @@ namespace fluster { namespace ast {
 struct Block final
     : public Node
 {
-    //// Methods
+    //// Types
+    using Ptr = std::shared_ptr<Block>;
 
+    //// Methods
     void
     append(Node::Ptr in);
 
     //// Construction
-
     Block() = default;
 
     static
     Block::Ptr
     empty();
 
-    //// Types
-
-    using Ptr = std::shared_ptr<Block>;
-
 private:
 
     //// Members
-
     std::vector<Node::Ptr> lines;
 
 };
