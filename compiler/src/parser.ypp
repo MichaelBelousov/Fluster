@@ -135,6 +135,7 @@
 /*** Lexer Symbols ***/
 
     /* the S_ prefix indicates lexer symbols */
+    /* TODO: drop prefix and make precendence UpperCamelCase */
 %token      S_END 0
 %token      S_INDENT S_OUTDENT S_NL
             /* grouping */
@@ -172,6 +173,7 @@
             /* root */
             S_CARET_FSLASH
             /* prefix */
+            S_DASH_DASH S_PLUS_PLUS
             S_TILDE S_NEGATE S_EXCLAIM
             S_IS S_HAS S_QUES
             S_DOT_DOT_DOT KW_CLONEOF KW_TYPEOF KW_IMPORT S_AT
@@ -229,18 +231,18 @@ code
   ;
 
 line
-  : expr NL
+  : expr S_NL
     { $$ = $1; }
-  | NL
+  | S_NL
     { $$ = ast::Expr::empty(); }
-  | statement NL
+  | statement S_NL
     { $$ = $1; }
   | error
     { yy::errok(); }
   ;
 
 block
-  : INDENT code OUTDENT
+  : S_INDENT code S_OUTDENT
     { $$ = ast::Block($2); }
   ;
 
@@ -261,54 +263,54 @@ expr
     { $$ = ast::IntegerLiteral($1); }
   | Float_literal
     { $$ = ast::FloatLiteral($1); }
-  | '(' expr ')'
+  | S_LPAR expr S_RPAR
     { $$ = $2; }
   /* prefix */
-  | "++" expr
+  | S_PLUS_PLUS expr
     %prec PREINCREMENT
     { $$ = ast::ops::PreIncrement($2); }
-  | "--" expr
+  | S_DASH_DASH expr
     %prec PREDECREMENT
     { $$ = ast::ops::PreDecrement($2); }
-  | "-" expr
-    %prec UNARY_MINUS
+  | S_DASH expr
+    %prec NEGATE
     { $$ = ast::ops::PreDecrement($2); }
-  | "^/" expr
+  | S_CARET_FSLASH expr
     %prec SQUARE_ROOT
     { $$ = ast::ops::Root(2, $2); }
   /* postfix */
-  | expr "++"
+  | expr S_PLUS_PLUS
     %prec POSTINCREMENT
     { $$ = ast::ops::PostIncrement($1); }
-  | expr "--"
+  | expr S_DASH_DASH
     %prec POSTDECREMENT
     { $$ = ast::ops::PostDecrement($1); }
   /* binary */
-  | expr "+" expr
+  | expr S_PLUS expr
     %prec ADD
     { $$ = ast::ops::Add($1, $3); }
-  | expr "-" expr
+  | expr S_DASH expr
     %prec SUB
     { $$ = ast::ops::Subtract($1, $3); }
-  | expr "*" expr
+  | expr S_STAR expr
     %prec MULT
     { $$ = ast::ops::Multiply($1, $3); }
-  | expr "/" expr
+  | expr S_FSLASH expr
     %prec DIV
     { $$ = ast::ops::Divide($1, $3); }
-  | expr "//" expr
+  | expr S_FSLASH_FSLASH expr
     %prec DIV
     { $$ = ast::ops::IntegerDivide($1, $3); }
-  | expr "^/" expr
+  | expr S_CARET_FSLASH expr
     %prec ROOT
     { $$ = ast::ops::Root($1, $3); }
-  | expr "^" expr
+  | expr S_CARET expr
     %prec POW
     { $$ = ast::ops::Power($1, $3); }
-  | expr "=" expr
+  | expr S_EQ expr
     %prec ASSIGN
     { $$ = ast::ops::Assign($1, $3); }
-  | expr ":" expr
+  | expr S_COLON expr
     %prec TYPE_ASSERT
     { $$ = ast::ops::AssertType($1, $3); }
   /* other */
@@ -322,13 +324,13 @@ expr
 lambda_body
   : expr
     { $$ = ast::LambdaBody($1); }
-  | NL block
+  | S_NL block
     { $$ = ast::ResultHavingCode($2); }
   ;
 
 
 lambda_expr
-  : Par_list "=>" lambda_body
+  : Par_list S_EQ_RANGLE lambda_body
   %prec LAMBDA
     { $$ = ast::Lambda(args=$1, expr=$3); }
   ;
@@ -336,7 +338,7 @@ lambda_expr
 
 /* control flow */
 if
-  : IF expr NL
+  : KW_IF expr S_NL
       block
     if_follow_up
     { $$ = ast::IfStatement(condition=$2, then=$4); }
@@ -345,7 +347,7 @@ if
 if_follow_up
   : %empty
     { $$ = ast::Block::empty(); }
-  | ELIF expr NL
+  | KW_ELIF expr S_NL
       block
     if_follow_up
     { $$ = ast::IfStatement( condition=$2
@@ -353,7 +355,7 @@ if_follow_up
                            , else=$5
                            );
     }
-  | ELSE NL
+  | KW_ELSE S_NL
       block
     { $$ = $3; }
   ;
@@ -362,7 +364,7 @@ if_follow_up
 commalist_
   : expr
     { $$ = ast::CommaDelimitedList::fromFirst($1); }
-  | commalist_ "," expr
+  | commalist_ S_COMMA expr
     %prec LIST
     { $$ = $1.append($3); }
   ;
