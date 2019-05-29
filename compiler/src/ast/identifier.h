@@ -1,13 +1,9 @@
 #ifndef FLUSTER_COMPILER_AST_IDENTIFIER
 #define FLUSTER_COMPILER_AST_IDENTIFIER
 
-/* The fluster data holds immutable, finalized versions
- * of each fluster construct, in a code base, after they
- * have been parsed, and its usage has been semantically validated
- */
-
 #include <string>
 #include <memory>
+#include <regex>
 #include "expr.h"
 
 namespace fluster { namespace ast {
@@ -16,20 +12,47 @@ namespace fluster { namespace ast {
 
 struct Name final
 {
-    Name(const std::string& in_value);
+private:
+    //// Constants
+
+    static
+    const std::regex valid_pattern;
+
+    //// Members
 
     const std::string value;
 
+public:
+    //// Construction
+
+    Name(const std::string& in_value);
+
+    //// Methods
+
     static
     const bool
-    validate(const std::string& in);
+    isValidName(const std::string& in);
 };
 
 
 struct Identifier final
     : public Expr
 {
+private:
+    //// Members
+
     const Name name;
+
+public:
+    //// Types
+
+    using Ptr = std::shared_ptr<Identifier>;
+
+    //// Construction
+
+    Identifier(const std::string& in_name);
+
+    //// Methods
 
     const data::Construct::Ptr finalize() const override;
 };

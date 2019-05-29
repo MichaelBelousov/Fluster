@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "data/construct.h"
 #include "util.h"
 
 namespace fluster { namespace ast {
