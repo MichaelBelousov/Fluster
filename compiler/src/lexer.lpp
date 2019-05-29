@@ -49,6 +49,12 @@ string_content      {any}*[^\\]
 
 %o exception="yy::Parser::syntax_error(location(), \"unknown token.\")"
 
+/*** States ***/
+
+/* backslash handling states */
+%x  INNER_BACKSLASH_EMIT_INDENT
+%s  INNER_BACKSLASH_EMIT_NL
+%x  INNER_BACKSLASH_EMIT_OUTDENT
 
 %%
 
@@ -196,8 +202,24 @@ u\"(?u:{string_content})\"                  return yy::Parser::make_UNICODE_STRI
   /* skip NL */
 \\$
 
-  /* return NL, INDENT */
-\\              return yy::Parser::make_INDENT;
+  /* return NL, INDENT, *, NL, OUTDENT */
+\\              { start(INNER_BACKSLASH_EMIT_INDENT)
+                  return yy::Parser::make_NL;
+                }
+
+<INNER_BACKSLASH_EMIT_INDENT>.
+                { start(INNER_BACKSLASH_EMIT_OUTDENT)
+                  return yy::Parser::make_INDENT;
+                }
+
+<INNER_BACKSLASH_EMIT_NL>\n
+                { start(INNER_BACKSLASH_EMIT_OUTDENT)
+                  return yy::Parser::make_NL;
+                }
+<INNER_BACKSLASH_EMIT_OUTDENT>.
+                { start(INITIAL)
+                  return yy::Parser::make_OUTDENT;
+                }
 
 
 
