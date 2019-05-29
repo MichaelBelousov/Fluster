@@ -18,23 +18,23 @@ struct IfStatement final
     : public Node
 {
     //// Types
-
     using Ptr = std::shared_ptr<IfStatement>;
 
-    //// Friends
+    //// Methods
+    static
+    IfStatement::Ptr
+    empty();
+
+    //// Construction
+    IfStatement( Expr::Ptr in_cond
+               , Node::Ptr in_then
+               , Node::Ptr in_else
+               );
 
     //// Members
-    
     const Expr::Ptr cond;
     const Block::Ptr then;
     const Block::Ptr else_;
-
-    //// Construction
-
-    IfStatement( Expr::Ptr in_cond
-               , Block::Ptr in_then
-               , Block::Ptr in_else
-               );
 };
 
 

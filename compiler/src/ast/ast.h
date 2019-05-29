@@ -10,6 +10,7 @@
 
 //operators
 #include "ops/add.h"
+#include "ops/assign.h"
 #include "ops/assert_type.h"
 #include "ops/divide.h"
 #include "ops/int_divide.h"
@@ -19,7 +20,7 @@
 #include "ops/post_increment.h"
 #include "ops/power.h"
 #include "ops/pre_decrement.h"
-#include "ops/post_decrement.h"
+#include "ops/pre_increment.h"
 #include "ops/root.h"
 #include "ops/square_root.h"
 #include "ops/subtract.h"
