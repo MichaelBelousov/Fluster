@@ -281,7 +281,7 @@ expr
     { $$ = ast::ops::AssertType($1, $3); }
   /* other */
   | lambda_expr
-    { $$ = ast::asBase($1); }
+    { $$ = reinterpret_cast<Node::Ptr>($1); }
   ;
 
 lambda_body
@@ -332,7 +332,6 @@ commalist_
 
 commalist
   : commalist_
-    { $$ = ast::CommaDelimitedList($1); }
   ;
 
 Par_list
