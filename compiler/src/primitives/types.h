@@ -1,5 +1,6 @@
-#ifndef FLUSTER_COMPILER_DATA_TYPES
-#define FLUSTER_COMPILER_DATA_TYPES
+#ifndef FLUSTER_COMPILER_PRIMITIVES_TYPES
+#define FLUSTER_COMPILER_PRIMITIVES_TYPES
+//maybe add a build step that generates header include guards?
 
 //#include <BigIntegerLibrary.hh>
 using BigInteger = long long int;
@@ -39,4 +40,4 @@ using String = std::string;
 };  //namespace fluster
 };  //namespace primitives
 
-#endif //FLUSTER_COMPILER_DATA_TYPES
+#endif //FLUSTER_COMPILER_PRIMITIVES_TYPES

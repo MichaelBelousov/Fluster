@@ -1,5 +1,5 @@
-#ifndef FLUSTER_COMPILER_DATA_BITSET
-#define FLUSTER_COMPILER_DATA_BITSET
+#ifndef FLUSTER_COMPILER_PRIMITIVES_BITSET
+#define FLUSTER_COMPILER_PRIMITIVES_BITSET
 
 #include <array>
 #include <iostream>
@@ -223,4 +223,4 @@ std::ostream& operator<< (std::ostream& os, const BitArray<size>& bitarr) {
 }; //namespace primitives
 
 
-#endif //FLUSTER_COMPILER_DATA_BITSET
+#endif //FLUSTER_COMPILER_PRIMITIVES_BITSET

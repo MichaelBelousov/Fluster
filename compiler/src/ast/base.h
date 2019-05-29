@@ -1,5 +1,10 @@
-#ifndef FLUSTER_COMPILER_AST_EXPRESSION
-#define FLUSTER_COMPILER_AST_EXPRESSION
+#ifndef FLUSTER_COMPILER_AST_BASE
+#define FLUSTER_COMPILER_AST_BASE
+
+/* The fluster AST holds mutable, in-progress versions
+ * of each fluster construct, as they are being read
+ * and validated, so each 
+ */
 
 #include <array>
 #include <string>
@@ -10,23 +15,10 @@ namespace fluster { namespace ast {
 
 
 
-// TODO: compiler is all about verbosity, this
-// setting is for the future when the compiler
-// can have a skim milk mode
-/*
-enum class Verbosity {
-    none,
-    standard
-};
-template<Verbosity verbosity = none>
-struct _blah {};
-struct _blah<standard> { member; };
-*/
-
-// FIXME: all PtrType<..> are ambiguous
 struct Node
 {
     using Ptr = std::shared_ptr<Node>;
+    const Construct finalize() const = 0;
 };
 
 using Name = const std::string;
