@@ -191,7 +191,7 @@ input
 
 code
   : %empty
-    { $$ = ast::CodeBlock::empty(); }
+    { $$ = ast::Block::empty(); }
   | code line
     { $$ = $1.append($2); }
   ;
@@ -200,7 +200,7 @@ line
   : expr NL
     { $$ = $1; }
   | NL
-    { $$ = ast::Expression::empty(); }
+    { $$ = ast::Expr::empty(); }
   | statement NL
     { $$ = $1; }
   | error
@@ -209,13 +209,13 @@ line
 
 block
   : INDENT code OUTDENT
-    { $$ = ast::CodeBlock($2); }
+    { $$ = ast::Block($2); }
   ;
 
 /* Expressions */
 statement
   : if
-    { $$ = ast::Expression($1); }
+    { $$ = ast::Expr($1); }
   ;
 
 
@@ -308,7 +308,7 @@ if
 
 if_follow_up
   : %empty
-    { $$ = ast::CodeBlock::empty(); }
+    { $$ = ast::Block::empty(); }
   | ELIF expr NL
       block
     if_follow_up
