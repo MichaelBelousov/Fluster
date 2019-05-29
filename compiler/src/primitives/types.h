@@ -8,7 +8,7 @@ using Byte = unsigned char;
 #include <iostream>
 
 namespace fluster {
-namespace data {
+namespace primitives {
 
 
 
@@ -37,6 +37,6 @@ using String = std::string;
 
 
 };  //namespace fluster
-};  //namespace data
+};  //namespace primitives
 
 #endif //FLUSTER_COMPILER_DATA_TYPES
