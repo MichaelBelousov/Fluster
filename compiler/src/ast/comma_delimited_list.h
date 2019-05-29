@@ -26,7 +26,7 @@ struct CommaDelimitedList final
     fromFirst(Node::Ptr first);
 
     //// Types
-    using Ptr = std::shared_ptr<CommaList>;
+    using Ptr = std::shared_ptr<CommaDelimitedList>;
 
 private:
 

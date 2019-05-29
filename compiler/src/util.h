@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace Fluster {
+namespace fluster { namespace util {
 
 
 
@@ -72,6 +72,6 @@ struct PreallocatedVector final
 
 
 
-};
+}; };
 
 #endif //FLUSTER_COMPILER_VALUE_H

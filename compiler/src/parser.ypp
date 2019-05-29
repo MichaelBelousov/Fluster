@@ -50,6 +50,15 @@
   using namespace fluster;
 }
 
+/*
+%code {
+skipToNextLine()
+  {
+    while(Lexer.lex() != yy::Parser::make_S_OUTDENT);
+  }
+}
+*/
+
 /*** Precedence Markers ***/
 
 /* grouping */
@@ -196,7 +205,7 @@
 
 %type <ast::Expr::Ptr> expr
 %type <ast::Node::Ptr> statement
-%type <ast::Node::Ptr> code
+%type <ast::Block::Ptr> code
 %type <ast::Block::Ptr> block
 %type <ast::IfStatement::Ptr> if
 %type <ast::IfStatement::Ptr> if_follow_up
@@ -229,35 +238,35 @@ code
   : %empty
     { $$ = ast::Block::empty(); }
   | code line
-    { $$ = $1.append($2); }
+    { $1->append($2); }
   ;
 
 line
   : expr S_NL
     { $$ = $1; }
   | S_NL
-    { $$ = ast::Expr::empty(); }
+    { $$ = ast::Block::empty(); }  /* TODO: handle empty statements better? */
   | statement S_NL
     { $$ = $1; }
-  | error
-    { yy::errok(); }
+  | error S_NL
+    { yyerrok; }
   ;
 
 block
   : S_INDENT code S_OUTDENT
-    { $$ = ast::Block($2); }
+    { $$ = ast::Block::Ptr($2); }
   ;
 
 /* Expressions */
 statement
   : if
-    { $$ = ast::Expr($1); }
+    { $$ = ast::Expr::Ptr($1); }
   ;
 
 expr
   /* atomic */
   : Identifier
-    { $$ = ast::Identifier($1); }
+    { $$ = ast::Identifier::Ptr($1); }
   | String_literal
     { $$ = ast::lits::String($1); }
   | Integer_literal
@@ -324,16 +333,16 @@ expr
 /*
 lambda_body
   : expr
-    { $$ = ast::LambdaBody($1); }
+    { $$ = ast::LambdaBody::Ptr($1); }
   | S_NL block
-    { $$ = ast::ResultHavingCode($2); }
+    { $$ = ast::ResultHavingCode::Ptr($2); }
   ;
 
 
 lambda_expr
   : Par_list S_EQ_RANGLE lambda_body
   %prec LAMBDA
-    { $$ = ast::Lambda(args=$1, expr=$3); }
+    { $$ = ast::Lambda::Ptr(args=$1, expr=$3); }
   ;
 */
 
@@ -342,7 +351,10 @@ if
   : KW_IF expr S_NL
       block
     if_follow_up
-    { $$ = ast::IfStatement(condition=$2, then=$4); }
+    { $$ = ast::IfStatement::Ptr( condition=$2
+                                , then=$4
+                                );
+    }
   ;
 
 if_follow_up
@@ -351,10 +363,10 @@ if_follow_up
   | KW_ELIF expr S_NL
       block
     if_follow_up
-    { $$ = ast::IfStatement( condition=$2
-                           , then=$4
-                           , else=$5
-                           );
+    { $$ = ast::IfStatement::Ptr( condition=$2
+                                , then=$4
+                                , else=$5
+                                );
     }
   | KW_ELSE S_NL
       block
@@ -367,7 +379,7 @@ commalist_
     { $$ = ast::CommaDelimitedList::fromFirst($1); }
   | commalist_ S_COMMA expr
     %prec LIST
-    { $$ = $1.append($3); }
+    { $$ = $1->append($3); }
   ;
 
 commalist
