@@ -50,110 +50,139 @@
   using namespace fluster;
 }
 
-/*** Tokens ***/
-
-/* control tokens */
-%token      END             0   "End of file"
-%token      INDENT
-%token      OUTDENT
-%token      NL                  "\n"
+/*** Precedence Markers ***/
 
 /* grouping */
-%left       SEQ_EXEC                /* a; b */
-            LIST                    /* a, b, c */
+%left       SEQ_EXEC        /* a; b */
+            LIST            /* a, b, c */
 ;
 
 /* assignment */
-%right      ASSIGN                  /* value assignment */
+%right      ASSIGN          /* assignment */
 
 /* anonymous functions */
-%right      LAMBDA
+%right      LAMBDA          /* a => a, (a,b) => a+b */
 
 /* type assertion */
-%left       TYPE_ASSERT             /* a: T */
+%left       TYPE_ASSERT     /* a: T */
 
 /* arithmetic */
-%left       DISJUNCT                /* | */
-%left       CONJUNCT                /* & */
-%left       IMPLY                   /* -> */
-%left       EQ_RELATIONAL           /* ==, !=, #=, !#= */
-%nonassoc   NON_EQ_RELATIONAL       /* <=>, <, <=, >=, > */
-%left       LSHIFT
-            RSHIFT
+%left       DISJUNCT        /* | */
+%left       CONJUNCT        /* & */
+%left       IMPLY           /* -> */
+%left       EQUALITY        /* ==, !=, #=, !#= */
+%nonassoc   SPACESHIP       /* <=> */
+%nonassoc   RELATIONAL      /* <, <=, >=, > */
+%left       IN              /* a in b */
+%left       LSHIFT RSHIFT;  /* <<, >> */
+%left       ADD     /* + */
+            SUB     /* - */
 ;
-%left       ADD
-            SUB
+%left       MULT    /* * */
+            DIV     /* / // */
+            MOD     /* % mod // */
 ;
-%left       MULT                    /* * */
-            DIV                     /* / // */
-            MOD                     /* % mod // */
-;
-%left       POW                     /* a ^ b */
-            ROOT                    /* a ^/ b */
-;
-
-/* comparision/relational tokens */
-%nonassoc   LANGLE              "<"         /* less than */
-            LANGLE_EQ           "<="        /* less than or equal to */
-            EQ_EQ               "=="        /* value comparison */
-            EXCLAIM_EQ          "!="        /* complement of value comparison */
-            HASH_EQ             "#="        /* identity comparision */
-            LANGLE_EQ_RANGLE    "<=>"       /* ternary comparison */
-            RANGLE_EQ           ">="        /* greater than or equal to */
-            RANGLE              ">"         /* greater than */
+%left       POW     /* a ^ b */
+            ROOT    /* a ^/ b */
 ;
 
 /* prefix operations */
-%right      COMPLEMENT          /* ~a */
-            NEGATE              /* -a */
-            TYPE_MUT            /* !T */
-            TYPE_ARRAY          /* [N]T */
-            TYPE_PTR            /* *T */
-            TYPE_REF            /* &T */
-            IS_OP               /* is T */
-            HAS_OP              /* has T */
-            UNARY_MINUS         /* -a */
-            SQUARE_ROOT         /* ^/a */
-            PREINCREMENT        /* ++a */
-            PREDECREMENT        /* --a */
-            SPREAD              /* ...a */
-            CLONEOF
-            TYPEOF
-            IMPORT
-            COMPOSE             /* @a */
+%right      COMPLEMENT      /* ~a */
+            NEGATE          /* -a */
+            TYPE_MUT        /* !T */
+            TYPE_ARRAY      /* [N]T */
+            TYPE_PTR        /* *T */
+            TYPE_REF        /* &T */
+            TYPE_OPT        /* ?T */
+            IS              /* is T */
+            HAS             /* has T */
+            SQUARE_ROOT     /* ^/a */
+            PREINCREMENT    /* ++a */
+            PREDECREMENT    /* --a */
+            SPREAD          /* ...a */
+            CLONEOF         /* cloneof a */
+            TYPEOF          /* typeof a */
+            IMPORT          /* import '' */
+            COMPOSE         /* @a */
 ;
 
 /* postfix operations */
 %left
-            POSTINCREMENT       /* a++ */
-            POSTDECREMENT       /* a-- */
-            INVOKE              /* a() */
-            SUBSCRIPT           /* a[] */
-            PARAMETRIZE         /* a<> */
-            ACCESS              /* a._ */
+            POSTINCREMENT   /* a++ */
+            POSTDECREMENT   /* a-- */
+            INVOKE          /* a() */
+            SUBSCRIPT       /* a[] */
+            PARAMETRIZE     /* a<> */
+            ACCESS          /* a._ */
 ;
 
-%token      IN                  "in"        /* containment expression */
-%token      CONTAINS            "contains"  /* containment expression */
-%token      MOD                 "mod"       /* modular division */
-%token      IF                  "if"        /* start if statement */
-%token      ELSE                "else"      /* start else statement */
-%token      ELIF                "elif"      /* start else if statement */
-%token      FOR                 "for"       /* start for loop */
-%token      WHILE               "while"     /* start while loop */
-%token      UNTIL               "until"     /* start until loop */
-%token      REPEAT              "repeat"    /* start infinite loop */
-%token      TRY                 "try"       /* attempt expression */
-%token      RETRY               "retry"     /* retry attempted expression */
-%token      HANDLE              "handle"    /* declare exception handling case */
-%token      RAISE               "raise"     /* raise an exception case */
-%token      WITH                "with"      /* declare context */
-%token      STRUCT              "struct"    /* declare structure */
-%token      CLASS               "class"     /* declare dynamic-type reference structure */
-%token      TYPEOF              "typeof"    /* get type of expression */
-%token      CLONEOF             "cloneof"   /* get clone of type */
-%token      IMPORT              "import"    /* import a path */
-/*ast::Identifier*/
+%token      KW_IF      /* start if statement */
+%token      KW_ELSE    /* start else statement */
+%token      KW_ELIF    /* start else if statement */
+%token      KW_FOR     /* start for loop */
+%token      KW_WHILE   /* start while loop */
+%token      KW_UNTIL   /* start until loop */
+%token      KW_REPEAT  /* start infinite loop */
+%token      KW_CASE    /* declare dynamic-type reference structure */
+%token      KW_TRY     /* attempt expression */
+%token      KW_RETRY   /* retry attempted expression */
+%token      KW_HANDLE  /* declare exception handling case */
+%token      KW_RAISE   /* raise an exception case */
+%token      KW_WITH    /* declare context */
+%token      KW_STRUCT  /* declare structure */
+%token      KW_CLASS   /* declare dynamic-type reference structure */
+
+/*** Lexer Symbols ***/
+
+    /* the S_ prefix indicates lexer symbols */
+%token      S_END 0
+%token      S_INDENT S_OUTDENT S_NL
+            /* grouping */
+            S_SEMICOLON S_COMMA
+            /* assignment */
+            S_EQ S_PLUS_EQ S_DASH_EQ S_STAR_EQ S_FSLASH_EQ S_FSLASH_FSLASH_EQ
+            S_CARET_FSLASH_EQ S_CARET_EQ S_AMPERSAND_EQ S_PIPE_EQ S_TILDE_EQ
+            S_LANGLE_LANGLE_EQ S_RANGLE_RANGLE_EQ S_DASH_RANGLE_EQ
+            /* anonymous functions */
+            S_EQ_RANGLE
+            /* type assertion */
+            S_COLON
+            /* membership */
+            S_IN
+            /* logical */
+            S_PIPE S_AMPERSAND S_DASH_RANGLE
+            /* equality */
+            S_EQ_EQ S_EXCLAIM_EQ S_HASH_EQ S_EXCLAIM_HASH_EQ
+            /* spaceship */
+            S_LANGLE_EQ_RANGLE
+            /* relational */
+            S_LANGLE S_LANGLE_EQ S_RANGLE_EQ S_RANGLE
+            /* shift */
+            S_LANGLE_LANGLE S_RANGLE_RANGLE
+            /* addition/subtraction */
+            S_PLUS S_DASH
+            /* multiplication */
+            S_STAR
+            /* division */
+            S_FSLASH S_FSLASH_FSLASH
+            /* modular division */
+            S_PERCENT S_MOD
+            /* power */
+            S_CARET
+            /* root */
+            S_CARET_FSLASH
+            /* prefix */
+            S_TILDE S_NEGATE S_EXCLAIM
+            S_IS S_HAS S_QUES
+            S_DOT_DOT_DOT KW_CLONEOF KW_TYPEOF KW_IMPORT S_AT
+            /* postfix */
+            S_DOT
+            /* other */
+            S_LPAR S_RPAR S_LBRACK S_RBRACK S_LBRACE S_RBRACE
+;
+
+/*** Types ***/
+
 %token <ast::Identifier> Identifier
 %token <atoms::NaturalNumber> Integer_literal
 %token <atoms::RationalNumber> Float_literal
@@ -161,26 +190,29 @@
 %token <atoms::BitArray> Bits_literal
 %token <atoms::String> String_literal
 
-%type <ast::Node::Ptr> expr
+%type <ast::Expr::Ptr> expr
 %type <ast::Node::Ptr> statement
 %type <ast::Node::Ptr> code
-%type <ast::Node::Ptr> block
-%type <ast::Node::Ptr> if
-%type <ast::Node::Ptr> if_follow_up
+%type <ast::Block::Ptr> block
+%type <ast::IfStatement::Ptr> if
+%type <ast::IfStatement::Ptr> if_follow_up
 %type <ast::Node::Ptr> line
-/*%type <ast::Node::Ptr> lambda_expr*/
-/*%type <ast::Node::Ptr> lambda_body*/
+/*
+%type <ast::Node::Ptr> lambda_expr
+%type <ast::Node::Ptr> lambda_body
 %type <ast::Node::Ptr> commalist_
 %type <ast::Node::Ptr> commalist
 %type <ast::Node::Ptr> Par_list
 %type <ast::Node::Ptr> Brack_list
 %type <ast::Node::Ptr> Brace_list
 %type <ast::Node::Ptr> Angle_list
-
+*/
 
 %start input
 
+
 %%
+
 
 /*** structure ***/
 
@@ -326,6 +358,7 @@ if_follow_up
     { $$ = $3; }
   ;
 
+/*
 commalist_
   : expr
     { $$ = ast::CommaDelimitedList::fromFirst($1); }
@@ -357,6 +390,7 @@ Angle_list
   : '<' commalist '>'
     { $$ = $2; }
   ;
+*/
 
 
 %%
