@@ -37,10 +37,10 @@
   #include <string>
 
   #include "ast/base.h"
-  #include "primitives/types.h"
+  #include "atoms/types.h"
   //XXX: remove this so inclusion doesn't use the namespace!
   namespace ast = fluster::ast;
-  namespace primitives = fluster::primitives;
+  namespace atoms = fluster::atoms;
 }
 
 %code {
@@ -155,11 +155,11 @@
 %token      IMPORT              "import"    /* import a path */
 /*ast::Identifier*/
 %token <ast::Identifier> Identifier
-%token <primitives::NaturalNumber> Integer_literal
-%token <primitives::RationalNumber> Float_literal
-%token <primitives::ByteArray> Bytes_literal
-%token <primitives::BitArray> Bits_literal
-%token <primitives::String> String_literal
+%token <atoms::NaturalNumber> Integer_literal
+%token <atoms::RationalNumber> Float_literal
+%token <atoms::ByteArray> Bytes_literal
+%token <atoms::BitArray> Bits_literal
+%token <atoms::String> String_literal
 
 %type <ast::Node::Ptr> expr
 %type <ast::Node::Ptr> statement

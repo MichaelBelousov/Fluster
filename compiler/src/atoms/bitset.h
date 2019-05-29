@@ -9,7 +9,7 @@
 #include <algorithm>
 
 namespace fluster {
-namespace primitives {
+namespace atoms {
 
 
 
@@ -220,7 +220,7 @@ std::ostream& operator<< (std::ostream& os, const BitArray<size>& bitarr) {
 
 
 }; //namespace fluster
-}; //namespace primitives
+}; //namespace atoms
 
 
 #endif //FLUSTER_COMPILER_PRIMITIVES_BITSET

@@ -9,7 +9,7 @@ using Byte = unsigned char;
 #include <iostream>
 
 namespace fluster {
-namespace primitives {
+namespace atoms {
 
 
 
@@ -38,6 +38,6 @@ using String = std::string;
 
 
 };  //namespace fluster
-};  //namespace primitives
+};  //namespace atoms
 
 #endif //FLUSTER_COMPILER_PRIMITIVES_TYPES

@@ -1,7 +1,7 @@
 #include <types.cpp>
 
 namespace fluster {
-namespace primitives {
+namespace atoms {
 
 
 
@@ -92,4 +92,4 @@ operator<< (std::ostream& os, const RationalNumber& rhs)
 
 
 };  //namespace fluster
-};  //namespace primitives
+};  //namespace atoms
