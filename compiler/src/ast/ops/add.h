@@ -5,7 +5,7 @@
 #include "ast/node.h"
 #include "operator.h"
 
-namespace fluster { namespace ast {
+namespace fluster { namespace ast { namespace ops {
 
 
 
@@ -22,6 +22,6 @@ struct Add final
 
 
 
-}; };
+}; }; };
 
 #endif //FLUSTER_COMPILER_AST_OPS_ADD

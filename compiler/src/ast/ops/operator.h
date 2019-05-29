@@ -12,7 +12,7 @@
 #include "expr.h"
 #include "util.h"
 
-namespace fluster { namespace ast {
+namespace fluster { namespace ast { namespace ops {
 
 
 
@@ -70,6 +70,6 @@ struct InvokeOperation
 
 
 
-}; };
+}; }; };
 
 #endif //FLUSTER_COMPILER_AST_OPERATOR
