@@ -28,6 +28,6 @@ private:
 
 
 
-} } }
+} } }  //namespace fluster::ast::lits
 
 #endif //FLUSTER_COMPILER_AST_LITS_FLOAT

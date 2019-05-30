@@ -93,6 +93,28 @@ ast_src = [ 'src/ast/block.cpp'
           , 'src/ast/node.cpp'
           ]
 
+ast_src += [ 'src/ast/ops/add.cpp'
+           , 'src/ast/ops/assert_type.cpp'
+           , 'src/ast/ops/assign.cpp'
+           , 'src/ast/ops/divide.cpp'
+           , 'src/ast/ops/int_divide.cpp'
+           , 'src/ast/ops/multiply.cpp'
+           , 'src/ast/ops/negate.cpp'
+           , 'src/ast/ops/postdecrement.cpp'
+           , 'src/ast/ops/postincrement.cpp'
+           , 'src/ast/ops/power.cpp'
+           , 'src/ast/ops/predecrement.cpp'
+           , 'src/ast/ops/preincrement.cpp'
+           , 'src/ast/ops/root.cpp'
+           , 'src/ast/ops/square_root.cpp'
+           , 'src/ast/ops/subtract.cpp'
+           ]
+
+ast_src += [ 'src/ast/lits/float.cpp'
+           , 'src/ast/lits/integer.cpp'
+           , 'src/ast/lits/string.cpp'
+           ]
+
 
 data_src = []
 

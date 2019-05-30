@@ -13,7 +13,7 @@ struct String final
     : public Expr
 {
     //// Construction
-    String(atoms::String in_value);
+    String(const atoms::String& in_value);
 
     //// Types
     using Ptr = std::shared_ptr<String>;
