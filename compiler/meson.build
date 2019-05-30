@@ -79,11 +79,12 @@ endif
 includes = include_directories('src')
 
 
+main = ['src/main.cpp']
 
-main_src = [ lexer
-           , 'src/lexer_routines.cpp'
-           , parser
-           ]
+parser_src = [ lexer
+             , 'src/lexer_routines.cpp'
+             , parser
+             ]
 
 ast_src = [ 'src/ast/block.cpp'
           , 'src/ast/comma_delimited_list.cpp'
@@ -92,11 +93,12 @@ ast_src = [ 'src/ast/block.cpp'
           , 'src/ast/node.cpp'
           ]
 
+
 data_src = []
 
 atoms_src = [ 'src/atoms/types.cpp' ]
 
-srcs = ['src/main.cpp'] + main_src + ast_src + data_src + atoms_src
+srcs = main + parser_src + ast_src + data_src + atoms_src
 
 exe = executable('flusterc',
   srcs,
