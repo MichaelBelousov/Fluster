@@ -19,37 +19,29 @@ compiler = meson.get_compiler('cpp')
 deps = []
 
 # generate lexer
-prog_reflex = find_program('reflex')
-src_dir = 'src/'
-lexer_cpp_path = join_paths(src_dir, 'lexer.gen.cpp')
-lexer_h_path = join_paths(src_dir, 'lexer.gen.h')
-lexer_gen_result = run_command(prog_reflex, 'src/lexer.lpp',
-    '-o', lexer_cpp_path,
-    '--header-file=@0@'.format(lexer_h_path)
+reflex_prog = find_program('reflex')
+lexer = custom_target(
+    'lexer.gen.cpp',
+    input : 'src/lexer.lpp',
+    output : ['lexer.gen.cpp', 'lexer.gen.h'],
+    command : [reflex_prog, '@INPUT@',
+               '-o', '@OUTPUT0@',
+               '--header-file=@OUTPUT1@']
 )
-if lexer_gen_result.returncode() != 0
-  error('lexer generation failed\n'
-        +lexer_gen_result.stderr())
-else
-  message('Finished lexer generation')
-endif
+# lexer_h = custom_target(
+
 
 # generate parser
-prog_bison = find_program('bison')
-parser_cpp_path = join_paths(src_dir, 'parser.gen.cpp')
-parser_h_path = join_paths(src_dir, 'parser.gen.h')
-parser_gen_result = run_command(prog_bison, 'src/parser.ypp',
-    '-o', parser_cpp_path,
-    '--defines=@0@'.format(parser_h_path),
-    '-v'
+bison_prog = find_program('bison')
+parser = custom_target(
+    'parser.gen.cpp',
+    input : 'src/parser.ypp',
+    output : ['parser.gen.cpp', 'parser.gen.h'],
+    command : [bison_prog, '@INPUT@',
+               '-v',
+               '-o', '@OUTPUT0@',
+               '--defines=@OUTPUT1@']
 )
-if parser_gen_result.returncode() != 0
-  error('parser generation failed\n'
-       + parser_gen_result.stderr())
-else
-  # message(open(join_paths(src_dir, 'parser.gen.output')).read())
-  message('finished parser generation')
-endif
 
 
 llvm_modules = ['all-targets']
@@ -78,11 +70,9 @@ includes = include_directories('src')
 
 
 
-main_src = [ 'src/driver.cpp'
-           , 'src/lexer.gen.cpp'
+main_src = [ lexer
            , 'src/lexer_routines.cpp'
-           , 'src/main.cpp'
-           , 'src/parser.gen.cpp'
+           , parser
            ]
 
 ast_src = [ 'src/ast/block.cpp'
