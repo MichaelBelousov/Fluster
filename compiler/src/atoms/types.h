@@ -1,5 +1,5 @@
-#ifndef FLUSTER_COMPILER_PRIMITIVES_TYPES
-#define FLUSTER_COMPILER_PRIMITIVES_TYPES
+#ifndef FLUSTER_COMPILER_ATOMS_TYPES
+#define FLUSTER_COMPILER_ATOMS_TYPES
 //maybe add a build step that generates header include guards?
 
 //#include <BigIntegerLibrary.hh>
@@ -13,31 +13,35 @@ namespace atoms {
 
 
 
-using NaturalNumber = BigInteger;
-struct RationalNumber {
-  NaturalNumber numerator;
-  NaturalNumber denominator;
+using Integer = BigInteger;
 
-  RationalNumber calcReciprocal() const;
-  double asDouble() const;
-  RationalNumber operator-(const RationalNumber& num);
-  friend RationalNumber operator*(const RationalNumber& lhs, const RationalNumber& rhs);
-  friend RationalNumber operator/(const RationalNumber& lhs, const RationalNumber& rhs);
-  friend RationalNumber operator+(const RationalNumber& lhs, const RationalNumber& rhs);
-  friend RationalNumber operator-(const RationalNumber& lhs, const RationalNumber& rhs);
-  RationalNumber operator*=(const RationalNumber& rhs);
-  RationalNumber operator/=(const RationalNumber& rhs);
-  RationalNumber operator+=(const RationalNumber& rhs);
-  RationalNumber operator-=(const RationalNumber& rhs);
-  friend RationalNumber operator<<(std::ostream& os, const RationalNumber& rhs);
+struct Rational
+{
+    Integer numerator;
+    Integer denominator;
+
+    Rational calcReciprocal() const;
+    double asDouble() const;
+    Rational operator-(const Rational& num);
+    friend Rational operator*(const Rational& lhs, const Rational& rhs);
+    friend Rational operator/(const Rational& lhs, const Rational& rhs);
+    friend Rational operator+(const Rational& lhs, const Rational& rhs);
+    friend Rational operator-(const Rational& lhs, const Rational& rhs);
+    Rational operator*=(const Rational& rhs);
+    Rational operator/=(const Rational& rhs);
+    Rational operator+=(const Rational& rhs);
+    Rational operator-=(const Rational& rhs);
+    friend Rational operator<<(std::ostream& os, const Rational& rhs);
 };
+
 using ByteArray = std::vector<Byte>;
+
 using BitArray = std::vector<bool>;
+
 using String = std::string;
 
 
 
-};  //namespace fluster
-};  //namespace atoms
+}; };  //namespace fluster::atoms
 
-#endif //FLUSTER_COMPILER_PRIMITIVES_TYPES
+#endif //FLUSTER_COMPILER_ATOMS_TYPES

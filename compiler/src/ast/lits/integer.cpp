@@ -6,7 +6,7 @@ namespace fluster { namespace ast { namespace lits {
 //// Construction
 
 Integer::
-Integer(int in_value)
+Integer(const atoms::Integer& in_value)
     : value(in_value)
 {
 }

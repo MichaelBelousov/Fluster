@@ -144,7 +144,7 @@ string_content      {any}*[^\\]
 /*** atomic expressions ***/
 
 
-{id}                                        return make_Identifier(str(), location());
+{id}                                        //return make_Identifier(str(), location());
 
   /* int literals */
 {decint}                                    return make_IntegerLiteral(str(), location());
@@ -153,19 +153,19 @@ string_content      {any}*[^\\]
 {decint}(\.{digit}+)?([Ee][+-]?{digit}+)?   return make_FloatLiteral(str(), location());
 
   /* byte literals */
-0x{hex}*                                    return make_HexBytesLiteral(str(), location());
+0x{hex}*                                    //return make_HexBytesLiteral(str(), location());
 
   /* bit literal */
-0b{bit}*                                    return make_BinaryBitsLiteral(str(), location());
+0b{bit}*                                    //return make_BinaryBitsLiteral(str(), location());
 
   /* octal literal */
-0o{octal}*                                  return make_OctalBitsLiteral(str(), location());
+0o{octal}*                                  //return make_OctalBitsLiteral(str(), location());
 
   /* string literal */
 \"(?u:{string_content})\"                   return make_StringLiteral(str(), location());
 
   /* raw string literal */
-\`(?u:{string_content})\`                   return make_RawStringLiteral(str(), location());
+\`(?u:{string_content})\`                   //return make_RawStringLiteral(str(), location());
 
 
 /*** comments ***/

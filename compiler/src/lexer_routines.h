@@ -3,10 +3,6 @@
 
 #include <cmath>
 
-namespace fluster {
-
-
-
 // TODO: move bytes member to its own object with better guarantees
 struct BitBuffer
 {
@@ -55,6 +51,11 @@ BitBuffer loadAsciiBitLiteral( const std::string& literal
 }
 
 yy::Parser::symbol_type 
+make_Identifier( const std::string &s
+               , const yy::Parser::location_type& loc
+               );
+
+yy::Parser::symbol_type 
 make_IntegerLiteral( const std::string &s
                    , const yy::Parser::location_type& loc
                    );
@@ -91,8 +92,5 @@ make_RawStringLiteral( const std::string &s
                      , const yy::Parser::location_type& loc
                      ); 
 
-
-
-};  //namespace Fluster
 
 #endif //FLUSTER_COMPILER_LEXER_ROUTINES

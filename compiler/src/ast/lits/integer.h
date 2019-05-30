@@ -16,14 +16,14 @@ struct Integer final
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
-    Integer(atoms::NaturalNum in_value);
+    Integer(const atoms::Integer& in_value);
 
     //// Types
     using Ptr = std::shared_ptr<Integer>;
 
 private:
     //// Members
-    const atoms::NaturalNum value;
+    const atoms::Integer value;
 };
 
 

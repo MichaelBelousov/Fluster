@@ -1,95 +1,96 @@
-#include <types.cpp>
+#include "types.cpp"
 
 namespace fluster {
 namespace atoms {
 
 
 
-RationalNumber
-::calcReciprocal const ()
+Rational
+Rational::
+calcReciprocal const ()
 {
-  return RationalNumber
-    { denominator
-    , numerator
-    };
+    return Rational
+        { denominator
+            , numerator
+        };
 }
 
-RationalNumber
-::asDouble const ()
+double
+Rational::
+asDouble const ()
 {
-  return numerator/denominator;
+    return numerator/denominator;
 }
 
-RationalNumber
-operator- (const RationalNumber& num)
+Rational
+operator- (const Rational& num)
 {
-  return RationalNumber
-    { -num.numerator
-    , num.denominator
-    };
+    return Rational
+        { -num.numerator
+            , num.denominator
+        };
 }
 
-RationalNumber
-operator* (const RationalNumber& lhs, const RationalNumber& rhs)
+Rational
+operator* (const Rational& lhs, const Rational& rhs)
 {
-  return RationalNumber
-    { lhs.numerator * rhs.numerator
-    , lhs.denominator * rhs.denominator
-    };
+    return Rational
+        { lhs.numerator * rhs.numerator
+            , lhs.denominator * rhs.denominator
+        };
 }
 
-RationalNumber
-operator/ (const RationalNumber& lhs, const RationalNumber& rhs)
+Rational
+operator/ (const Rational& lhs, const Rational& rhs)
 {
-  return lhs * rhs.calcReciprocal();
+    return lhs * rhs.calcReciprocal();
 }
 
-RationalNumber
-operator+ (const RationalNumber& lhs, const RationalNumber& rhs)
+Rational
+operator+ (const Rational& lhs, const Rational& rhs)
 {
-  return RationalNumber
-    { lhs.numerator*rhs.denominator + rhs.numerator*lhs.denominator
-    , lhs.denominator * rhs.numerator
-    };
+    return Rational
+        { lhs.numerator*rhs.denominator + rhs.numerator*lhs.denominator
+            , lhs.denominator * rhs.numerator
+        };
 }
 
-RationalNumber
-operator- (const RationalNumber& lhs, const RationalNumber& rhs)
+Rational
+operator- (const Rational& lhs, const Rational& rhs)
 {
-  return lhs + (-rhs);
+    return lhs + (-rhs);
 }
 
-RationalNumber
-operator*= (const RationalNumber& rhs)
+Rational
+operator*= (const Rational& rhs)
 {
-  *this = *this * rhs;
+    *this = *this * rhs;
 }
 
-RationalNumber
-operator/= (const RationalNumber& rhs)
+Rational
+operator/= (const Rational& rhs)
 {
-  *this = *this / rhs;
+    *this = *this / rhs;
 }
 
-RationalNumber
-operator+= (const RationalNumber& rhs)
+Rational
+operator+= (const Rational& rhs)
 {
-  *this = *this + rhs;
+    *this = *this + rhs;
 }
 
-RationalNumber
-operator-= (const RationalNumber& rhs)
+Rational
+operator-= (const Rational& rhs)
 {
-  *this = *this - rhs;
+    *this = *this - rhs;
 }
 
-RationalNumber
-operator<< (std::ostream& os, const RationalNumber& rhs)
+Rational
+operator<< (std::ostream& os, const Rational& rhs)
 {
-  os << rhs.numerator << "/" << rhs.denominator;
+    os << rhs.numerator << "/" << rhs.denominator;
 }
 
 
 
-};  //namespace fluster
-};  //namespace atoms
+}; };  //namespace fluster::atoms

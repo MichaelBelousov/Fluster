@@ -16,14 +16,14 @@ struct Float final
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
-    Float(atoms::RationalNum in_value);
+    Float(const atoms::Rational& in_value);
 
     //// Types
     using Ptr = std::shared_ptr<Float>;
 
 private:
     //// Members
-    const atoms::RationalNum value;
+    const atoms::Rational value;
 };
 
 

@@ -1,11 +1,9 @@
 #include "lexer_routines.h"
 #include "parser.gen.h"
 #include "atoms/types.h"
+#include "ast/identifier.h"
 
 #include <cmath>
-
-namespace fluster {
-
 
 
 BitBuffer::
@@ -46,18 +44,29 @@ void setBits( unsigned bit_offset
     }
 }
 
+yy::Parser::symbol_type 
+make_Identifier( const std::string &s
+               , const yy::Parser::location_type& loc
+               )
+{
+    return yy::Parser::make_Identifier(
+        std::make_shared<ast::Identifier>(s),
+        loc
+    );
+}
+
 
 yy::Parser::symbol_type 
-make_DECIMAL_INTEGER( const std::string &s
-                    , const yy::Parser::location_type& loc
-                    )
+make_IntegerLiteral( const std::string &s
+                   , const yy::Parser::location_type& loc
+                   )
 {
-    errno = 0;  //XXX: WHY?
-    long long n = strtoll (s.c_str(), NULL, 10);
-    // FIXME: use fluster::atoms::NaturalNum class to store any size integer
+    // FIXME: use atoms::Integer::parse to store big integers
+    errno = 0;  // XXX: WHY?
+    ast::Integer n = strtoll (s.c_str(), NULL, 10);
     if (n <= INT_MIN || n >= INT_MAX || errno == ERANGE)
         throw yy::Parser::syntax_error (loc, "integer is out of range: " + s);
-    return yy::Parser::make_NUMBER(n, loc);
+    return yy::Parser::make_DecimalInteger(n, loc);
 }
 
 
@@ -93,7 +102,3 @@ make_OctalBitsLiteral (const std::string &s, const yy::Parser::location_type& lo
     auto buffer = loadAsciiBitLiteral<8>(s, "0o");
     return yy::Parser::make_BitsLiteral(buffer.bytes, loc);
 }
-
-
-
-};  // namespace fluster
