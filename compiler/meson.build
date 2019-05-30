@@ -76,7 +76,32 @@ endif
 
 includes = include_directories('src')
 
-exe = executable('flusterc', 'src/main.cpp',
+
+
+main_src = [ 'src/driver.cpp'
+           , 'src/lexer.gen.cpp'
+           , 'src/lexer_routines.cpp'
+           , 'src/main.cpp'
+           , 'src/parser.gen.cpp'
+           ]
+
+ast_src = [ 'src/ast/block.cpp'
+          , 'src/ast/comma_delimited_list.cpp'
+          , 'src/ast/identifier.cpp'
+          , 'src/ast/if_statement.cpp'
+          , 'src/ast/node.cpp'
+          ]
+
+data_src = []
+
+atoms_src = [ 'src/atoms/types.cpp' ]
+
+exe = executable('flusterc',
+  'src/main.cpp',
+  main_src,
+  ast_src,
+  data_src,
+  atoms_src,
   dependencies : deps,
   cpp_args : [],
   include_directories : includes
