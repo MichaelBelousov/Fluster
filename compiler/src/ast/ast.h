@@ -30,6 +30,8 @@
 #include "lits/float.h"
 #include "lits/integer.h"
 #include "lits/string.h"
+#include "lits/bytes.h"
+#include "lits/bits.h"
 
 
 #endif //FLUSTER_COMPILER_AST
