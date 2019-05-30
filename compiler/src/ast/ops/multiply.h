@@ -25,6 +25,6 @@ struct Multiply final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_MULTIPLY

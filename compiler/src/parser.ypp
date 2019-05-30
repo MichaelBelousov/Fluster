@@ -30,7 +30,7 @@
   //namespace ast = fluster::ast;
   namespace yy {
     class Lexer;  // reflex --namespace=yy --lexer=Lexer --lex=yylex
-  };
+  }
   #undef yylex  //unlink the global yylex
   #define yylex lexer.lex  //within bison's parse invoke lexer.yylex()
 }

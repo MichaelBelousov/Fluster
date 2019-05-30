@@ -13,4 +13,4 @@ Integer(const atoms::Integer& in_value)
 
 
 
-}; }; };
+} } }

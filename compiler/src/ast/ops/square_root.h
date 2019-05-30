@@ -23,6 +23,6 @@ struct SquareRoot final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_SQUAREROOT

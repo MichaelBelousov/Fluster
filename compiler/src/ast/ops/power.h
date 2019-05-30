@@ -25,6 +25,6 @@ struct Power final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_POWER

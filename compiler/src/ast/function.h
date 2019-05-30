@@ -30,6 +30,6 @@ struct FunctionDef : public NamedDef
 };
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_FUNCTION

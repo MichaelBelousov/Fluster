@@ -39,6 +39,6 @@ struct IfStatement final
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_IF_STATEMENT

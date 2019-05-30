@@ -23,6 +23,6 @@ struct IntDivide final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_INT_DIVIDE

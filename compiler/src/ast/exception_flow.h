@@ -22,6 +22,6 @@ struct TrialBlock : public Expr {
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_EXCEPTION_FLOW

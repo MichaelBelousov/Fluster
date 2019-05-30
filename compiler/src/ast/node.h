@@ -38,7 +38,7 @@ private:
 
 
 
-}; };
+} }
 
 #include "node.tpp"
 

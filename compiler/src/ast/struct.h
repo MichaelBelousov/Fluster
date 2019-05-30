@@ -27,6 +27,6 @@ struct StructDef : public NamedDef {
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_STRUCT

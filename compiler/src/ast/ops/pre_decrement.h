@@ -23,6 +23,6 @@ struct PreDecrement final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_PREDECREMENT

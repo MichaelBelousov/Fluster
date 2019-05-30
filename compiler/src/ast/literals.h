@@ -45,6 +45,6 @@ struct StructLiteral : public Literal {
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_LITERALS

@@ -66,6 +66,6 @@ struct InvokeOperation
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPERATOR

@@ -23,6 +23,6 @@ struct Add final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_ADD

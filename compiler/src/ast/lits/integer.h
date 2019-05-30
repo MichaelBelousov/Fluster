@@ -28,6 +28,6 @@ private:
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_LITS_INTEGER

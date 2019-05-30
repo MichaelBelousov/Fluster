@@ -23,6 +23,6 @@ struct Assign final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_ASSIGN

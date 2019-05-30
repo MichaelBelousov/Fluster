@@ -27,6 +27,6 @@ IfStatement( Expr::Ptr in_cond
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_IF_STATEMENT

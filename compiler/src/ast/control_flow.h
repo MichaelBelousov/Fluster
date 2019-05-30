@@ -33,6 +33,6 @@ struct For : public Expr {
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_CONTROL_FLOW

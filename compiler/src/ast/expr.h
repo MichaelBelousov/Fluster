@@ -27,6 +27,6 @@ struct Expr
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_EXPR

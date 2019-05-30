@@ -26,6 +26,6 @@ makeRootNode()
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_BASE

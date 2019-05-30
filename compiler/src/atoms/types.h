@@ -42,6 +42,6 @@ using String = std::string;
 
 
 
-}; };  //namespace fluster::atoms
+} }  //namespace fluster::atoms
 
 #endif //FLUSTER_COMPILER_ATOMS_TYPES

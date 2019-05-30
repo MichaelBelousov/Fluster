@@ -17,6 +17,6 @@ struct VariableDef : public NamedDef
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_VARIABLE

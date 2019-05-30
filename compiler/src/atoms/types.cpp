@@ -93,4 +93,4 @@ operator<< (std::ostream& os, const Rational& rhs)
 
 
 
-}; };  //namespace fluster::atoms
+} }  //namespace fluster::atoms

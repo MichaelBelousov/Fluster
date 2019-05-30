@@ -23,6 +23,6 @@ struct Divide final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_DIVIDE

@@ -21,6 +21,6 @@ struct Negate final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_NEGATE

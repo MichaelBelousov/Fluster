@@ -15,6 +15,6 @@ struct Construct
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_DATA_CONSTRUCT

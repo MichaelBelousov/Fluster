@@ -24,6 +24,6 @@ makeChildNode(Args&& ...args)
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_NODE_TIMPL

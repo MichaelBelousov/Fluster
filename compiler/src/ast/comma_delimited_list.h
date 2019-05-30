@@ -36,6 +36,6 @@ private:
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_COMMA_DELIMITED_LIST

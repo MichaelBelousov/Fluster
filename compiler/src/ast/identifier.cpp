@@ -52,6 +52,6 @@ finalize() const
 
 
 
-}; };
+} }
 
 #endif //FLUSTER_COMPILER_AST_IDENTIFIER

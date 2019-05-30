@@ -23,6 +23,6 @@ struct AssertType final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_ASSERTTYPE

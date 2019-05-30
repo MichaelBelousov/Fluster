@@ -25,6 +25,6 @@ struct Root final
 
 
 
-}; }; };
+} } }
 
 #endif //FLUSTER_COMPILER_AST_OPS_ROOT
