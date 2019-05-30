@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_DATA_CONSTRUCT
 #define FLUSTER_COMPILER_DATA_CONSTRUCT
 
-#include <memory>
+#include "util/ptr.h"
 
 namespace fluster { namespace data {
 
@@ -10,7 +10,7 @@ namespace fluster { namespace data {
 struct Construct
 {
     //// Types
-    using Ptr = std::shared_ptr<Construct>;
+    using Ptr = util::Ptr<Construct>;
 };
 
 

@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_PREDECREMENT
 #define FLUSTER_COMPILER_AST_OPS_PREDECREMENT
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/expr.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct PreDecrement final
     PreDecrement(Expr::Ptr in_operand);
 
     //// Types
-    using Ptr = std::shared_ptr<PreDecrement>;
+    using Ptr = util::Ptr<PreDecrement>;
 };
 
 

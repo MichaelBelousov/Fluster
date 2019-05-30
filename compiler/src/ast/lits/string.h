@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_STRING
 #define FLUSTER_COMPILER_AST_LITS_STRING
 
-#include <memory>
+#include "util/ptr.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
 
@@ -16,7 +16,7 @@ struct String final
     String(const atoms::String& in_value);
 
     //// Types
-    using Ptr = std::shared_ptr<String>;
+    using Ptr = util::Ptr<String>;
 
 private:
     //// Members

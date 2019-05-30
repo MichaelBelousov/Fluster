@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_BLOCK
 
 #include <vector>
-#include <memory>
+#include "util/ptr.h"
 #include "node.h"
 
 namespace fluster { namespace ast {
@@ -13,7 +13,7 @@ struct Block final
     : public Node
 {
     //// Types
-    using Ptr = std::shared_ptr<Block>;
+    using Ptr = util::Ptr<Block>;
 
     //// Methods
     void

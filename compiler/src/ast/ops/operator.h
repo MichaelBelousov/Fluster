@@ -3,9 +3,9 @@
 
 #include <array>
 #include <vector>
-#include <memory>
+#include "util/ptr.h"
 #include "ast/expr.h"
-#include "util.h"
+#include "util/preallocated_vector.h"
 
 namespace fluster { namespace ast { namespace ops {
 
@@ -14,7 +14,7 @@ namespace fluster { namespace ast { namespace ops {
 struct Operator
     : public Expr
 {
-    using Ptr = std::shared_ptr<Operator>;
+    using Ptr = util::Ptr<Operator>;
 };
 
 template< int N

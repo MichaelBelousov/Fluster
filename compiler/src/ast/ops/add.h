@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_ADD
 #define FLUSTER_COMPILER_AST_OPS_ADD
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct Add final
     Add(Expr::Ptr left, Expr::Ptr right);
 
     //// Types
-    using Ptr = std::shared_ptr<Add>;
+    using Ptr = util::Ptr<Add>;
 };
 
 

@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_BITS
 #define FLUSTER_COMPILER_AST_LITS_BITS
 
-#include <memory>
+#include "util/ptr.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
 
@@ -19,7 +19,7 @@ struct Bits final
     Bits(const atoms::BitArray& in_value);
 
     //// Types
-    using Ptr = std::shared_ptr<Bits>;
+    using Ptr = util::Ptr<Bits>;
 
 private:
     //// Members

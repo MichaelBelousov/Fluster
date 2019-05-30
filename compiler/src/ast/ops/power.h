@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_POWER
 #define FLUSTER_COMPILER_AST_OPS_POWER
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -20,7 +20,7 @@ struct Power final
          );
 
     //// Types
-    using Ptr = std::shared_ptr<Power>;
+    using Ptr = util::Ptr<Power>;
 };
 
 

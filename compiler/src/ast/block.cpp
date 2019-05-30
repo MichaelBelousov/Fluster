@@ -8,7 +8,8 @@ void
 Block::
 append(Node::Ptr in)
 {
-    lines.emplace_back(std::move(in));
+    //std::move
+    lines.emplace_back(in);
 }
 
 

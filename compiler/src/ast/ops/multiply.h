@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_MULTIPLY
 #define FLUSTER_COMPILER_AST_OPS_MULTIPLY
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -20,7 +20,7 @@ struct Multiply final
             );
 
     //// Types
-    using Ptr = std::shared_ptr<Multiply>;
+    using Ptr = util::Ptr<Multiply>;
 };
 
 

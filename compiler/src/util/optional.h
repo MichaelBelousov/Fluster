@@ -1,5 +1,5 @@
-#ifndef FLUSTER_COMPILER_UTIL_H
-#define FLUSTER_COMPILER_UTIL_H
+#ifndef FLUSTER_COMPILER_UTIL_OPTIONAL_H
+#define FLUSTER_COMPILER_UTIL_OPTIONAL_H
 
 #include <utility>
 
@@ -57,21 +57,7 @@ public:
 };
 
 
-// do NOT add any methods or members that would cause this object to
-// be interpreted differently from a regular std::vector
-template<typename T, std::size_t PreallocationAmt, typename ...VecRestArgs>
-struct PreallocatedVector final
-    : public std::vector<T, VecRestArgs...>
-{
-    PreallocatedVector()
-        : std::vector<T, VecRestArgs...>()
-    {
-        this->reserve(PreallocationAmt);
-    }
-};
-
-
 
 } }
 
-#endif //FLUSTER_COMPILER_VALUE_H
+#endif //FLUSTER_COMPILER_UTIL_OPTIONAL_H

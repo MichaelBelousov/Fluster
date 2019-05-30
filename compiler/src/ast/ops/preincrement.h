@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_PREINCREMENT
 #define FLUSTER_COMPILER_AST_OPS_PREINCREMENT
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/expr.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct PreIncrement final
     PreIncrement(Expr::Ptr in_operand);
 
     //// Types
-    using Ptr = std::shared_ptr<PreIncrement>;
+    using Ptr = util::Ptr<PreIncrement>;
 };
 
 

@@ -1,4 +1,4 @@
-#include <memory>
+#include "node.h"
 #include "if_statement.h"
 
 namespace fluster { namespace ast {
@@ -9,7 +9,7 @@ Node::Ptr
 IfStatement::
 empty()
 {
-    return std::make_shared<Node>();
+    return Node::Ptr();
 }
 
 //// Construction

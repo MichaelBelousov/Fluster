@@ -1,12 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_NODE
 #define FLUSTER_COMPILER_AST_NODE
 
-/* The fluster data holds immutable, finalized versions
- * of each fluster construct, in a code base, after they
- * have been parsed, and its usage has been semantically validated
- */
-
-#include <memory>
+#include "util/ptr.h"
 #include "data/construct.h"
 
 namespace fluster { namespace ast {
@@ -17,7 +12,7 @@ struct Node
     : public std::enable_shared_from_this<Node>
 {
     //// Types
-    using Ptr = std::shared_ptr<Node>;
+    using Ptr = util::Ptr<Node>;
 
     //// Methods
     //virtual const data::Construct::Ptr finalize() const = 0;
@@ -39,7 +34,7 @@ struct Node
     Node();
 
     //// Members
-    const std::weak_ptr<Node> outer;
+    const WeakPtr<Node> outer;
 };
 
 

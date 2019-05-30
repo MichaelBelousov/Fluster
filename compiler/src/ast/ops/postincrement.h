@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_POSTINCREMENT
 #define FLUSTER_COMPILER_AST_OPS_POSTINCREMENT
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/expr.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct PostIncrement final
     PostIncrement(Expr::Ptr in_operand);
 
     //// Types
-    using Ptr = std::shared_ptr<PostIncrement>;
+    using Ptr = util::Ptr<PostIncrement>;
 };
 
 

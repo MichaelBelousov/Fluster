@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_COMMA_DELIMITED_LIST
 
 #include <vector>
-#include <memory>
+#include "util/ptr.h"
 #include "node.h"
 #include "block.h"
 
@@ -14,7 +14,7 @@ struct CommaDelimitedList final
     : public Node
 {
     //// Types
-    using Ptr = std::shared_ptr<CommaDelimitedList>;
+    using Ptr = util::Ptr<CommaDelimitedList>;
 
     //// Methods
     void

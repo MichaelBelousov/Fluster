@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_ROOT
 #define FLUSTER_COMPILER_AST_OPS_ROOT
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -20,7 +20,7 @@ struct Root final
         );
 
     //// Types
-    using Ptr = std::shared_ptr<Root>;
+    using Ptr = util::Ptr<Root>;
 };
 
 

@@ -9,6 +9,7 @@ this specification.
   #include "parser.gen.h"
   //#include "driver.h"
   #include "lexer_routines.h"
+  #include <iostream>
 %}
 
  /* additional members of the Lexer class */
@@ -30,6 +31,7 @@ octal               [0-7]
 decnum_start        [1-9]+
 decint              {decnum_start}{digit}*
 any                 .|\n
+ANY                 .|\n|<<EOF>>
 string_content      {any}*[^\\]
 
 
@@ -37,6 +39,7 @@ string_content      {any}*[^\\]
 
 %o debug
 
+%o unicode
 %o reentrant
 %o noyywrap nounput noinput batch debug
 %o namespace=yy
@@ -52,8 +55,9 @@ string_content      {any}*[^\\]
 /*** States ***/
 
 /* backslash handling states */
+%x  INNER_BACKSLASH_EMIT_NL
 %x  INNER_BACKSLASH_EMIT_INDENT
-%s  INNER_BACKSLASH_EMIT_NL
+%s  INNER_BACKSLASH_READ_REST
 %x  INNER_BACKSLASH_EMIT_OUTDENT
 
 %%
@@ -61,6 +65,8 @@ string_content      {any}*[^\\]
 
  /*** Operators ***/
 
+"++"            return yy::Parser::make_S_PLUS_PLUS(location());
+"--"            return yy::Parser::make_S_DASH_DASH(location());
 "<"             return yy::Parser::make_S_LANGLE(location());
 "<="            return yy::Parser::make_S_LANGLE_EQ(location());
 "=="            return yy::Parser::make_S_EQ_EQ(location());
@@ -115,8 +121,6 @@ string_content      {any}*[^\\]
 ":"             return yy::Parser::make_S_COLON(location());
 "@"             return yy::Parser::make_S_AT(location());
 "?"             return yy::Parser::make_S_QUES(location());
-"++"            return yy::Parser::make_S_PLUS_PLUS(location());
-"--"            return yy::Parser::make_S_DASH_DASH(location());
 
  /*** Keywords ***/
 \<in\>          return yy::Parser::make_S_IN(location());
@@ -182,7 +186,7 @@ string_content      {any}*[^\\]
 
 /*** control ***/
 
-  /* eof */
+  /*<INITIAL>*/
 <<EOF>>                                     return yy::Parser::make_S_END(location());
 
 
@@ -200,25 +204,35 @@ string_content      {any}*[^\\]
 \\$             //will need to do some exclusive states here
 
   /* return NL, INDENT, *, NL, OUTDENT */
-\\              { start(INNER_BACKSLASH_EMIT_INDENT);
+\\              { start(INNER_BACKSLASH_EMIT_NL);
                   return yy::Parser::make_S_NL(location());
                 }
 
-<INNER_BACKSLASH_EMIT_INDENT>. {
-                  start(INNER_BACKSLASH_EMIT_OUTDENT);
+<INNER_BACKSLASH_EMIT_NL>{ANY} {
+                  start(INNER_BACKSLASH_EMIT_INDENT);
+                  matcher().less(0);  //FIXME: use push parser instead
+                  return yy::Parser::make_S_NL(location());
+                }
+
+<INNER_BACKSLASH_EMIT_INDENT>{ANY} {
+                  start(INNER_BACKSLASH_READ_REST);
+                  matcher().less(0);
                   return yy::Parser::make_S_INDENT(location());
                 }
 
-<INNER_BACKSLASH_EMIT_NL>\n {
+<INNER_BACKSLASH_READ_REST>\n {
                   start(INNER_BACKSLASH_EMIT_OUTDENT);
                   return yy::Parser::make_S_NL(location());
                 }
-<INNER_BACKSLASH_EMIT_OUTDENT>. {
+
+<INNER_BACKSLASH_EMIT_OUTDENT>{ANY} {
                   start(INITIAL);
+                  matcher().less(0);
                   return yy::Parser::make_S_OUTDENT(location());
                 }
 
-\n              return yy::Parser::make_S_NL(location());
+<INITIAL>\n              return yy::Parser::make_S_NL(location());
+
 [ \t\r]         //ignore space
 
 

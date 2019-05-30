@@ -1,5 +1,4 @@
 #include <vector>
-#include <memory>
 #include "comma_delimited_list.h"
 
 namespace fluster { namespace ast {
@@ -21,16 +20,14 @@ Node::Ptr
 CommaDelimitedList::
 empty()
 {
-    return std::static_pointer_cast<Node>(
-        std::make_shared<CommaDelimitedList>()
-    );
+    return CommaDelimitedList::Ptr().CastUp<Node>();
 }
 
 CommaDelimitedList::Ptr
 CommaDelimitedList::
 fromFirst(Node::Ptr first)
 {
-    CommaDelimitedList::Ptr result = std::make_shared<CommaDelimitedList>();
+    auto result = CommaDelimitedList::Ptr();
     result->elements.emplace_back(first);
     return result;
 }

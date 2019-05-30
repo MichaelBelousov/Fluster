@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_ASSIGN
 #define FLUSTER_COMPILER_AST_OPS_ASSIGN
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct Assign final
     Assign(Expr::Ptr left, Expr::Ptr right);
 
     //// Types
-    using Ptr = std::shared_ptr<Assign>;
+    using Ptr = util::Ptr<Assign>;
 };
 
 

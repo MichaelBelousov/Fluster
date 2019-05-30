@@ -26,7 +26,6 @@
   //#include "driver.h"
   #include "ast/ast.h"
   //XXX: remove this so inclusion doesn't use the namespace!
-  //namespace ast = fluster::ast;
   namespace yy {
     class Lexer;  // reflex --namespace=yy --lexer=Lexer --lex=yylex
   }
@@ -37,7 +36,7 @@
 %code top {
   #include <iostream>
   #include <string>
-  #include <memory>
+  #include "util/ptr.h"
   #include "atoms/types.h"
 }
 
@@ -47,21 +46,6 @@
   #include "lexer.gen.h"
   #include "location.gen.h"
   using namespace fluster;
-
-  template<typename T>
-  fluster::ast::Expr::Ptr asExprPtr(T&& t) {
-    return std::static_pointer_cast<fluster::ast::Expr>(
-      std::forward<T>(t)
-    );
-  }
-
-  template<typename T>
-  fluster::ast::Node::Ptr asNodePtr(T&& t) {
-    return std::static_pointer_cast<fluster::ast::Node>(
-      std::forward<T>(t)
-    );
-  }
-
 }
 
 /*
@@ -243,7 +227,7 @@ skipToNextLine()
 
 code
   : %empty
-    { $$ = fluster::ast::Block::empty(); }
+    { $$ = ast::Block::empty(); }
   | code line
     { $1->append($2); }
   ;
@@ -251,26 +235,23 @@ code
 line
   : expr S_NL
     { $$ = $1; }
-  /*
   | S_NL
-    { $$ = fluster::ast::Block::empty(); }  /* TODO: handle empty statements better? */
-  /*
+    { $$ = ast::Block::empty(); }  /* TODO: handle empty statements better? */
   | statement S_NL
     { $$ = $1; }
   | error S_NL
     { yyerrok; }
-  */
   ;
 
 block
   : S_INDENT code S_OUTDENT
-    { $$ = fluster::ast::Block::Ptr($2); }
+    { $$ = fluster::ast::Block::Ptr::copy($2); }
   ;
 
 /* Expressions */
 statement
   : if
-    { $$ = asNodePtr($1); }
+    { $$ = $1.castUp<fluster::ast::Node>(); }
   ;
 
 expr
@@ -284,7 +265,7 @@ expr
   */
 
   : IntegerLiteral
-    { $$ = asExprPtr($1); }
+    { $$ = $1.castUp<fluster::ast::Node>(); }
 
   /*
   | FloatLiteral
@@ -297,34 +278,23 @@ expr
   /* prefix */
   | S_PLUS_PLUS expr
     %prec PREINCREMENT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::PreIncrement>($2)
-      );
-    }
+    { $$ = fluster::ast::ops::PreIncrement::Ptr($2).castUp<Expr>(); }
 
   /*
   | S_DASH_DASH expr
     %prec PREDECREMENT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::PreDecrement>($2)
-      );
-    }
+    { $$ = fluster::ast::ops::PreDecrement::Ptr($2).castUp<Expr>(); }
 
   | S_DASH expr
     %prec NEGATE
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Negate>($2)
-      );
-    }
+    { $$ = fluster::ast::ops::Negate::Ptr($2).castUp<Expr>(); }
 
   | S_CARET_FSLASH expr
     %prec SQUARE_ROOT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Root>(
-              std::make_shared<fluster::ast::lits::Integer>(2),
-              $2
-          )
-      );
+    { $$ = fluster::ast::ops::Root::Ptr(
+        fluster::ast::lists::Integer::Ptr(2),
+        $2
+      ).castUp<Expr>();
     }
   */
 
@@ -332,89 +302,56 @@ expr
   /*
   | expr S_PLUS_PLUS
     %prec POSTINCREMENT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::PostIncrement>($1)
-      );
-    }
+    { $$ = fluster::ast::ops::PostIncrement::Ptr($2).castUp<Expr>(); }
 
   | expr S_DASH_DASH
     %prec POSTDECREMENT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::PostDecrement>($1)
-      );
-    }
+    { $$ = fluster::ast::ops::PostDecrement::Ptr($2).castUp<Expr>(); }
   */
 
   /* binary */
   | expr S_PLUS expr
     %prec ADD
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Add>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::Add::Ptr($1, $3).castUp<Expr>(); }
   /*
 
   | expr S_DASH expr
     %prec SUB
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Subtract>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::Subtract::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_STAR expr
     %prec MULT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Multiply>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::Multiply::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_FSLASH expr
     %prec DIV
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Divide>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::Divide::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_FSLASH_FSLASH expr
     %prec DIV
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::IntDivide>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::IntDivide::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_CARET_FSLASH expr
     %prec ROOT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Root>($1, $3)
-      ); 
-    }
+    { $$ = fluster::ast::ops::Root::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_CARET expr
     %prec POW
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Power>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::Power::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_EQ expr
     %prec ASSIGN
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::Assign>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::Assign::Ptr($1, $3).castUp<Expr>(); }
 
   | expr S_COLON expr
     %prec TYPE_ASSERT
-    { $$ = asExprPtr(
-          std::make_shared<fluster::ast::ops::AssertType>($1, $3)
-      );
-    }
+    { $$ = fluster::ast::ops::AssertType::Ptr($1, $3).castUp<Expr>(); }
   */
 
   /* other */
   /*
   | lambda_expr
-    { $$ = asExprPtr($1); }
+    { $$ = $1.castUp<Expr>(); }
   */
   ;
 
@@ -440,7 +377,7 @@ if
   : KW_IF expr S_NL
       block
     if_follow_up
-    { $$ = std::make_shared<fluster::ast::IfStatement>($2, $4); }
+    { $$ = fluster::ast::IfStatement::Ptr($2, $4); }
   ;
 
 
@@ -452,7 +389,7 @@ if_follow_up
   | KW_ELIF expr S_NL
       block
     if_follow_up
-    { $$ = std::make_shared<fluster::ast::IfStatement>($2, $4, $5); }
+    { $$ = fluster::ast::IfStatement::Ptr($2, $4, $5); }
 
   | KW_ELSE S_NL
       block

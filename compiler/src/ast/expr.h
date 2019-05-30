@@ -6,9 +6,8 @@
  * have been parsed, and its usage has been semantically validated
  */
 
-#include <memory>
+#include "util/ptr.h"
 #include "node.h"
-#include "util.h"
 
 namespace fluster { namespace ast {
 
@@ -19,7 +18,7 @@ struct Expr
 {
     //// Types
 
-    using Ptr = std::shared_ptr<Expr>;
+    using Ptr = util::Ptr<Expr>;
 
     //begin //TODO: iterate over expr underlying?
     //end

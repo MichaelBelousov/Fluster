@@ -1,15 +1,14 @@
 #include "node.h"
-#include <memory>
+#include "util/ptr.h"
 
 namespace fluster { namespace ast {
-
 
 
 //// Construction
 
 Node::
 Node()
-    : outer(std::weak_ptr<Node>())
+    : outer(WeakPtr<Node>())
 {}
 
 Node::
@@ -24,7 +23,7 @@ Node::
 makeRootNode()
 {
     // TODO: have custom function for making Node::Ptr's
-    return std::make_shared<Node>();
+    return Node::Ptr();
 }
 
 

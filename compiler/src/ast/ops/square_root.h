@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_SQUAREROOT
 #define FLUSTER_COMPILER_AST_OPS_SQUAREROOT
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct SquareRoot final
     SquareRoot(Expr::Ptr in_operand);
 
     //// Types
-    using Ptr = std::shared_ptr<SquareRoot>;
+    using Ptr = util::Ptr<SquareRoot>;
 };
 
 

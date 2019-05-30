@@ -1,11 +1,9 @@
 #ifndef FLUSTER_COMPILER_AST_IF_STATEMENT
 #define FLUSTER_COMPILER_AST_IF_STATEMENT
 
-#include <memory>
+#include "util/ptr.h"
 #include "node.h"
-#include "block.h"
 #include "expr.h"
-#include "util.h"
 
 namespace fluster { namespace ast {
 
@@ -15,7 +13,7 @@ struct IfStatement final
     : public Node
 {
     //// Types
-    using Ptr = std::shared_ptr<IfStatement>;
+    using Ptr = util::Ptr<IfStatement>;
 
     //// Methods
     static

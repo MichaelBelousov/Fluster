@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_INT_DIVIDE
 #define FLUSTER_COMPILER_AST_OPS_INT_DIVIDE
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -18,7 +18,7 @@ struct IntDivide final
     IntDivide(Expr::Ptr left, Expr::Ptr right);
 
     //// Types
-    using Ptr = std::shared_ptr<IntDivide>;
+    using Ptr = util::Ptr<IntDivide>;
 };
 
 

@@ -2,8 +2,8 @@
 #define FLUSTER_COMPILER_AST_IDENTIFIER
 
 #include <string>
-#include <memory>
 #include <regex>
+#include "util/ptr.h"
 #include "expr.h"
 
 namespace fluster { namespace ast {
@@ -41,7 +41,7 @@ struct Identifier final
     //const data::Construct::Ptr finalize() const override;
 
     //// Types
-    using Ptr = std::shared_ptr<Identifier>;
+    using Ptr = util::Ptr<Identifier>;
 
 private:
     //// Members

@@ -1,7 +1,6 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_NEGATE
 #define FLUSTER_COMPILER_AST_OPS_NEGATE
 
-#include <memory>
 #include "ast/expr.h"
 #include "operator.h"
 
@@ -16,7 +15,7 @@ struct Negate final
     Negate(Expr::Ptr in_operand);
 
     //// Types
-    using Ptr = std::shared_ptr<Negate>;
+    using Ptr = util::Ptr<Negate>;
 };
 
 

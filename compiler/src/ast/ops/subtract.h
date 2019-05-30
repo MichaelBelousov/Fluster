@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_SUBTRACT
 #define FLUSTER_COMPILER_AST_OPS_SUBTRACT
 
-#include <memory>
+#include "util/ptr.h"
 #include "ast/node.h"
 #include "operator.h"
 
@@ -20,7 +20,7 @@ struct Subtract final
             );
 
     //// Types
-    using Ptr = std::shared_ptr<Subtract>;
+    using Ptr = util::Ptr<Subtract>;
 };
 
 

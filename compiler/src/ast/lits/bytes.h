@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_BYTES
 #define FLUSTER_COMPILER_AST_LITS_BYTES
 
-#include <memory>
+#include "util/ptr.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
 
@@ -19,7 +19,7 @@ struct Bytes final
     Bytes(const atoms::ByteArray& in_value);
 
     //// Types
-    using Ptr = std::shared_ptr<Bytes>;
+    using Ptr = util::Ptr<Bytes>;
 
 private:
     //// Members

@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_INTEGER
 #define FLUSTER_COMPILER_AST_LITS_INTEGER
 
-#include <memory>
+#include "util/ptr.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
 
@@ -19,7 +19,7 @@ struct Integer final
     Integer(const atoms::Integer& in_value);
 
     //// Types
-    using Ptr = std::shared_ptr<Integer>;
+    using Ptr = util::Ptr<Integer>;
 
 private:
     //// Members

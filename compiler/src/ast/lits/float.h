@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_FLOAT
 #define FLUSTER_COMPILER_AST_LITS_FLOAT
 
-#include <memory>
+#include "util/ptr.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
 
@@ -19,7 +19,7 @@ struct Float final
     Float( const atoms::Rational& in_value );
 
     //// Types
-    using Ptr = std::shared_ptr<Float>;
+    using Ptr = util::Ptr<Float>;
 
 private:
     //// Members
