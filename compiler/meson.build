@@ -47,9 +47,7 @@ if parser_gen_result.returncode() != 0
   error('parser generation failed\n'
        + parser_gen_result.stderr())
 else
-  if get_option('verbose')
-    message(open(join_paths(src_dir, 'parser.gen.output')).read())
-  endif
+  # message(open(join_paths(src_dir, 'parser.gen.output')).read())
   message('finished parser generation')
 endif
 
@@ -75,11 +73,13 @@ if get_option('buildtype') == 'debug'
   add_project_arguments('-DDEBUG', language : ['cpp'])
 endif
 
-# inc_include = include_directories('include')
+
+includes = include_directories('src')
 
 exe = executable('flusterc', 'src/main.cpp',
   dependencies : deps,
-  cpp_args : []
+  cpp_args : [],
+  include_directories : includes
 )
 #install : true
 

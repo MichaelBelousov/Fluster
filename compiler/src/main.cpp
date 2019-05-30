@@ -4,7 +4,7 @@
 
 using yy::Lexer, yy::Parser;
 
-int main(int argc, char*[] argv)
+int main(int argc, char* argv[])
 {
     std::ios::sync_with_stdio(false);
 
