@@ -212,11 +212,9 @@ skipToNextLine()
 %token <fluster::ast::Identifier::Ptr> Identifier
 %token <fluster::ast::lits::Integer::Ptr> IntegerLiteral
 %token <fluster::ast::lits::Float::Ptr> FloatLiteral
+%token <fluster::ast::lits::Bytes> BytesLiteral
+%token <fluster::ast::lits::Bits> BitsLiteral
 %token <fluster::ast::lits::String::Ptr> StringLiteral
-/*
-%token <fluster::atoms::ByteArray> BytesLiteral
-%token <fluster::atoms::BitArray> BitsLiteral
-*/
 
 %type <fluster::ast::Expr::Ptr> expr
 %type <fluster::ast::Node::Ptr> statement

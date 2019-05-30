@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_LITS_STRING
 
 #include <memory>
-#include "data/construct.h"
+#include "atoms/types.h"
 #include "ast/expr.h"
 
 namespace fluster { namespace ast { namespace lits {
@@ -12,14 +12,16 @@ namespace fluster { namespace ast { namespace lits {
 struct String final
     : public Expr
 {
+    //// Construction
+    String(atoms::String in_value);
+
     //// Types
     using Ptr = std::shared_ptr<String>;
 
-    //// Construction
-    String();
+private:
+    //// Members
+    const atoms::String value;
 
-    //// Methods
-    //const data::Construct::Ptr finalize() const final;
 };
 
 

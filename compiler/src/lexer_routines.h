@@ -7,6 +7,7 @@ namespace fluster {
 
 
 
+// TODO: move bytes member to its own object with better guarantees
 struct BitBuffer
 {
     unsigned int bytes_len;
@@ -23,6 +24,7 @@ void setBits( unsigned bit_offset
             );
 
 
+// TODO: move implementation to tpp file
 template<int base>
 BitBuffer loadAsciiBitLiteral( const std::string& literal
                              , const std::string& prefix
@@ -53,41 +55,44 @@ BitBuffer loadAsciiBitLiteral( const std::string& literal
 }
 
 yy::Parser::symbol_type 
-make_DECIMAL_INTEGER( const std::string &s
-                    , const yy::Parser::location_type& loc
-                    );
+make_IntegerLiteral( const std::string &s
+                   , const yy::Parser::location_type& loc
+                   );
 
 
 yy::Parser::symbol_type 
-make_DECIMAL_FLOAT( const std::string &s
-                  , const yy::Parser::location_type& loc
-                  ); 
+make_FloatLiteral( const std::string &s
+                 , const yy::Parser::location_type& loc
+                 ); 
 
 /* byte literals */
 yy::Parser::symbol_type 
-make_HEXBYTES( const std::string &s
-             , const yy::Parser::location_type& loc
-             );
+make_HexBytesLiteral( const std::string &s
+                    , const yy::Parser::location_type& loc
+                    );
 
 yy::Parser::symbol_type 
-make_BINARY_BITS( const std::string &s
-                , const yy::Parser::location_type& loc
-                );
+make_BinaryBitsLiteral( const std::string &s
+                      , const yy::Parser::location_type& loc
+                      );
 
 yy::Parser::symbol_type 
-make_OCTAL_BITS( const std::string &s
-               , const yy::Parser::location_type& loc
-               );
+make_OctalBitsLiteral( const std::string &s
+                     , const yy::Parser::location_type& loc
+                     );
 
-//yy::parser::symbol_type 
-//make_STRING (const std::string &s, const yy::parser::location_type& loc);
+yy::Parser::symbol_type 
+make_StringLiteral( const std::string &s
+                  , const yy::Parser::location_type& loc
+                  );
 
-//yy::parser::symbol_type 
-//make_UNICODESTRING (const std::string &s, const yy::parser::location_type& loc);
+yy::Parser::symbol_type 
+make_RawStringLiteral( const std::string &s
+                     , const yy::Parser::location_type& loc
+                     ); 
 
-//yy::parser::symbol_type 
-//make_RAWSTRING (const std::string &s, const yy::parser::location_type& loc); 
 
-}; //namespace Fluster
+
+};  //namespace Fluster
 
 #endif //FLUSTER_COMPILER_LEXER_ROUTINES

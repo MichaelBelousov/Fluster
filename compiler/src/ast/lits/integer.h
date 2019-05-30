@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_LITS_INTEGER
 
 #include <memory>
-#include "data/construct.h"
+#include "atoms/types.h"
 #include "ast/expr.h"
 
 namespace fluster { namespace ast { namespace lits {
@@ -16,14 +16,14 @@ struct Integer final
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
-    Integer(int in_value);
+    Integer(atoms::NaturalNum in_value);
 
     //// Types
     using Ptr = std::shared_ptr<Integer>;
 
 private:
     //// Members
-    int value;
+    const atoms::NaturalNum value;
 };
 
 
