@@ -43,6 +43,7 @@ parser = custom_target(
                '--defines=@OUTPUT1@']
 )
 
+# llvm dependency
 
 llvm_modules = ['all-targets']
 llvm_version = '>= 6.0.0'
@@ -53,12 +54,33 @@ llvm_dep = dependency('llvm',
 )
   
 if not llvm_dep.found()
-  error('LLVM (version at least 8.0.0) not found')
+  error('LLVM (version @0@) not found'.format(llvm_version))
 else
   llvm_version = llvm_dep.version().split('.')
   deps += [llvm_dep]
 endif
 
+# reflex dependency
+
+reflex_dep = compiler.find_library(
+  'reflex',
+  dirs : ['/usr/local/lib']
+)
+
+deps += reflex_dep
+
+#reflex_version = '>= 1.2.1'
+
+#reflex_dep = dependency(
+  #'reflex',
+  #version : reflex_version
+#)
+
+#if not reflex_dep.found()
+  #error('Reflex (version @0@) not found'.format(reflex_version))
+#else
+  #deps += [reflex_dep]
+#endif
 
 
 if get_option('buildtype') == 'debug'
@@ -86,12 +108,10 @@ data_src = []
 
 atoms_src = [ 'src/atoms/types.cpp' ]
 
+srcs = ['src/main.cpp'] + main_src + ast_src + data_src + atoms_src
+
 exe = executable('flusterc',
-  'src/main.cpp',
-  main_src,
-  ast_src,
-  data_src,
-  atoms_src,
+  srcs,
   dependencies : deps,
   cpp_args : [],
   include_directories : includes
