@@ -12,7 +12,6 @@ append(Node::Ptr in)
 }
 
 
-static
 Block::Ptr
 Block::
 empty()

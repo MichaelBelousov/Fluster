@@ -22,6 +22,17 @@ makeChildNode(Args&& ...args)
     return result;
 }
 
+template<typename T, typename ...Args>
+Node::Ptr
+Node::
+makeParentNode(Args&& ...args)
+{
+    Node::Ptr result = new T(std::forward<Args>(args)...);
+    const_cast<std::weak_ptr<Node>&>(this->outer) =
+        result->shared_from_this();
+    return result;
+}
+
 
 
 } }

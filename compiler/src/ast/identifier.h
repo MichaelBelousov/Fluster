@@ -14,23 +14,19 @@ struct Name final
 {
 private:
     //// Constants
-
     static
     const std::regex valid_pattern;
 
     //// Members
-
     const std::string value;
 
 public:
     //// Construction
-
     Name(const std::string& in_value);
 
     //// Methods
-
     static
-    const bool
+    bool
     isValidName(const std::string& in);
 };
 

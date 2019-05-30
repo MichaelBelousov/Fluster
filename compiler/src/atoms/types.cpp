@@ -1,94 +1,130 @@
-#include "types.cpp"
+#include "types.h"
 
 namespace fluster {
 namespace atoms {
 
 
 
+//// Construction
+
+Rational::
+Rational(const Integer& in_numerator, const Integer& in_denominator)
+    : numerator(in_numerator)
+    , denominator(in_denominator)
+{}
+
+// build a rational from a floating point number
+Rational::
+Rational(double in_value)
+{
+    // FIXME: use David Eppstein's fractional approximation for real numbers
+    // FIXME: this doesn't work for a large class of inputs and is only temporary
+    constexpr const long long LARGE_VALUE = 1000000;
+    numerator = static_cast<int>(in_value * LARGE_VALUE);
+    denominator = LARGE_VALUE;
+}
+
+//// Methods
+
 Rational
 Rational::
-calcReciprocal const ()
+calcReciprocal() const
 {
     return Rational
         { denominator
-            , numerator
+        , numerator
         };
 }
 
 double
 Rational::
-asDouble const ()
+asDouble() const
 {
     return numerator/denominator;
 }
 
 Rational
-operator- (const Rational& num)
+Rational::
+operator- () const
 {
     return Rational
-        { -num.numerator
-            , num.denominator
+        { -numerator
+        , denominator
         };
 }
 
 Rational
-operator* (const Rational& lhs, const Rational& rhs)
+operator* ( const Rational& lhs
+          , const Rational& rhs
+          )
 {
     return Rational
         { lhs.numerator * rhs.numerator
-            , lhs.denominator * rhs.denominator
+        , lhs.denominator * rhs.denominator
         };
 }
 
 Rational
-operator/ (const Rational& lhs, const Rational& rhs)
+operator/ ( const Rational& lhs
+          , const Rational& rhs
+          )
 {
     return lhs * rhs.calcReciprocal();
 }
 
 Rational
-operator+ (const Rational& lhs, const Rational& rhs)
+operator+ ( const Rational& lhs
+          , const Rational& rhs
+          )
 {
     return Rational
         { lhs.numerator*rhs.denominator + rhs.numerator*lhs.denominator
-            , lhs.denominator * rhs.numerator
+        , lhs.denominator * rhs.numerator
         };
 }
 
 Rational
-operator- (const Rational& lhs, const Rational& rhs)
+operator- ( const Rational& lhs
+          , const Rational& rhs
+          )
 {
     return lhs + (-rhs);
 }
 
-Rational
+Rational&
+Rational::
 operator*= (const Rational& rhs)
 {
-    *this = *this * rhs;
+    return *this = *this * rhs;
 }
 
-Rational
+Rational&
+Rational::
 operator/= (const Rational& rhs)
 {
-    *this = *this / rhs;
+    return *this = *this / rhs;
 }
 
-Rational
+Rational&
+Rational::
 operator+= (const Rational& rhs)
 {
-    *this = *this + rhs;
+    return *this = *this + rhs;
 }
 
-Rational
+Rational&
+Rational::
 operator-= (const Rational& rhs)
 {
-    *this = *this - rhs;
+    return *this = *this - rhs;
 }
 
-Rational
-operator<< (std::ostream& os, const Rational& rhs)
+std::ostream&
+operator<< ( std::ostream& os
+           , const Rational& rhs
+           )
 {
-    os << rhs.numerator << "/" << rhs.denominator;
+    return os << rhs.numerator << "/" << rhs.denominator;
 }
 
 

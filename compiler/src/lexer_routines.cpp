@@ -4,6 +4,7 @@
 #include "ast/identifier.h"
 
 #include <cmath>
+#include <limits>
 
 
 BitBuffer::
@@ -23,17 +24,17 @@ BitBuffer::
 }
 
 
-void setBits( unsigned bit_offset
-            , unsigned int bits_len
-            , unsigned char bits
-            , unsigned char bytes[]
+void setBits( const unsigned bit_offset
+            , const unsigned int bits_len
+            , const unsigned char bits
+            ,       unsigned char bytes[]
             )
 {
-    using cui32 = const unsigned;
-    constexpr cuint left_byte_id = bit_offset/8;
-    constexpr cuint left_bound = bit_offset % 8;
-    constexpr cuint right_byte_id = (bit_offset-1+bits_len)/8;
-    constexpr cuint right_bound = (bit_offset-1+bits_len) % 8;
+    using cu32 = const unsigned;
+    cu32 left_byte_id = bit_offset / 8;
+    cu32 left_bound = bit_offset % 8;
+    cu32 right_byte_id = (bit_offset-1+bits_len) / 8;
+    cu32 right_bound = (bit_offset-1+bits_len) % 8;
 
     if (left_byte_id == right_byte_id)
         bytes[right_byte_id] |= bits << (8-(right_bound+1));
@@ -50,7 +51,7 @@ make_Identifier( const std::string &s
                )
 {
     return yy::Parser::make_Identifier(
-        std::make_shared<ast::Identifier>(s),
+        std::make_shared<fluster::ast::Identifier>(s),
         loc
     );
 }
@@ -63,10 +64,16 @@ make_IntegerLiteral( const std::string &s
 {
     // FIXME: use atoms::Integer::parse to store big integers
     errno = 0;  // XXX: WHY?
-    ast::Integer n = strtoll (s.c_str(), NULL, 10);
-    if (n <= INT_MIN || n >= INT_MAX || errno == ERANGE)
+    fluster::atoms::Integer n = strtoll (s.c_str(), NULL, 10);
+    if ( n <= std::numeric_limits<long long>::min()
+      || n >= std::numeric_limits<long long>::max()
+      || errno == ERANGE
+       )
         throw yy::Parser::syntax_error (loc, "integer is out of range: " + s);
-    return yy::Parser::make_DecimalInteger(n, loc);
+    return yy::Parser::make_IntegerLiteral(
+        std::make_shared<fluster::ast::lits::Integer>(n),
+        loc
+    );
 }
 
 
@@ -77,10 +84,26 @@ make_FloatLiteral( const std::string &s
 {
     char* _;
     double n = strtod(s.c_str(), &_);
-    return yy::Parser::make_FloatLiteral(n, loc);
+    return yy::Parser::make_FloatLiteral(
+        std::make_shared<fluster::ast::lits::Float>(
+            fluster::atoms::Rational(n)),
+        loc
+    );
 }
 
-/* byte literals */
+
+yy::Parser::symbol_type
+make_StringLiteral( const std::string &s
+                  , const yy::Parser::location_type& loc
+                  )
+{
+    return yy::Parser::make_StringLiteral(
+        std::make_shared<fluster::ast::lits::String>(s),
+        loc
+    );
+}
+
+/*
 yy::Parser::symbol_type 
 make_HexBytesLiteral (const std::string &s, const yy::Parser::location_type& loc)
 {
@@ -102,3 +125,4 @@ make_OctalBitsLiteral (const std::string &s, const yy::Parser::location_type& lo
     auto buffer = loadAsciiBitLiteral<8>(s, "0o");
     return yy::Parser::make_BitsLiteral(buffer.bytes, loc);
 }
+*/

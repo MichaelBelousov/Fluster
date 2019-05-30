@@ -10,25 +10,28 @@ namespace fluster { namespace ast {
 
 void
 CommaDelimitedList::
-append(Node::Ptr in);
+append(Node::Ptr in)
+{
+    elements.emplace_back(in);
+}
 
 //// Construction
 
-static
-Block::Ptr
+Node::Ptr
 CommaDelimitedList::
 empty()
 {
-    return CommaDelimitedList();
+    return std::static_pointer_cast<Node>(
+        std::make_shared<CommaDelimitedList>()
+    );
 }
 
-static
 CommaDelimitedList::Ptr
 CommaDelimitedList::
 fromFirst(Node::Ptr first)
 {
-    auto result = CommaDelimitedList();
-    result.emplace_back(first);
+    CommaDelimitedList::Ptr result = std::make_shared<CommaDelimitedList>();
+    result->elements.emplace_back(first);
     return result;
 }
 

@@ -16,7 +16,7 @@
 %define api.location.file "location.gen.h"
 %defines "parser.gen.h"
 %output "parser.gen.cpp"
-%printer { yyo << $$; } <*>;
+/*%printer { yyo << $$; } <*>;*/
 
 %parse-param { yy::Lexer& lexer }  //construct parser object with lexer
 
@@ -212,8 +212,8 @@ skipToNextLine()
 %token <fluster::ast::Identifier::Ptr> Identifier
 %token <fluster::ast::lits::Integer::Ptr> IntegerLiteral
 %token <fluster::ast::lits::Float::Ptr> FloatLiteral
-%token <fluster::ast::lits::Bytes> BytesLiteral
-%token <fluster::ast::lits::Bits> BitsLiteral
+/*%token <fluster::ast::lits::Bytes> BytesLiteral*/
+/*%token <fluster::ast::lits::Bits> BitsLiteral*/
 %token <fluster::ast::lits::String::Ptr> StringLiteral
 
 %type <fluster::ast::Expr::Ptr> expr

@@ -25,12 +25,18 @@ struct Node
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 
 
+    template<typename T, typename ...Args>
+    Node::Ptr makeParentNode(Args&& ...args); 
+
     static Node::Ptr makeRootNode();
 
     //// Construction
     Node(Node::Ptr outer);
 
-private:
+    // TODO: make it so only makeParentNode can be used to construct
+    // new nodes, via the private default constructor
+//private:
+    Node();
 
     //// Members
     const std::weak_ptr<Node> outer;

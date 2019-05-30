@@ -27,10 +27,8 @@ struct Block final
     empty();
 
 private:
-
     //// Members
     std::vector<Node::Ptr> lines;
-
 };
 
 

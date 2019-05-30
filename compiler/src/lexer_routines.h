@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#include "parser.gen.h"
+
 // TODO: move bytes member to its own object with better guarantees
 struct BitBuffer
 {
@@ -28,9 +30,9 @@ BitBuffer loadAsciiBitLiteral( const std::string& literal
 {
     static_assert(base <= 36, "only 26 letters + 10 numbers supported");
 
-    const int bits_per_char = std::log2(base);
-    const int bit_amt = (literal.length() - prefix.length()) * bits_per_char;
-    const int byte_amt = std::ceil(bit_amt/8.f);
+    constexpr int bits_per_char = std::log2(base);
+    constexpr int bit_amt = (literal.length() - prefix.length()) * bits_per_char;
+    constexpr int byte_amt = std::ceil(bit_amt/8.f);
 
     auto result = BitBuffer(bit_amt);
 
@@ -60,37 +62,36 @@ make_IntegerLiteral( const std::string &s
                    , const yy::Parser::location_type& loc
                    );
 
-
 yy::Parser::symbol_type 
 make_FloatLiteral( const std::string &s
                  , const yy::Parser::location_type& loc
                  ); 
 
-/* byte literals */
-yy::Parser::symbol_type 
-make_HexBytesLiteral( const std::string &s
-                    , const yy::Parser::location_type& loc
-                    );
-
-yy::Parser::symbol_type 
-make_BinaryBitsLiteral( const std::string &s
-                      , const yy::Parser::location_type& loc
-                      );
-
-yy::Parser::symbol_type 
-make_OctalBitsLiteral( const std::string &s
-                     , const yy::Parser::location_type& loc
-                     );
-
-yy::Parser::symbol_type 
+yy::Parser::symbol_type
 make_StringLiteral( const std::string &s
                   , const yy::Parser::location_type& loc
                   );
 
-yy::Parser::symbol_type 
+/*
+yy::Parser::symbol_type
+make_HexBytesLiteral( const std::string &s
+                    , const yy::Parser::location_type& loc
+                    );
+
+yy::Parser::symbol_type
+make_BinaryBitsLiteral( const std::string &s
+                      , const yy::Parser::location_type& loc
+                      );
+
+yy::Parser::symbol_type
+make_OctalBitsLiteral( const std::string &s
+                     , const yy::Parser::location_type& loc
+                     );
+
+yy::Parser::symbol_type
 make_RawStringLiteral( const std::string &s
                      , const yy::Parser::location_type& loc
-                     ); 
-
+                     );
+*/
 
 #endif //FLUSTER_COMPILER_LEXER_ROUTINES

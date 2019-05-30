@@ -1,13 +1,10 @@
 #ifndef FLUSTER_COMPILER_AST_IF_STATEMENT
 #define FLUSTER_COMPILER_AST_IF_STATEMENT
 
-/* The fluster data holds immutable, finalized versions
- * of each fluster construct, in a code base, after they
- * have been parsed, and its usage has been semantically validated
- */
-
 #include <memory>
 #include "node.h"
+#include "block.h"
+#include "expr.h"
 #include "util.h"
 
 namespace fluster { namespace ast {
@@ -22,7 +19,7 @@ struct IfStatement final
 
     //// Methods
     static
-    IfStatement::Ptr
+    Node::Ptr
     empty();
 
     //// Construction
@@ -33,8 +30,8 @@ struct IfStatement final
 
     //// Members
     const Expr::Ptr cond;
-    const Block::Ptr then;
-    const Block::Ptr else_;
+    const Node::Ptr then;
+    const Node::Ptr else_;
 };
 
 

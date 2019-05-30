@@ -5,12 +5,11 @@ namespace fluster { namespace ast {
 
 //// Methods
 
-static
-IfStatement::Ptr
+Node::Ptr
 IfStatement::
 empty()
 {
-    return make_shared<IfStatement>();
+    return std::make_shared<Node>();
 }
 
 //// Construction
@@ -18,7 +17,7 @@ empty()
 IfStatement::
 IfStatement( Expr::Ptr in_cond
            , Node::Ptr in_then
-           , Node::Ptr in_else = empty()
+           , Node::Ptr in_else
            )
     : cond(in_cond)
     , then(in_then)
@@ -28,5 +27,3 @@ IfStatement( Expr::Ptr in_cond
 
 
 } }
-
-#endif //FLUSTER_COMPILER_AST_IF_STATEMENT

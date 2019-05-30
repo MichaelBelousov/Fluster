@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "node.h"
+#include "block.h"
 
 namespace fluster { namespace ast {
 
@@ -12,24 +13,23 @@ namespace fluster { namespace ast {
 struct CommaDelimitedList final
     : public Node
 {
+    //// Types
+    using Ptr = std::shared_ptr<CommaDelimitedList>;
+
     //// Methods
     void
     append(Node::Ptr in);
 
     //// Construction
     static
-    Block::Ptr
+    Node::Ptr
     empty();
 
     static
     CommaDelimitedList::Ptr
     fromFirst(Node::Ptr first);
 
-    //// Types
-    using Ptr = std::shared_ptr<CommaDelimitedList>;
-
 private:
-
     //// Members
     std::vector<Node::Ptr> elements;
 };

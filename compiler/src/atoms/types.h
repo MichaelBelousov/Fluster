@@ -17,21 +17,28 @@ using Integer = BigInteger;
 
 struct Rational
 {
-    Integer numerator;
-    Integer denominator;
+    //// Construction
+    Rational(const Integer& in_numerator, const Integer& in_denominator);
+    Rational(double in_value);
 
+    //// Methods
     Rational calcReciprocal() const;
     double asDouble() const;
-    Rational operator-(const Rational& num);
+    Rational operator-() const;
     friend Rational operator*(const Rational& lhs, const Rational& rhs);
     friend Rational operator/(const Rational& lhs, const Rational& rhs);
     friend Rational operator+(const Rational& lhs, const Rational& rhs);
     friend Rational operator-(const Rational& lhs, const Rational& rhs);
-    Rational operator*=(const Rational& rhs);
-    Rational operator/=(const Rational& rhs);
-    Rational operator+=(const Rational& rhs);
-    Rational operator-=(const Rational& rhs);
-    friend Rational operator<<(std::ostream& os, const Rational& rhs);
+    Rational& operator*=(const Rational& rhs);
+    Rational& operator/=(const Rational& rhs);
+    Rational& operator+=(const Rational& rhs);
+    Rational& operator-=(const Rational& rhs);
+    friend std::ostream& operator<<(std::ostream& os, const Rational& rhs);
+
+private:
+    //// Members
+    Integer numerator;
+    Integer denominator;
 };
 
 using ByteArray = std::vector<Byte>;
