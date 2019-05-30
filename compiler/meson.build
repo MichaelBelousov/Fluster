@@ -62,25 +62,13 @@ endif
 
 # reflex dependency
 
+#reflex_version = '>= 1.2.1'
 reflex_dep = compiler.find_library(
   'reflex',
   dirs : ['/usr/local/lib']
 )
 
 deps += reflex_dep
-
-#reflex_version = '>= 1.2.1'
-
-#reflex_dep = dependency(
-  #'reflex',
-  #version : reflex_version
-#)
-
-#if not reflex_dep.found()
-  #error('Reflex (version @0@) not found'.format(reflex_version))
-#else
-  #deps += [reflex_dep]
-#endif
 
 
 if get_option('buildtype') == 'debug'
