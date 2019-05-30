@@ -25,6 +25,7 @@ lexer = custom_target(
     input : 'src/lexer.lpp',
     output : ['lexer.gen.cpp', 'lexer.gen.h'],
     command : [reflex_prog, '@INPUT@',
+               '-d',
                '-o', '@OUTPUT0@',
                '--header-file=@OUTPUT1@']
 )
@@ -78,9 +79,6 @@ endif
 
 includes = include_directories('src')
 
-
-main = ['src/main.cpp']
-
 parser_src = [ lexer
              , 'src/lexer_routines.cpp'
              , parser
@@ -120,14 +118,21 @@ data_src = []
 
 atoms_src = [ 'src/atoms/types.cpp' ]
 
-srcs = main + parser_src + ast_src + data_src + atoms_src
+srcs = parser_src + ast_src + data_src + atoms_src
 
 exe = executable('flusterc',
-  srcs,
+  'src/main.cpp', srcs,
   dependencies : deps,
   cpp_args : [],
   include_directories : includes
 )
+
+#runlex_exe = executable('runlex',
+  #'src/runlex.cpp', srcs,
+  #dependencies : deps,
+  #cpp_args : [],
+  #include_directories : includes
+#)
 #install : true
 
 test('basic', exe)

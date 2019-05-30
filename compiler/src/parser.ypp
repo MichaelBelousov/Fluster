@@ -11,15 +11,14 @@
 %define parse.trace
 %define parse.error verbose
 %define parse.assert
+%printer { yyo << $$; } <*>;
 
 %locations
 %define api.location.file "location.gen.h"
 %defines "parser.gen.h"
 %output "parser.gen.cpp"
-/*%printer { yyo << $$; } <*>;*/
 
 %parse-param { yy::Lexer& lexer }  //construct parser object with lexer
-
 /*%param { Driver& driver }*/
 
 /* code in this block goes in parser.gen.h */
@@ -234,18 +233,13 @@ skipToNextLine()
 %type <fluster::ast::Node::Ptr> Angle_list
 */
 
-%start input
+%start code
 
 
 %%
 
 
 /*** structure ***/
-
-input
-  : %empty
-  | input code
-  ;
 
 code
   : %empty
@@ -257,12 +251,15 @@ code
 line
   : expr S_NL
     { $$ = $1; }
+  /*
   | S_NL
     { $$ = fluster::ast::Block::empty(); }  /* TODO: handle empty statements better? */
+  /*
   | statement S_NL
     { $$ = $1; }
   | error S_NL
     { yyerrok; }
+  */
   ;
 
 block
@@ -278,20 +275,24 @@ statement
 
 expr
   /* atomic */
+  /*
   : Identifier
     { $$ = asExprPtr($1); }
 
   | StringLiteral
     { $$ = asExprPtr($1); }
+  */
 
-  | IntegerLiteral
+  : IntegerLiteral
     { $$ = asExprPtr($1); }
 
+  /*
   | FloatLiteral
     { $$ = asExprPtr($1); }
 
   | S_LPAR expr S_RPAR
     { $$ = $2; }
+  */
 
   /* prefix */
   | S_PLUS_PLUS expr
@@ -301,6 +302,7 @@ expr
       );
     }
 
+  /*
   | S_DASH_DASH expr
     %prec PREDECREMENT
     { $$ = asExprPtr(
@@ -324,8 +326,10 @@ expr
           )
       );
     }
+  */
 
   /* postfix */
+  /*
   | expr S_PLUS_PLUS
     %prec POSTINCREMENT
     { $$ = asExprPtr(
@@ -339,6 +343,7 @@ expr
           std::make_shared<fluster::ast::ops::PostDecrement>($1)
       );
     }
+  */
 
   /* binary */
   | expr S_PLUS expr
@@ -347,6 +352,7 @@ expr
           std::make_shared<fluster::ast::ops::Add>($1, $3)
       );
     }
+  /*
 
   | expr S_DASH expr
     %prec SUB
@@ -403,6 +409,7 @@ expr
           std::make_shared<fluster::ast::ops::AssertType>($1, $3)
       );
     }
+  */
 
   /* other */
   /*

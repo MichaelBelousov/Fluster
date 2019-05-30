@@ -115,6 +115,8 @@ string_content      {any}*[^\\]
 ":"             return yy::Parser::make_S_COLON(location());
 "@"             return yy::Parser::make_S_AT(location());
 "?"             return yy::Parser::make_S_QUES(location());
+"++"            return yy::Parser::make_S_PLUS_PLUS(location());
+"--"            return yy::Parser::make_S_DASH_DASH(location());
 
  /*** Keywords ***/
 \<in\>          return yy::Parser::make_S_IN(location());
@@ -216,6 +218,8 @@ string_content      {any}*[^\\]
                   return yy::Parser::make_S_OUTDENT(location());
                 }
 
+\n              return yy::Parser::make_S_NL(location());
+[ \t\r]         //ignore space
 
 
 %%
