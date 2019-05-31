@@ -12,7 +12,7 @@ int main(/*int argc, char* argv[]*/)
     auto parse_result = fluster::ast::Node::Ptr::make();
 
     Lexer lexer(std::cin);
-    Parser parser(lexer);
+    Parser parser(lexer, parse_result);
 
     if (parser.parse() != 0)
         return -1;

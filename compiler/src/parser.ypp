@@ -19,7 +19,7 @@
 %output "parser.gen.cpp"
 
 %parse-param { yy::Lexer& lexer }  /*construct parser object with lexer*/
-/*%parse-param { fluster::ast::Node::Ptr* root }  /*construct parser object with lexer*/
+%parse-param { fluster::ast::Node::Ptr& root }  /*construct parser object with lexer*/
 
 /* code in this block goes in parser.gen.h */
 %code requires {
@@ -230,8 +230,7 @@ skipToNextLine()
 
 program
   : code
-    /*{ root = $1; }*/
-    { $$ = $1; }
+    { root = $1; }
   ;
 
 code

@@ -29,7 +29,6 @@ lexer = custom_target(
                '-o', '@OUTPUT0@',
                '--header-file=@OUTPUT1@']
 )
-# lexer_h = custom_target(
 
 
 # generate parser
