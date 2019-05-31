@@ -8,25 +8,38 @@ namespace fluster { namespace util {
 
 
 
+template <typename ...Types>
+struct TypeList {};
+
+
 template <typename T>
 struct Ptr : std::shared_ptr<T>
 {
 private:
     struct SpecialConstructorTag {};  //dummy type for SFINAEing hidden constructor
 
-    template< typename _ = void
-            , typename = std::enable_if_t<std::is_same<_,SpecialConstructorTag>::value>
-            , typename ...Args
+    template< typename ...Args
+            , std::enable_if_t<std::is_same< TypeList<Args...>
+                                           , TypeList<SpecialConstructorTag>
+                                           >::value
+                              >*
+                            = nullptr
             >
     Ptr(Args&& ...args)
         : std::shared_ptr<T>(
             std::forward<Args>(args)...)
-    {}
+    {
+        //static_assert(!std::is_same<_,SpecialConstructorTag>::value, "oops");
+    }
 
 public:
-    template< typename _ = void
-            , typename = std::enable_if_t<!std::is_same<_,SpecialConstructorTag>::value>
-            , typename ...Args
+    template< typename ...Args
+            , std::enable_if_t<!std::is_same
+                                    < TypeList<Args...>
+                                    , TypeList<SpecialConstructorTag>
+                                    >::value
+                              >*
+                            = nullptr
             >
     Ptr(Args&& ...args)
         : std::shared_ptr<T>(
@@ -59,7 +72,7 @@ public:
     Ptr<T>
     copy(Args&& ...args)
     {
-        return Ptr<SpecialConstructorTag>(args...);
+        return Ptr<SpecialConstructorTag, nullptr, Args...>(args...);
     }
 };
 
@@ -85,7 +98,7 @@ int main()
 {
     std::string str("hello");
     fluster::util::Ptr<std::string> pstr(str);
-    //auto cpstr = fluster::util::Ptr<std::string>::copy(pstr(str));
+    auto cpstr = fluster::util::Ptr<std::string>::copy(pstr(str));
     std::cout << pstr.use_count() << std::endl;
 }
 
