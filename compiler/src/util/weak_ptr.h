@@ -11,38 +11,31 @@ template <typename T>
 struct WeakPtr : std::weak_ptr<T>
 {
 private:
-    struct NullConstructorTag {};
-    // NOTE: NullConstructorTag will be optimized out by the compiler since it
-    // is an unused empty argument, this allows us to use overload resoltion
+    struct SpecialConstructorTag {};
+    // NOTE: SpecialConstructorTag will be optimized out by the compiler since it
+    // is an unused empty argument, this allows us to use overload resolution
     // to choose between constructing an underlying object and returning a pointer
     // or constructing a smart pointer directly
     template<typename ...Args>
-    WeakPtr(NullConstructorTag _, Args&& ...args)
+    WeakPtr(SpecialConstructorTag _, Args&& ...args)
         : std::weak_ptr<T>(
-            std::forward<Args>(args)...)
+            std::make_shared<T>(
+                std::forward<Args>(args)...))
     {}
 
 public:
     template<typename ...Args>
     WeakPtr(Args&& ...args)
         : std::weak_ptr<T>(
-            std::make_shared<T>(
-                std::forward<Args>(args)...))
+            std::forward<Args>(args)...)
     {}
-
-    static
-    WeakPtr<T>
-    null()
-    {
-        return WeakPtr(NullConstructorTag());
-    }
 
     template<typename ...Args>
     static
-    WeakPtr<T>
-    copy(Args&& ...args)
+    Ptr<T>
+    make(Args&& ...args)
     {
-        return WeakPtr(NullConstructorTag(), std::forward<Args>(args)...);
+        return WeakPtr(SpecialConstructorTag(), std::forward<Args>(args)...);
     }
 };
 

@@ -9,7 +9,7 @@ Node::Ptr
 IfStatement::
 empty()
 {
-    return Node::Ptr();
+    return IfStatement::Ptr::make().castUp<Node>();
 }
 
 //// Construction
@@ -21,10 +21,10 @@ empty()
 // forced no-initializer usage for a cleaner interface
 IfStatement::
 IfStatement()
+    : cond()
+    , then()
+    , else_()
 {
-    const_cast<Expr::Ptr&>(cond)  = Expr::Ptr::null();
-    const_cast<Node::Ptr&>(then)  = Node::Ptr::null();
-    const_cast<Node::Ptr&>(else_) = Node::Ptr::null();
 }
 
 IfStatement::
@@ -32,9 +32,9 @@ IfStatement( Expr::Ptr in_cond
            , Node::Ptr in_then
            , Node::Ptr in_else
            )
-    : cond(*in_cond)
-    , then(*in_then)
-    , else_(*in_else)
+    : cond(in_cond)
+    , then(in_then)
+    , else_(in_else)
 {}
 
 

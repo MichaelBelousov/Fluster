@@ -19,7 +19,7 @@
 %output "parser.gen.cpp"
 
 %parse-param { yy::Lexer& lexer }  //construct parser object with lexer
-/*%param { Driver& driver }*/
+/*%parse-param { fluster::ast::Node::Ptr& root }  //construct parser object with lexer*/
 
 /* code in this block goes in parser.gen.h */
 %code requires {
@@ -46,6 +46,8 @@
   #include "lexer.gen.h"
   #include "location.gen.h"
   using namespace fluster;
+  namespace lits =  fluster::ast::lits;
+  namespace ops =  fluster::ast::ops;
 }
 
 /*
@@ -201,6 +203,7 @@ skipToNextLine()
 
 %type <fluster::ast::Expr::Ptr> expr
 %type <fluster::ast::Node::Ptr> statement
+%type <fluster::ast::Block::Ptr> program
 %type <fluster::ast::Block::Ptr> code
 %type <fluster::ast::Block::Ptr> block
 %type <fluster::ast::IfStatement::Ptr> if
@@ -217,7 +220,7 @@ skipToNextLine()
 %type <fluster::ast::Node::Ptr> Angle_list
 */
 
-%start code
+%start program
 
 
 %%
@@ -225,11 +228,17 @@ skipToNextLine()
 
 /*** structure ***/
 
+program
+  : code
+    /*{ root = $1; }*/
+    { $$ = $1; }
+  ;
+
 code
-  : %empty
-    { $$ = ast::Block::empty(); }
-  | code line
-    { $1->append($2); }
+  : code line
+    { $1->append($2); $$ = $1; }
+  | line
+    { $$ = ast::Block::Ptr::make(); $$->append($1); }
   ;
 
 line
@@ -245,13 +254,13 @@ line
 
 block
   : S_INDENT code S_OUTDENT
-    { $$ = fluster::ast::Block::Ptr::copy($2); }
+    { $$ = $2; }  /* TODO: std::move()? */
   ;
 
 /* Expressions */
 statement
   : if
-    { $$ = $1.castUp<fluster::ast::Node>(); }
+    { $$ = $1.castUp<ast::Node>(); }
   ;
 
 expr
@@ -266,7 +275,8 @@ expr
 
   /* TODO: fix this lousy interface */
   : IntegerLiteral
-    { $$ = fluster::ast::Expr::Ptr::copy($1.castUp<fluster::ast::Expr>()); }
+    /*{ $$ = lits::Integer::Ptr::make($1); }*/
+    { $$ = $1; }
 
   /*
   | FloatLiteral
@@ -279,7 +289,7 @@ expr
   /* prefix */
   | S_PLUS_PLUS expr
     %prec PREINCREMENT
-    { $$ = fluster::ast::ops::PreIncrement::Ptr($2).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::PreIncrement::Ptr::make($2); }
 
   /*
   | S_DASH_DASH expr
@@ -313,7 +323,7 @@ expr
   /* binary */
   | expr S_PLUS expr
     %prec ADD
-    { $$ = fluster::ast::ops::Add::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Add::Ptr::make($1, $3); }
   /*
 
   | expr S_DASH expr
@@ -378,19 +388,19 @@ if
   : KW_IF expr S_NL
       block
     if_follow_up
-    { $$ = fluster::ast::IfStatement::Ptr($2, $4); }
+    { $$ = ast::IfStatement::Ptr::make($2, $4); }
   ;
 
 
 if_follow_up
 
   : %empty
-    { $$ = fluster::ast::IfStatement::empty(); }
+    { $$ = ast::IfStatement::empty().castUp<ast::Node>(); }
 
   | KW_ELIF expr S_NL
       block
     if_follow_up
-    { $$ = fluster::ast::IfStatement::Ptr($2, $4, $5); }
+    { $$ = ast::IfStatement::Ptr::make($2, $4, $5).castUp<ast::Node>(); }
 
   | KW_ELSE S_NL
       block

@@ -19,7 +19,7 @@ struct Ptr : std::shared_ptr<T>
 private:
     struct SpecialConstructorTag {};
     // NOTE: SpecialConstructorTag will be optimized out by the compiler since it
-    // is an unused empty argument, this allows us to use overload resoltion
+    // is an unused empty argument, this allows us to use overload resolution
     // to choose between constructing an underlying object and returning a pointer
     // or constructing a smart pointer directly
     template<typename ...Args>
@@ -52,6 +52,7 @@ public:
     }
 
     template<typename ...Args>
+    static
     Ptr<T>
     make(Args&& ...args)
     {
@@ -62,5 +63,26 @@ public:
 
 
 } }
+
+/*
+#include <iostream>
+
+struct A {};
+struct B: public A {};
+
+int main()
+{
+    using namespace fluster::util;
+    using namespace std;
+    Ptr<A> pa;
+    auto pb = Ptr<B>::make();
+    Ptr<B> pb2;
+    pa = pb;
+    cout << pa.use_count() << endl;
+    cout << pa << endl;
+    cout << pb << endl;
+    cout << pb2 << endl;
+}
+*/
 
 #endif //FLUSTER_COMPILER_UTIL_PTR_H
