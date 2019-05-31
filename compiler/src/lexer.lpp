@@ -186,9 +186,14 @@ string_content      {any}*[^\\]
 
 /*** control ***/
 
-  /*<INITIAL>*/
-<<EOF>>                                     return yy::Parser::make_S_END(location());
 
+<INNER_BACKSLASH_EMIT_OUTDENT><<EOF>> {
+                  start(INITIAL);
+                  matcher().less(0);
+                  std::cout << "EMIT OUTDENT EOF" << std::endl;
+                  return yy::Parser::make_S_OUTDENT(location());
+                }
+<<EOF>>                                     return yy::Parser::make_S_END(location());
 
 
 /*** indentation ***/
@@ -228,6 +233,7 @@ string_content      {any}*[^\\]
 <INNER_BACKSLASH_EMIT_OUTDENT>{ANY} {
                   start(INITIAL);
                   matcher().less(0);
+                  std::cout << "EMIT OUTDENT" << std::endl;
                   return yy::Parser::make_S_OUTDENT(location());
                 }
 
