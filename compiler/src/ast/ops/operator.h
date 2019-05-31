@@ -3,6 +3,7 @@
 
 #include <array>
 #include <vector>
+#include <iostream>
 #include "util/ptrs.h"
 #include "ast/expr.h"
 #include "util/preallocated_vector.h"
@@ -23,6 +24,18 @@ struct NaryOperator
     : public Operator
 {
     std::array<Expr::Ptr, N> operands;
+
+    void print(std::ostream& os, unsigned indent_level) override
+    {
+        for (unsigned i = 0; i < indent_level; ++i) os << " ";
+        os << "<ops:" << ">" << std::endl;
+
+        for (const auto& op : operands)
+            op->print(os, indent_level+2);  //TODO: make 2 a constant, indenting
+
+        for (unsigned i = 0; i < indent_level; ++i) os << " ";
+        os << "</ops:" << ">" << std::endl;
+    }
 };
 
 template< int minimum_operands = 0

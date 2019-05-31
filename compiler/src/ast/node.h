@@ -1,6 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_NODE
 #define FLUSTER_COMPILER_AST_NODE
 
+#include <iostream>
 #include "util/ptrs.h"
 #include "data/construct.h"
 
@@ -15,7 +16,11 @@ struct Node
     using Ptr = util::Ptr<Node>;
 
     //// Methods
+    std::ostream& operator<<(std::ostream& os);
+
     //virtual const data::Construct::Ptr finalize() const = 0;
+
+    virtual void print(std::ostream& os, unsigned indent_level);
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 
@@ -31,6 +36,8 @@ struct Node
     // new nodes, via the private default constructor
 //private:
     Node();
+
+    virtual ~Node();
 
     //// Members
     const util::WeakPtr<Node> outer;

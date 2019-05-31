@@ -20,6 +20,8 @@ struct IfStatement final
     Node::Ptr
     empty();
 
+    void print(std::ostream& os, unsigned indent_level) override;
+
     //// Construction
     IfStatement();
     IfStatement( Expr::Ptr in_cond

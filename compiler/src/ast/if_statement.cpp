@@ -12,6 +12,22 @@ empty()
     return IfStatement::Ptr::make().castUp<Node>();
 }
 
+void
+IfStatement::
+print(std::ostream& os, unsigned indent_level)
+{
+    for (unsigned i = 0; i < indent_level; ++i) os << " ";
+    os << "<if>" << std::endl;
+
+    // XXX: debug this for preconditions
+    if (cond) cond->print(os, indent_level+2);
+    if (then) then->print(os, indent_level+2);
+    if (else_) else_->print(os, indent_level+2);
+    
+    for (unsigned i = 0; i < indent_level; ++i) os << " ";
+    os << "</if>" << std::endl;
+}
+
 //// Construction
 
 // NOTE: the current ptr design makes it difficult to construct empty pointers

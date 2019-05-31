@@ -13,10 +13,11 @@ struct Integer final
     : public Expr
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) override;
+
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
-    Integer();
     Integer(const atoms::Integer& in_value);
 
     //// Types
