@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_POSTDECREMENT
 #define FLUSTER_COMPILER_AST_OPS_POSTDECREMENT
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "ast/expr.h"
 #include "operator.h"
 

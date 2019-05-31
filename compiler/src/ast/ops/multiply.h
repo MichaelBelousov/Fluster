@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_OPS_MULTIPLY
 #define FLUSTER_COMPILER_AST_OPS_MULTIPLY
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "ast/node.h"
 #include "operator.h"
 

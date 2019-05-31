@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_COMMA_DELIMITED_LIST
 
 #include <vector>
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "node.h"
 #include "block.h"
 

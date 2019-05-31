@@ -3,7 +3,7 @@
 
 #include <string>
 #include <regex>
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "expr.h"
 
 namespace fluster { namespace ast {

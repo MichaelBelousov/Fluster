@@ -1,5 +1,5 @@
 #include "node.h"
-#include "util/ptr.h"
+#include "util/ptrs.h"
 
 namespace fluster { namespace ast {
 

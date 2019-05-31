@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_DATA_CONSTRUCT
 #define FLUSTER_COMPILER_DATA_CONSTRUCT
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 
 namespace fluster { namespace data {
 

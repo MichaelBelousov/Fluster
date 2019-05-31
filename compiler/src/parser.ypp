@@ -36,7 +36,7 @@
 %code top {
   #include <iostream>
   #include <string>
-  #include "util/ptr.h"
+  #include "util/ptrs.h"
   #include "atoms/types.h"
 }
 

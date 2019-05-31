@@ -3,7 +3,7 @@
 
 #include <array>
 #include <vector>
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "ast/expr.h"
 #include "util/preallocated_vector.h"
 

@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_NODE
 #define FLUSTER_COMPILER_AST_NODE
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "data/construct.h"
 
 namespace fluster { namespace ast {

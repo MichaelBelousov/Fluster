@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_STRING
 #define FLUSTER_COMPILER_AST_LITS_STRING
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
 

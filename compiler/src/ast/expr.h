@@ -6,7 +6,7 @@
  * have been parsed, and its usage has been semantically validated
  */
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "node.h"
 
 namespace fluster { namespace ast {

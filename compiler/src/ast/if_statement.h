@@ -1,7 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_IF_STATEMENT
 #define FLUSTER_COMPILER_AST_IF_STATEMENT
 
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "node.h"
 #include "expr.h"
 

@@ -1,46 +1,29 @@
 #ifndef FLUSTER_COMPILER_UTIL_PTR_H
 #define FLUSTER_COMPILER_UTIL_PTR_H
 
-#include <type_traits> //enable_if
 #include <memory>
 
 namespace fluster { namespace util {
 
 
 
-template <typename ...Types>
-struct TypeList {};
-
-
 template <typename T>
 struct Ptr : std::shared_ptr<T>
 {
 private:
-    struct SpecialConstructorTag {};  //dummy type for SFINAEing hidden constructor
-
-    template< typename ...Args
-            , std::enable_if_t<std::is_same< TypeList<Args...>
-                                           , TypeList<SpecialConstructorTag>
-                                           >::value
-                              >*
-                            = nullptr
-            >
-    Ptr(Args&& ...args)
+    struct SpecialConstructorTag {};
+    // NOTE: NullConstructorTag will be optimized out by the compiler since it
+    // is an unused empty argument, this allows us to use overload resoltion
+    // to choose between constructing an underlying object and returning a pointer
+    // or constructing a smart pointer directly
+    template<typename ...Args>
+    Ptr(SpecialConstructorTag _, Args&& ...args)
         : std::shared_ptr<T>(
             std::forward<Args>(args)...)
-    {
-        //static_assert(!std::is_same<_,SpecialConstructorTag>::value, "oops");
-    }
+    {}
 
 public:
-    template< typename ...Args
-            , std::enable_if_t<!std::is_same
-                                    < TypeList<Args...>
-                                    , TypeList<SpecialConstructorTag>
-                                    >::value
-                              >*
-                            = nullptr
-            >
+    template<typename ...Args>
     Ptr(Args&& ...args)
         : std::shared_ptr<T>(
             std::make_shared<T>(
@@ -48,10 +31,12 @@ public:
     {}
 
     //// Methods
-
     static
     Ptr<T>
-    null();
+    null()
+    {
+        return Ptr(SpecialConstructorTag());
+    }
 
     template<typename U>
     Ptr<U>
@@ -72,34 +57,13 @@ public:
     Ptr<T>
     copy(Args&& ...args)
     {
-        return Ptr<SpecialConstructorTag, nullptr, Args...>(args...);
+        return Ptr(SpecialConstructorTag(),
+                   std::forward<Args>(args)...);
     }
 };
-
-template<typename T>
-inline
-Ptr<T>
-Ptr<T>::
-null()
-{
-    return std::make_shared<T>();
-}
 
 
 
 } }
-
-#include "weak_ptr.h"
-
-#include <string>
-#include <iostream>
-
-int main()
-{
-    std::string str("hello");
-    fluster::util::Ptr<std::string> pstr(str);
-    auto cpstr = fluster::util::Ptr<std::string>::copy(pstr(str));
-    std::cout << pstr.use_count() << std::endl;
-}
 
 #endif //FLUSTER_COMPILER_UTIL_PTR_H

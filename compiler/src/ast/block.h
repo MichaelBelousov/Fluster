@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_BLOCK
 
 #include <vector>
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "node.h"
 
 namespace fluster { namespace ast {

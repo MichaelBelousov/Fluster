@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "util/ptr.h"
+#include "util/ptrs.h"
 #include "ast/base.h"
 
 namespace fluster { namespace ast {
