@@ -13,6 +13,7 @@ struct String final
     : public Expr
 {
     //// Construction
+    String();
     String(const atoms::String& in_value);
 
     //// Types

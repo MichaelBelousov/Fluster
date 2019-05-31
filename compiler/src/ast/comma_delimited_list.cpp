@@ -20,7 +20,7 @@ Node::Ptr
 CommaDelimitedList::
 empty()
 {
-    return CommaDelimitedList::Ptr().CastUp<Node>();
+    return CommaDelimitedList::Ptr().castUp<Node>();
 }
 
 CommaDelimitedList::Ptr

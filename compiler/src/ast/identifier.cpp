@@ -33,6 +33,11 @@ isValidName(const std::string& in)
 //// Identifier Construction
 
 Identifier::
+Identifier()
+    : name("")
+{}
+
+Identifier::
 Identifier(const std::string& in_name)
     : name(in_name)
 {}

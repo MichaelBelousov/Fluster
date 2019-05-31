@@ -20,7 +20,7 @@ struct Block final
     append(Node::Ptr in);
 
     //// Construction
-    Block() = default;
+    //Block() = default;
 
     static
     Block::Ptr

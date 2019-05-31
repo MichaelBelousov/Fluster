@@ -21,6 +21,7 @@ struct IfStatement final
     empty();
 
     //// Construction
+    IfStatement();
     IfStatement( Expr::Ptr in_cond
                , Node::Ptr in_then
                , Node::Ptr in_else = empty()

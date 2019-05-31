@@ -27,14 +27,13 @@ struct Node
 
     //// Construction
     Node(Node::Ptr outer);
-
     // TODO: make it so only makeParentNode can be used to construct
     // new nodes, via the private default constructor
 //private:
     Node();
 
     //// Members
-    const WeakPtr<Node> outer;
+    const util::WeakPtr<Node> outer;
 };
 
 

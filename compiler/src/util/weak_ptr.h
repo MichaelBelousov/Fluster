@@ -36,6 +36,14 @@ public:
     {
         return WeakPtr(NullConstructorTag());
     }
+
+    template<typename ...Args>
+    static
+    WeakPtr<T>
+    copy(Args&& ...args)
+    {
+        return WeakPtr(NullConstructorTag(), std::forward<Args>(args)...);
+    }
 };
 
 

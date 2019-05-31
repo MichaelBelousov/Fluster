@@ -51,7 +51,7 @@ make_Identifier( const std::string &s
                )
 {
     return yy::Parser::make_Identifier(
-        std::make_shared<fluster::ast::Identifier>(s),
+        fluster::ast::Identifier::Ptr(s),
         loc
     );
 }
@@ -71,7 +71,7 @@ make_IntegerLiteral( const std::string &s
        )
         throw yy::Parser::syntax_error (loc, "integer is out of range: " + s);
     return yy::Parser::make_IntegerLiteral(
-        std::make_shared<fluster::ast::lits::Integer>(n),
+        fluster::ast::lits::Integer::Ptr(n),
         loc
     );
 }
@@ -85,8 +85,7 @@ make_FloatLiteral( const std::string &s
     char* _;
     double n = strtod(s.c_str(), &_);
     return yy::Parser::make_FloatLiteral(
-        std::make_shared<fluster::ast::lits::Float>(
-            fluster::atoms::Rational(n)),
+        fluster::ast::lits::Float::Ptr(fluster::atoms::Rational(n)),
         loc
     );
 }
@@ -98,7 +97,7 @@ make_StringLiteral( const std::string &s
                   )
 {
     return yy::Parser::make_StringLiteral(
-        std::make_shared<fluster::ast::lits::String>(s),
+        fluster::ast::lits::String::Ptr(s),
         loc
     );
 }

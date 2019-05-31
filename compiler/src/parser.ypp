@@ -264,8 +264,9 @@ expr
     { $$ = asExprPtr($1); }
   */
 
+  /* TODO: fix this lousy interface */
   : IntegerLiteral
-    { $$ = $1.castUp<fluster::ast::Node>(); }
+    { $$ = fluster::ast::Expr::Ptr::copy($1.castUp<fluster::ast::Expr>()); }
 
   /*
   | FloatLiteral
@@ -278,23 +279,23 @@ expr
   /* prefix */
   | S_PLUS_PLUS expr
     %prec PREINCREMENT
-    { $$ = fluster::ast::ops::PreIncrement::Ptr($2).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::PreIncrement::Ptr($2).castUp<fluster::ast::Expr>(); }
 
   /*
   | S_DASH_DASH expr
     %prec PREDECREMENT
-    { $$ = fluster::ast::ops::PreDecrement::Ptr($2).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::PreDecrement::Ptr($2).castUp<fluster::ast::Expr>(); }
 
   | S_DASH expr
     %prec NEGATE
-    { $$ = fluster::ast::ops::Negate::Ptr($2).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Negate::Ptr($2).castUp<fluster::ast::Expr>(); }
 
   | S_CARET_FSLASH expr
     %prec SQUARE_ROOT
     { $$ = fluster::ast::ops::Root::Ptr(
         fluster::ast::lists::Integer::Ptr(2),
         $2
-      ).castUp<Expr>();
+      ).castUp<fluster::ast::Expr>();
     }
   */
 
@@ -302,56 +303,56 @@ expr
   /*
   | expr S_PLUS_PLUS
     %prec POSTINCREMENT
-    { $$ = fluster::ast::ops::PostIncrement::Ptr($2).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::PostIncrement::Ptr($2).castUp<fluster::ast::Expr>(); }
 
   | expr S_DASH_DASH
     %prec POSTDECREMENT
-    { $$ = fluster::ast::ops::PostDecrement::Ptr($2).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::PostDecrement::Ptr($2).castUp<fluster::ast::Expr>(); }
   */
 
   /* binary */
   | expr S_PLUS expr
     %prec ADD
-    { $$ = fluster::ast::ops::Add::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Add::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
   /*
 
   | expr S_DASH expr
     %prec SUB
-    { $$ = fluster::ast::ops::Subtract::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Subtract::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_STAR expr
     %prec MULT
-    { $$ = fluster::ast::ops::Multiply::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Multiply::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_FSLASH expr
     %prec DIV
-    { $$ = fluster::ast::ops::Divide::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Divide::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_FSLASH_FSLASH expr
     %prec DIV
-    { $$ = fluster::ast::ops::IntDivide::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::IntDivide::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_CARET_FSLASH expr
     %prec ROOT
-    { $$ = fluster::ast::ops::Root::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Root::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_CARET expr
     %prec POW
-    { $$ = fluster::ast::ops::Power::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Power::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_EQ expr
     %prec ASSIGN
-    { $$ = fluster::ast::ops::Assign::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::Assign::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
 
   | expr S_COLON expr
     %prec TYPE_ASSERT
-    { $$ = fluster::ast::ops::AssertType::Ptr($1, $3).castUp<Expr>(); }
+    { $$ = fluster::ast::ops::AssertType::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
   */
 
   /* other */
   /*
   | lambda_expr
-    { $$ = $1.castUp<Expr>(); }
+    { $$ = $1.castUp<fluster::ast::Expr>(); }
   */
   ;
 

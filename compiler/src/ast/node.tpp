@@ -16,7 +16,7 @@ Node::
 makeChildNode(Args&& ...args)
 {
     Node::Ptr result = new T(std::forward<Args>(args)...);
-    const_cast<WeakPtr<Node>&>(result->outer) =
+    const_cast<util::WeakPtr<Node>&>(result->outer) =
         this->shared_from_this();
     return result;
 }
@@ -27,7 +27,7 @@ Node::
 makeParentNode(Args&& ...args)
 {
     Node::Ptr result = new T(std::forward<Args>(args)...);
-    const_cast<WeakPtr<Node>&>(this->outer) =
+    const_cast<util::WeakPtr<Node>&>(this->outer) =
         result->shared_from_this();
     return result;
 }

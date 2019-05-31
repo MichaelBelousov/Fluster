@@ -8,12 +8,12 @@ namespace fluster { namespace ast {
 
 Node::
 Node()
-    : outer(WeakPtr<Node>())
+    : outer(util::WeakPtr<Node>::null())
 {}
 
 Node::
 Node(Node::Ptr in_outer)
-    : outer(in_outer)
+    : outer(util::WeakPtr<Node>::copy(in_outer))
 {}
 
 //// Methods

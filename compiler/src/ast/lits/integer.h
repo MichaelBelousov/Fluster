@@ -16,6 +16,7 @@ struct Integer final
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
+    Integer();
     Integer(const atoms::Integer& in_value);
 
     //// Types

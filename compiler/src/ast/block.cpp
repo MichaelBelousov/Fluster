@@ -8,8 +8,7 @@ void
 Block::
 append(Node::Ptr in)
 {
-    //std::move
-    lines.emplace_back(in);
+    lines.emplace_back(in);  //std::move
 }
 
 
@@ -17,7 +16,7 @@ Block::Ptr
 Block::
 empty()
 {
-    return Block::Ptr(new Block());
+    return Block::Ptr();
 }
 
 

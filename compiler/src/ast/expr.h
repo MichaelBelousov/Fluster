@@ -17,10 +17,9 @@ struct Expr
     : public Node
 {
     //// Types
-
     using Ptr = util::Ptr<Expr>;
 
-    //begin //TODO: iterate over expr underlying?
+    //begin //TODO: iterate over children?
     //end
 };
 
