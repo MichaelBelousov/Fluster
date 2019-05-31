@@ -14,7 +14,7 @@ struct Expr
     //// Types
     using Ptr = util::Ptr<Expr>;
 
-    void print(std::ostream& os, unsigned indent_level) override;
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //begin //TODO: iterate over children?
     //end

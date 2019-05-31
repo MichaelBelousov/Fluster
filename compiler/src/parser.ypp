@@ -230,14 +230,17 @@ skipToNextLine()
 
 program
   : code
-    { root = $1; }
+    { root = $1;
+        std::cout << "root: " << root << std::endl; }
   ;
 
 code
   : code line
-    { $1->append($2); $$ = $1; }
+    { $1->append($2); $$ = $1;
+        std::cout << "block:" << $1 << ", line: " << $2 << std::endl; }
   | line
-    { $$ = ast::Block::Ptr::make(); $$->append($1); }
+    { $$ = ast::Block::Ptr::make(); $$->append($1);
+        std::cout << "block:" << $$ << ", line: " << $1 << std::endl; }
   ;
 
 line

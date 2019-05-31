@@ -19,6 +19,8 @@ struct Block final
     void
     append(Node::Ptr in);
 
+    void print(std::ostream& os, unsigned indent_level) const override;
+
     //// Construction
     //Block() = default;
 

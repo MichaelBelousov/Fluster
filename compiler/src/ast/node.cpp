@@ -24,16 +24,15 @@ Node::
 //// Methods
 
 std::ostream& 
-Node::
-operator<<(std::ostream& os)
+operator<<(std::ostream& os, const Node& node)
 {
-    print(os, 0);
+    node.print(os, 0);
     return os;
 }
 
 void
 Node::
-print(std::ostream& os, unsigned indent_level)
+print(std::ostream& os, unsigned indent_level) const
 {
     for (unsigned i = 0; i < indent_level; ++i) os << " ";
     os << "<NODE/>" << std::endl;

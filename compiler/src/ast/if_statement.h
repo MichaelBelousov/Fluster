@@ -20,7 +20,7 @@ struct IfStatement final
     Node::Ptr
     empty();
 
-    void print(std::ostream& os, unsigned indent_level) override;
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     IfStatement();

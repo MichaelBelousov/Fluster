@@ -16,11 +16,12 @@ struct Node
     using Ptr = util::Ptr<Node>;
 
     //// Methods
-    std::ostream& operator<<(std::ostream& os);
+    friend std::ostream& operator<<(std::ostream& os, const Node& node);
 
     //virtual const data::Construct::Ptr finalize() const = 0;
 
-    virtual void print(std::ostream& os, unsigned indent_level);
+    // TODO: make protected
+    virtual void print(std::ostream& os, unsigned indent_level) const;
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 

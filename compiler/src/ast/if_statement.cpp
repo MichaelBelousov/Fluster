@@ -14,7 +14,7 @@ empty()
 
 void
 IfStatement::
-print(std::ostream& os, unsigned indent_level)
+print(std::ostream& os, unsigned indent_level) const
 {
     for (unsigned i = 0; i < indent_level; ++i) os << " ";
     os << "<if>" << std::endl;

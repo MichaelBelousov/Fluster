@@ -3,6 +3,7 @@
 
 #include <array>
 #include <vector>
+#include <string>
 #include <iostream>
 #include "util/ptrs.h"
 #include "ast/expr.h"
@@ -18,28 +19,34 @@ struct Operator
     using Ptr = util::Ptr<Operator>;
 };
 
-template< int N
-        >
+template<int N>
 struct NaryOperator
     : public Operator
 {
+    // FIXME: each *class* should store this, not each object!!
+    const std::string operator_symbol;
+
+    NaryOperator(const std::string& in_operator_symbol)
+        : operator_symbol(in_operator_symbol)
+    {}
+
+protected:
     std::array<Expr::Ptr, N> operands;
 
-    void print(std::ostream& os, unsigned indent_level) override
+    void print(std::ostream& os, unsigned indent_level) const override
     {
         for (unsigned i = 0; i < indent_level; ++i) os << " ";
-        os << "<ops:" << ">" << std::endl;
+        os << "<ops:" << operator_symbol << ">" << std::endl;
 
         for (const auto& op : operands)
-            op->print(os, indent_level+2);  //TODO: make 2 a constant, indenting
+            op->print(os, indent_level+2);  //TODO: make 2 an indentation constant
 
         for (unsigned i = 0; i < indent_level; ++i) os << " ";
-        os << "</ops:" << ">" << std::endl;
+        os << "</ops:" << operator_symbol << ">" << std::endl;
     }
 };
 
-template< int minimum_operands = 0
-        >
+template<int minimum_operands = 0>
 struct VariateOperator
     : public Operator
 {
@@ -50,6 +57,9 @@ struct VariateOperator
 struct UnaryOperator
     : public NaryOperator<1>
 {
+    UnaryOperator( const std::string& in_op_sym
+                 , Expr::Ptr in_operand
+                 );
     //optimize out?
     /*constexpr*/ Expr::Ptr& operand = operands[0];
 };
@@ -58,6 +68,11 @@ struct UnaryOperator
 struct BinaryOperator
     : public NaryOperator<2>
 {
+    BinaryOperator( const std::string& in_op_sym
+                  , Expr::Ptr in_lhs
+                  , Expr::Ptr in_rhs
+                  );
+
     Expr::Ptr& lhs = operands[0];
     Expr::Ptr& rhs = operands[1];
 };

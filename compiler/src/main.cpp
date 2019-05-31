@@ -9,13 +9,17 @@ int main(/*int argc, char* argv[]*/)
 {
     std::ios::sync_with_stdio(false);
 
-    auto parse_result = fluster::ast::Node::Ptr::make();
+    auto parse_result = fluster::ast::Node::makeRootNode();
 
     Lexer lexer(std::cin);
     Parser parser(lexer, parse_result);
 
     if (parser.parse() != 0)
         return -1;
-    else
+    else {
+        std::cout << "OUTPUT:" << std::endl;
+        std::cout << parse_result << std::endl;
+        std::cout << *parse_result << std::endl;
         return 0;
+    }
 }
