@@ -144,7 +144,7 @@ int main()
     std::ios::sync_with_stdio(false);
 
     Lexer lexer(std::cin);
-    //lexer.set_debug(false);
+    lexer.set_debug(false);
 
     while(true)
     {
