@@ -11,6 +11,9 @@ namespace fluster { namespace ast { namespace ops {
 struct Negate final
     : public UnaryOperator
 {
+    //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
+
     //// Construction
     Negate(Expr::Ptr in_operand);
 

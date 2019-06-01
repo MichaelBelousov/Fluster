@@ -13,6 +13,7 @@ struct Power final
     : public BinaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     Power( Expr::Ptr left

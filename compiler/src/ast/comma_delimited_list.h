@@ -9,6 +9,7 @@
 namespace fluster { namespace ast {
 
 
+//NOTE: need a *frozen* object for each ast node, no?
 
 struct CommaDelimitedList final
     : public Node

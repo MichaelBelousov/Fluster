@@ -13,6 +13,7 @@ struct Multiply final
     : public BinaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     Multiply( Expr::Ptr left

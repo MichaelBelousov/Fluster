@@ -208,12 +208,12 @@ skipToNextLine()
 %type <fluster::ast::IfStatement::Ptr> if
 %type <fluster::ast::Node::Ptr> if_follow_up
 %type <fluster::ast::Node::Ptr> line
+%type <fluster::ast::Lambda::Ptr> lambda_expr
+%type <fluster::ast::Expr::Ptr> lambda_body
+%type <fluster::ast::CommaDelimitedList::Ptr> commalist_
+%type <fluster::ast::CommaDelimitedList::Ptr> commalist
+%type <fluster::ast::CommaDelimitedList::Ptr> par_list
 /*
-%type <fluster::ast::Node::Ptr> lambda_expr
-%type <fluster::ast::Node::Ptr> lambda_body
-%type <fluster::ast::Node::Ptr> commalist_
-%type <fluster::ast::Node::Ptr> commalist
-%type <fluster::ast::Node::Ptr> Par_list
 %type <fluster::ast::Node::Ptr> Brack_list
 %type <fluster::ast::Node::Ptr> Brace_list
 %type <fluster::ast::Node::Ptr> Angle_list
@@ -309,6 +309,10 @@ expr
     { $$ = ops::PostDecrement::Ptr::make($1); }
 
   /* binary */
+  | expr SEMICOLON expr
+    %prec SEQ_EXEC
+    { $$ = ops::Sequence::Ptr::make($1, $3); }
+
   | expr PLUS expr
     %prec ADD
     { $$ = ops::Add::Ptr::make($1, $3); }
@@ -346,30 +350,31 @@ expr
     { $$ = ops::AssertType::Ptr::make($1, $3); }
 
   /* other */
-  /*
+
   | lambda_expr
     { $$ = $1.castUp<fluster::ast::Expr>(); }
-  */
+
   ;
 
-/*
 lambda_body
   : expr
-    { $$ = fluster::ast::LambdaBody::Ptr($1); }
+    { $$ = $1; }
+/*
   | NL block
-    { $$ = fluster::ast::ResultHavingCode::Ptr($2); }
+    { $$ = fluster::ast::ResultHaver::Ptr($2); }
+*/
   ;
 
 
 lambda_expr
-  : Par_list EQ_RANGLE lambda_body
+  : par_list EQ_RANGLE lambda_body
   %prec LAMBDA
-    { $$ = fluster::ast::Lambda::Ptr(args=$1, expr=$3); }
+    { $$ = ast::Lambda::Ptr::make($1, $3); }
   ;
-*/
 
 
 /* control flow */
+
 if
   : KW_IF expr NL
       block
@@ -393,36 +398,36 @@ if_follow_up
     { $$ = $3; }
   ;
 
-/*
 commalist_
   : expr
     { $$ = fluster::ast::CommaDelimitedList::fromFirst($1); }
   | commalist_ COMMA expr
     %prec LIST
-    { $$ = $1->append($3); }
+    { $1->append($3); $$ = $1; }
   ;
 
 commalist
   : commalist_
   ;
 
-Par_list
-  : '(' commalist ')'
+par_list
+  : LPAR commalist RPAR
     { $$ = $2; }
   ;
 
+/*
 Brack_list
-  : '[' commalist ']'
+  : LBRACK commalist RBRACK
     { $$ = $2; }
   ;
 
 Brace_list
-  : '{' commalist '}'
+  : LBRACE commalist RBRACE
     { $$ = $2; }
   ;
 
 Angle_list
-  : '<' commalist '>'
+  : LANGLE commalist RANGLE
     { $$ = $2; }
   ;
 */

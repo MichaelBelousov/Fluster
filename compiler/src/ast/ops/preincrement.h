@@ -13,6 +13,7 @@ struct PreIncrement final
     : public UnaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     PreIncrement(Expr::Ptr in_operand);

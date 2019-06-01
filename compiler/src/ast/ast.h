@@ -6,6 +6,7 @@
 #include "expr.h"
 #include "identifier.h"
 #include "if_statement.h"
+#include "lambda.h"
 #include "node.h"
 
 //operators
@@ -23,6 +24,7 @@
 #include "ops/predecrement.h"
 #include "ops/preincrement.h"
 #include "ops/root.h"
+#include "ops/sequence.h"
 #include "ops/square_root.h"
 #include "ops/subtract.h"
 

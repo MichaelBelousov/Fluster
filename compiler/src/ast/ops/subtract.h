@@ -13,6 +13,7 @@ struct Subtract final
     : public BinaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     Subtract( Expr::Ptr left_operand

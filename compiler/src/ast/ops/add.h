@@ -13,6 +13,7 @@ struct Add final
     : public BinaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     Add(Expr::Ptr left, Expr::Ptr right);

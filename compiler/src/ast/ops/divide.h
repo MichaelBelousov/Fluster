@@ -13,6 +13,7 @@ struct Divide final
     : public BinaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     Divide(Expr::Ptr left, Expr::Ptr right);

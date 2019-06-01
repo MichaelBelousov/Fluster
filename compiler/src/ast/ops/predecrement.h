@@ -13,6 +13,7 @@ struct PreDecrement final
     : public UnaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     PreDecrement(Expr::Ptr in_operand);

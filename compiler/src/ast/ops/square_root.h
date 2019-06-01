@@ -13,6 +13,7 @@ struct SquareRoot final
     : public UnaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     SquareRoot(Expr::Ptr in_operand);

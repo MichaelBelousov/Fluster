@@ -13,6 +13,7 @@ struct PostDecrement final
     : public UnaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     PostDecrement(Expr::Ptr in_operand);

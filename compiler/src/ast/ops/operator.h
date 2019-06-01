@@ -1,6 +1,18 @@
 #ifndef FLUSTER_COMPILER_AST_OPERATOR
 #define FLUSTER_COMPILER_AST_OPERATOR
 
+// TODO: use a constant for the indentation amount
+#define FLUSTER_COMPILER_OP_PRINT_IMPL(_class, _op_sym) \
+    void _class::print(std::ostream& os, unsigned indent_level) const \
+    { \
+        for (unsigned i = 0; i < indent_level; ++i) os << " "; \
+        os << "<ops:'" << _op_sym << "'>" << std::endl; \
+        for (const auto& operand : operands) \
+            operand->print(os, indent_level+1); \
+        for (unsigned i = 0; i < indent_level; ++i) os << " "; \
+        os << "</ops:'" << _op_sym << "'>" << std::endl; \
+    }
+
 #include <array>
 #include <vector>
 #include <string>
@@ -23,27 +35,8 @@ template<int N>
 struct NaryOperator
     : public Operator
 {
-    // FIXME: each *class* should store this, not each object!!
-    const std::string operator_symbol;
-
-    NaryOperator(const std::string& in_operator_symbol)
-        : operator_symbol(in_operator_symbol)
-    {}
-
 protected:
     std::array<Expr::Ptr, N> operands;
-
-    void print(std::ostream& os, unsigned indent_level) const override
-    {
-        for (unsigned i = 0; i < indent_level; ++i) os << " ";
-        os << "<ops:" << operator_symbol << ">" << std::endl;
-
-        for (const auto& operand : operands)
-            operand->print(os, indent_level+2);  //TODO: make 2 an indentation constant
-
-        for (unsigned i = 0; i < indent_level; ++i) os << " ";
-        os << "</ops:" << operator_symbol << ">" << std::endl;
-    }
 };
 
 template<int minimum_operands = 0>
@@ -57,23 +50,19 @@ struct VariateOperator
 struct UnaryOperator
     : public NaryOperator<1>
 {
-    UnaryOperator( const std::string& in_op_sym
-                 , Expr::Ptr in_operand
-                 );
-    //optimize out?
-    /*constexpr*/ Expr::Ptr& operand = operands[0];
+    UnaryOperator(Expr::Ptr in_operand);
+    Expr::Ptr& operand = operands[0];
 };
 
 
 struct BinaryOperator
     : public NaryOperator<2>
 {
-    BinaryOperator( const std::string& in_op_sym
-                  , Expr::Ptr in_lhs
+    BinaryOperator( Expr::Ptr in_lhs
                   , Expr::Ptr in_rhs
                   );
 
-    //make a function so they can be optimized out?
+    // TODO: make into a function so they can be optimized out?
     Expr::Ptr& lhs;
     Expr::Ptr& rhs;
 };

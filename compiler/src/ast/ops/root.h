@@ -13,6 +13,7 @@ struct Root final
     : public BinaryOperator
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     Root( Expr::Ptr left
