@@ -55,7 +55,6 @@ string_content      {any}*[^\\]
 /*** States ***/
 
 /* backslash handling states */
-%x  INNER_BACKSLASH_EMIT_NL
 %x  INNER_BACKSLASH_EMIT_INDENT
 %s  INNER_BACKSLASH_READ_REST
 %x  INNER_BACKSLASH_EMIT_OUTDENT
@@ -119,6 +118,7 @@ string_content      {any}*[^\\]
 ","             return yy::Parser::make_COMMA(location());
 "=>"            return yy::Parser::make_EQ_RANGLE(location());
 ":"             return yy::Parser::make_COLON(location());
+";"             return yy::Parser::make_SEMICOLON(location());
 "@"             return yy::Parser::make_AT(location());
 "?"             return yy::Parser::make_QUES(location());
 
@@ -207,19 +207,13 @@ string_content      {any}*[^\\]
 \\$             //will need to do some exclusive states here
 
   /* return NL, INDENT, *, NL, OUTDENT */
-\\              { start(INNER_BACKSLASH_EMIT_NL);
-                  return yy::Parser::make_NL(location());
-                }
-
-<INNER_BACKSLASH_EMIT_NL>{ANY} {
-                  start(INNER_BACKSLASH_EMIT_INDENT);
-                  matcher().less(0);  //FIXME: use push parser instead
+\\              { start(INNER_BACKSLASH_EMIT_INDENT);
                   return yy::Parser::make_NL(location());
                 }
 
 <INNER_BACKSLASH_EMIT_INDENT>{ANY} {
                   start(INNER_BACKSLASH_READ_REST);
-                  matcher().less(0);
+                  matcher().less(0);  //FIXME: use push parser instead
                   return yy::Parser::make_INDENT(location());
                 }
 

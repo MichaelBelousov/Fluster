@@ -1,7 +1,7 @@
 /* Fluster Bison Grammar */
 
 %require "3.4"
-%language "c++" /* generates C++ */
+%language "c++" /* generates C++ lalr(1) parser */
 
 %define api.namespace {yy}
 %define api.parser.class {Parser}

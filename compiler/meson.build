@@ -130,8 +130,8 @@ exe = executable('flusterc',
   include_directories : includes
 )
 
-runlex_exe = executable('runlex',
-  'src/runlex.cpp', srcs,
+runlex_exe = executable('lexonly',
+  'src/lexonly.cpp', srcs,
   dependencies : deps,
   cpp_args : [],
   include_directories : includes
