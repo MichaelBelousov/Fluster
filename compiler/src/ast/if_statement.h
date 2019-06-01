@@ -22,6 +22,8 @@ struct IfStatement final
 
     void print(std::ostream& os, unsigned indent_level) const override;
 
+    // TODO: make the then and else links blocks
+
     //// Construction
     IfStatement();
     IfStatement( Expr::Ptr in_cond

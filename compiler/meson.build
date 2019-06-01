@@ -130,12 +130,12 @@ exe = executable('flusterc',
   include_directories : includes
 )
 
-#runlex_exe = executable('runlex',
-  #'src/runlex.cpp', srcs,
-  #dependencies : deps,
-  #cpp_args : [],
-  #include_directories : includes
-#)
+runlex_exe = executable('runlex',
+  'src/runlex.cpp', srcs,
+  dependencies : deps,
+  cpp_args : [],
+  include_directories : includes
+)
 #install : true
 
 test('basic', exe)

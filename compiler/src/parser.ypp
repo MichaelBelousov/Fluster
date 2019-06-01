@@ -439,5 +439,5 @@ Angle_list
 //void yy::Parser::error(const syntax_error& err)
 void yy::Parser::error(const location_type& loc, const std::string& msg)
 {
-  std::cerr << loc << ":\t" << msg << std::endl;
+  std::cerr << msg << " at " << loc << std::endl;
 }

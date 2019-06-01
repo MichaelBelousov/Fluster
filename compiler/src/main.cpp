@@ -13,6 +13,7 @@ int main(/*int argc, char* argv[]*/)
 
     Lexer lexer(std::cin);
     Parser parser(lexer, parse_result);
+    parser.set_debug_level(3);
 
     if (parser.parse() != 0)
         return -1;
