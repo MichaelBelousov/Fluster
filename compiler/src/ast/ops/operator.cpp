@@ -9,8 +9,10 @@ UnaryOperator( const std::string& in_op_sym
              , Expr::Ptr in_operand
              )
     : NaryOperator<1>(in_op_sym)
-    , operand(in_operand)
-{}
+    , operand(operands[0])
+{
+    operand = in_operand;
+}
 
 
 BinaryOperator::
@@ -19,9 +21,12 @@ BinaryOperator( const std::string& in_op_sym
               , Expr::Ptr in_rhs
               )
     : NaryOperator<2>(in_op_sym)
-    , lhs(in_lhs)
-    , rhs(in_rhs)
-{}
+    , lhs(operands[0])
+    , rhs(operands[1])
+{
+    lhs = in_lhs;
+    rhs = in_rhs;
+}
 
 
 

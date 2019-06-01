@@ -34,7 +34,6 @@
 }
 
 %code top {
-  #include <iostream>
   #include <string>
   #include "util/ptrs.h"
   #include "atoms/types.h"
@@ -230,17 +229,14 @@ skipToNextLine()
 
 program
   : code
-    { root = $1;
-        std::cout << "root: " << root << std::endl; }
+    { root = $1; }
   ;
 
 code
   : code line
-    { $1->append($2); $$ = $1;
-        std::cout << "block:" << $1 << ", line: " << $2 << std::endl; }
+    { $1->append($2); $$ = $1; }
   | line
-    { $$ = ast::Block::Ptr::make(); $$->append($1);
-        std::cout << "block:" << $$ << ", line: " << $1 << std::endl; }
+    { $$ = ast::Block::Ptr::make(); $$->append($1); }
   ;
 
 line
@@ -277,7 +273,6 @@ expr
 
   /* TODO: fix this lousy interface */
   : IntegerLiteral
-    /*{ $$ = lits::Integer::Ptr::make($1); }*/
     { $$ = $1; }
 
   /*

@@ -17,8 +17,7 @@ int main(/*int argc, char* argv[]*/)
     if (parser.parse() != 0)
         return -1;
     else {
-        std::cout << "OUTPUT:" << std::endl;
-        std::cout << parse_result << std::endl;
+        std::cout << std::endl << "Result:" << std::endl;
         std::cout << *parse_result << std::endl;
         return 0;
     }

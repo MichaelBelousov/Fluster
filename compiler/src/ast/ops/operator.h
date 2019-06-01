@@ -38,8 +38,8 @@ protected:
         for (unsigned i = 0; i < indent_level; ++i) os << " ";
         os << "<ops:" << operator_symbol << ">" << std::endl;
 
-        for (const auto& op : operands)
-            op->print(os, indent_level+2);  //TODO: make 2 an indentation constant
+        for (const auto& operand : operands)
+            operand->print(os, indent_level+2);  //TODO: make 2 an indentation constant
 
         for (unsigned i = 0; i < indent_level; ++i) os << " ";
         os << "</ops:" << operator_symbol << ">" << std::endl;
@@ -73,8 +73,9 @@ struct BinaryOperator
                   , Expr::Ptr in_rhs
                   );
 
-    Expr::Ptr& lhs = operands[0];
-    Expr::Ptr& rhs = operands[1];
+    //make a function so they can be optimized out?
+    Expr::Ptr& lhs;
+    Expr::Ptr& rhs;
 };
 
 struct TernaryOperator
