@@ -13,6 +13,8 @@ struct Float final
     : public Expr
 {
     //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
+
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction

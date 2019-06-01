@@ -275,36 +275,32 @@ expr
   : IntegerLiteral
     { $$ = $1; }
 
-  /*
   | FloatLiteral
-    { $$ = asExprPtr($1); }
+    { $$ = $1; }
 
   | LPAR expr RPAR
     { $$ = $2; }
-  */
 
   /* prefix */
   | PLUS_PLUS expr
     %prec PREINCREMENT
     { $$ = ops::PreIncrement::Ptr::make($2); }
 
-  /*
   | DASH_DASH expr
     %prec PREDECREMENT
-    { $$ = fluster::ast::ops::PreDecrement::Ptr($2).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::PreDecrement::Ptr::make($2); }
 
   | DASH expr
     %prec NEGATE
-    { $$ = fluster::ast::ops::Negate::Ptr($2).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Negate::Ptr::make($2); }
 
   | CARET_FSLASH expr
     %prec SQUARE_ROOT
-    { $$ = fluster::ast::ops::Root::Ptr(
-        fluster::ast::lists::Integer::Ptr(2),
+    { $$ = ops::Root::Ptr::make(
+        fluster::ast::lits::Integer::Ptr::make(2),
         $2
-      ).castUp<fluster::ast::Expr>();
+      );
     }
-  */
 
   /* postfix */
   /*
@@ -321,40 +317,38 @@ expr
   | expr PLUS expr
     %prec ADD
     { $$ = ops::Add::Ptr::make($1, $3); }
-  /*
 
   | expr DASH expr
     %prec SUB
-    { $$ = fluster::ast::ops::Subtract::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Subtract::Ptr::make($1, $3); }
 
   | expr STAR expr
     %prec MULT
-    { $$ = fluster::ast::ops::Multiply::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Multiply::Ptr::make($1, $3); }
 
   | expr FSLASH expr
     %prec DIV
-    { $$ = fluster::ast::ops::Divide::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Divide::Ptr::make($1, $3); }
 
   | expr FSLASH_FSLASH expr
     %prec DIV
-    { $$ = fluster::ast::ops::IntDivide::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::IntDivide::Ptr::make($1, $3); }
 
   | expr CARET_FSLASH expr
     %prec ROOT
-    { $$ = fluster::ast::ops::Root::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Root::Ptr::make($1, $3); }
 
   | expr CARET expr
     %prec POW
-    { $$ = fluster::ast::ops::Power::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Power::Ptr::make($1, $3); }
 
   | expr EQ expr
     %prec ASSIGN
-    { $$ = fluster::ast::ops::Assign::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::Assign::Ptr::make($1, $3); }
 
   | expr COLON expr
     %prec TYPE_ASSERT
-    { $$ = fluster::ast::ops::AssertType::Ptr($1, $3).castUp<fluster::ast::Expr>(); }
-  */
+    { $$ = ops::AssertType::Ptr::make($1, $3); }
 
   /* other */
   /*
