@@ -22,12 +22,14 @@ private:
     // is an unused empty argument, this allows us to use overload resolution
     // to choose between constructing an underlying object and returning a pointer
     // or constructing a smart pointer directly
+#pragma GCC diagnostic ignored "-Wunused-parameter"
     template<typename ...Args>
     Ptr(SpecialConstructorTag _, Args&& ...args)
         : std::shared_ptr<T>(
             std::make_shared<T>(
                 std::forward<Args>(args)...))
     {}
+#pragma GCC diagnostic pop
 
 public:
     template<typename ...Args>
