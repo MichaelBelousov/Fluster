@@ -199,7 +199,6 @@ string_content      {any}*[^\\]
 
 ^\h*\i          return yy::Parser::make_S_INDENT(location());
 ^\h*\j          return yy::Parser::make_S_OUTDENT(location());
-
 \j              return yy::Parser::make_S_OUTDENT(location());
 
 (?^\\\n\h*)     //ignore space after line-end backslash

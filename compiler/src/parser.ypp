@@ -244,7 +244,7 @@ line
     { $$ = $1; }
   | S_NL
     { $$ = ast::Block::empty(); }  /* TODO: handle empty statements better? */
-  | statement S_NL
+  | statement
     { $$ = $1; }
   | error S_NL
     { yyerrok; }
@@ -385,7 +385,7 @@ if
   : KW_IF expr S_NL
       block
     if_follow_up
-    { $$ = ast::IfStatement::Ptr::make($2, $4); }
+    { $$ = ast::IfStatement::Ptr::make($2, $4, $5); }
   ;
 
 
