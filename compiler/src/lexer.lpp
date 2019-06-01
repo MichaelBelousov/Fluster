@@ -65,66 +65,66 @@ string_content      {any}*[^\\]
 
  /*** Operators ***/
 
-"++"            return yy::Parser::make_S_PLUS_PLUS(location());
-"--"            return yy::Parser::make_S_DASH_DASH(location());
-"<"             return yy::Parser::make_S_LANGLE(location());
-"<="            return yy::Parser::make_S_LANGLE_EQ(location());
-"=="            return yy::Parser::make_S_EQ_EQ(location());
-"#="            return yy::Parser::make_S_HASH_EQ(location());
-"!#="           return yy::Parser::make_S_EXCLAIM_HASH_EQ(location());
-"<=>"           return yy::Parser::make_S_LANGLE_EQ_RANGLE(location());
-"~"             return yy::Parser::make_S_TILDE(location());
-"!="            return yy::Parser::make_S_EXCLAIM_EQ(location());
-"!"             return yy::Parser::make_S_EXCLAIM(location());
-">="            return yy::Parser::make_S_RANGLE_EQ(location());
-">"             return yy::Parser::make_S_RANGLE(location());
-"+"             return yy::Parser::make_S_PLUS(location());
-"-"             return yy::Parser::make_S_DASH(location());
-"*"             return yy::Parser::make_S_STAR(location());
-"/"             return yy::Parser::make_S_FSLASH(location());
-"//"            return yy::Parser::make_S_FSLASH_FSLASH(location());
-"%"             return yy::Parser::make_S_PERCENT(location());
-"^"             return yy::Parser::make_S_CARET(location());
-"^/"            return yy::Parser::make_S_CARET_FSLASH(location());
-\<has\>         return yy::Parser::make_S_HAS(location());
-\<is\>          return yy::Parser::make_S_IS(location());
-"&"             return yy::Parser::make_S_AMPERSAND(location());
-"|"             return yy::Parser::make_S_PIPE(location());
-">>"            return yy::Parser::make_S_RANGLE_RANGLE(location());
-"<<"            return yy::Parser::make_S_LANGLE_LANGLE(location());
-"->"            return yy::Parser::make_S_DASH_RANGLE(location());
-"="             return yy::Parser::make_S_EQ(location());
-"+="            return yy::Parser::make_S_PLUS_EQ(location());
-"-="            return yy::Parser::make_S_DASH_EQ(location());
-"*="            return yy::Parser::make_S_STAR_EQ(location());
-"/="            return yy::Parser::make_S_FSLASH_EQ(location());
-"//="           return yy::Parser::make_S_FSLASH_FSLASH_EQ(location());
-"^/="           return yy::Parser::make_S_CARET_FSLASH_EQ(location());
-"^="            return yy::Parser::make_S_CARET_EQ(location());
-"&="            return yy::Parser::make_S_AMPERSAND_EQ(location());
-"|="            return yy::Parser::make_S_PIPE_EQ(location());
-"~="            return yy::Parser::make_S_TILDE_EQ(location());
-">>="           return yy::Parser::make_S_RANGLE_RANGLE_EQ(location());
-"<<="           return yy::Parser::make_S_LANGLE_LANGLE_EQ(location());
-"->="           return yy::Parser::make_S_DASH_RANGLE_EQ(location());
-"."             return yy::Parser::make_S_DOT(location());
-".."            return yy::Parser::make_S_DOT_DOT_DOT(location());
-"..."           return yy::Parser::make_S_DOT_DOT_DOT(location());
-"["             return yy::Parser::make_S_LBRACK(location());
-"]"             return yy::Parser::make_S_RBRACK(location());
-"{"             return yy::Parser::make_S_LBRACE(location());
-"}"             return yy::Parser::make_S_RBRACE(location());
-"("             return yy::Parser::make_S_LPAR(location());
-")"             return yy::Parser::make_S_RPAR(location());
-","             return yy::Parser::make_S_COMMA(location());
-"=>"            return yy::Parser::make_S_EQ_RANGLE(location());
-":"             return yy::Parser::make_S_COLON(location());
-"@"             return yy::Parser::make_S_AT(location());
-"?"             return yy::Parser::make_S_QUES(location());
+"++"            return yy::Parser::make_PLUS_PLUS(location());
+"--"            return yy::Parser::make_DASH_DASH(location());
+"<"             return yy::Parser::make_LANGLE(location());
+"<="            return yy::Parser::make_LANGLE_EQ(location());
+"=="            return yy::Parser::make_EQ_EQ(location());
+"#="            return yy::Parser::make_HASH_EQ(location());
+"!#="           return yy::Parser::make_EXCLAIM_HASH_EQ(location());
+"<=>"           return yy::Parser::make_LANGLE_EQ_RANGLE(location());
+"~"             return yy::Parser::make_TILDE(location());
+"!="            return yy::Parser::make_EXCLAIM_EQ(location());
+"!"             return yy::Parser::make_EXCLAIM(location());
+">="            return yy::Parser::make_RANGLE_EQ(location());
+">"             return yy::Parser::make_RANGLE(location());
+"+"             return yy::Parser::make_PLUS(location());
+"-"             return yy::Parser::make_DASH(location());
+"*"             return yy::Parser::make_STAR(location());
+"/"             return yy::Parser::make_FSLASH(location());
+"//"            return yy::Parser::make_FSLASH_FSLASH(location());
+"%"             return yy::Parser::make_PERCENT(location());
+"^"             return yy::Parser::make_CARET(location());
+"^/"            return yy::Parser::make_CARET_FSLASH(location());
+\<has\>         return yy::Parser::make_HAS(location());
+\<is\>          return yy::Parser::make_IS(location());
+"&"             return yy::Parser::make_AMPERSAND(location());
+"|"             return yy::Parser::make_PIPE(location());
+">>"            return yy::Parser::make_RANGLE_RANGLE(location());
+"<<"            return yy::Parser::make_LANGLE_LANGLE(location());
+"->"            return yy::Parser::make_DASH_RANGLE(location());
+"="             return yy::Parser::make_EQ(location());
+"+="            return yy::Parser::make_PLUS_EQ(location());
+"-="            return yy::Parser::make_DASH_EQ(location());
+"*="            return yy::Parser::make_STAR_EQ(location());
+"/="            return yy::Parser::make_FSLASH_EQ(location());
+"//="           return yy::Parser::make_FSLASH_FSLASH_EQ(location());
+"^/="           return yy::Parser::make_CARET_FSLASH_EQ(location());
+"^="            return yy::Parser::make_CARET_EQ(location());
+"&="            return yy::Parser::make_AMPERSAND_EQ(location());
+"|="            return yy::Parser::make_PIPE_EQ(location());
+"~="            return yy::Parser::make_TILDE_EQ(location());
+">>="           return yy::Parser::make_RANGLE_RANGLE_EQ(location());
+"<<="           return yy::Parser::make_LANGLE_LANGLE_EQ(location());
+"->="           return yy::Parser::make_DASH_RANGLE_EQ(location());
+"."             return yy::Parser::make_DOT(location());
+".."            return yy::Parser::make_DOT_DOT_DOT(location());
+"..."           return yy::Parser::make_DOT_DOT_DOT(location());
+"["             return yy::Parser::make_LBRACK(location());
+"]"             return yy::Parser::make_RBRACK(location());
+"{"             return yy::Parser::make_LBRACE(location());
+"}"             return yy::Parser::make_RBRACE(location());
+"("             return yy::Parser::make_LPAR(location());
+")"             return yy::Parser::make_RPAR(location());
+","             return yy::Parser::make_COMMA(location());
+"=>"            return yy::Parser::make_EQ_RANGLE(location());
+":"             return yy::Parser::make_COLON(location());
+"@"             return yy::Parser::make_AT(location());
+"?"             return yy::Parser::make_QUES(location());
 
  /*** Keywords ***/
-\<in\>          return yy::Parser::make_S_IN(location());
-\<mod\>         return yy::Parser::make_S_MOD(location());
+\<in\>          return yy::Parser::make_IN(location());
+\<mod\>         return yy::Parser::make_MOD(location());
 
 \<if\>          return yy::Parser::make_KW_IF(location());
 \<else\>        return yy::Parser::make_KW_ELSE(location());
@@ -190,16 +190,16 @@ string_content      {any}*[^\\]
 <INNER_BACKSLASH_EMIT_OUTDENT><<EOF>> {
                   start(INITIAL);
                   matcher().less(0);
-                  return yy::Parser::make_S_OUTDENT(location());
+                  return yy::Parser::make_OUTDENT(location());
                 }
-<<EOF>>                                     return yy::Parser::make_S_END(location());
+<<EOF>>                                     return yy::Parser::make_END(location());
 
 
 /*** indentation ***/
 
-^\h*\i          return yy::Parser::make_S_INDENT(location());
-^\h*\j          return yy::Parser::make_S_OUTDENT(location());
-\j              return yy::Parser::make_S_OUTDENT(location());
+^\h*\i          return yy::Parser::make_INDENT(location());
+^\h*\j          return yy::Parser::make_OUTDENT(location());
+\j              return yy::Parser::make_OUTDENT(location());
 
 (?^\\\n\h*)     //ignore space after line-end backslash
 
@@ -208,33 +208,33 @@ string_content      {any}*[^\\]
 
   /* return NL, INDENT, *, NL, OUTDENT */
 \\              { start(INNER_BACKSLASH_EMIT_NL);
-                  return yy::Parser::make_S_NL(location());
+                  return yy::Parser::make_NL(location());
                 }
 
 <INNER_BACKSLASH_EMIT_NL>{ANY} {
                   start(INNER_BACKSLASH_EMIT_INDENT);
                   matcher().less(0);  //FIXME: use push parser instead
-                  return yy::Parser::make_S_NL(location());
+                  return yy::Parser::make_NL(location());
                 }
 
 <INNER_BACKSLASH_EMIT_INDENT>{ANY} {
                   start(INNER_BACKSLASH_READ_REST);
                   matcher().less(0);
-                  return yy::Parser::make_S_INDENT(location());
+                  return yy::Parser::make_INDENT(location());
                 }
 
 <INNER_BACKSLASH_READ_REST>\n {
                   start(INNER_BACKSLASH_EMIT_OUTDENT);
-                  return yy::Parser::make_S_NL(location());
+                  return yy::Parser::make_NL(location());
                 }
 
 <INNER_BACKSLASH_EMIT_OUTDENT>{ANY} {
                   start(INITIAL);
                   matcher().less(0);
-                  return yy::Parser::make_S_OUTDENT(location());
+                  return yy::Parser::make_OUTDENT(location());
                 }
 
-<INITIAL>\n              return yy::Parser::make_S_NL(location());
+<INITIAL>\n              return yy::Parser::make_NL(location());
 
 [ \t\r]         //ignore space
 
