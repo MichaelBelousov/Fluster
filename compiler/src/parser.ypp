@@ -25,12 +25,13 @@
 %code requires {
   //#include "driver.h"
   #include "ast/ast.h"
-  //XXX: remove this so inclusion doesn't use the namespace!
   namespace yy {
     class Lexer;  // reflex --namespace=yy --lexer=Lexer --lex=yylex
   }
-  #undef yylex  //unlink the global yylex
-  #define yylex lexer.lex  //within bison's parse invoke lexer.yylex()
+  //unlink the global yylex
+  #undef yylex
+  //within bison's parse invoke lexer.get_token
+  #define yylex lexer.get_token
 }
 
 %code top {
@@ -48,15 +49,6 @@
   namespace lits =  fluster::ast::lits;
   namespace ops =  fluster::ast::ops;
 }
-
-/*
-%code {
-skipToNextLine()
-  {
-    while(Lexer.lex() != yy::Parser::make_OUTDENT);
-  }
-}
-*/
 
 /*** Precedence Markers ***/
 

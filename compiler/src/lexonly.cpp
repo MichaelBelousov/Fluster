@@ -144,12 +144,14 @@ int main()
     std::ios::sync_with_stdio(false);
 
     Lexer lexer(std::cin);
-    lexer.set_debug(false);
+    //lexer.set_debug(false);
 
     while(true)
     {
-        auto lexeme = lexer.lex();
-        std::cout << lexeme.token() << ": " << token_names.at(lexeme.token()) << std::endl;
+        auto lexeme = lexer.get_token();
+        std::cout << "@" << lexeme.location << ": "
+                  << token_names.at(lexeme.token()) 
+                  << std::endl;
         if (lexeme.token() == yy::Parser::token::END) // != 0
             break;
     }

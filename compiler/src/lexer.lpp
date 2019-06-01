@@ -10,14 +10,37 @@ this specification.
   //#include "driver.h"
   #include "lexer_routines.h"
   #include <iostream>
+  #include <queue>
 %}
 
  /* additional members of the Lexer class */
 %class{
+  std::queue<yy::Parser::symbol_type> token_queue;
+  void push_token(const yy::Parser::symbol_type& token);
+public:
+  yy::Parser::symbol_type get_token();
 %}
+
 
  /* additional initialization of Lexer objects */
 %init{
+%}
+
+%{
+  void yy::Lexer::push_token(const yy::Parser::symbol_type& token)
+  {
+    token_queue.emplace(token);
+  }
+
+  yy::Parser::symbol_type yy::Lexer::get_token()
+  {
+    if (token_queue.empty())
+      push_token(lex());
+
+    auto result = token_queue.front();
+    token_queue.pop();
+    return result;
+  }
 %}
 
 /*** Definitions ***/
@@ -55,9 +78,7 @@ string_content      {any}*[^\\]
 /*** States ***/
 
 /* backslash handling states */
-%x  INNER_BACKSLASH_EMIT_INDENT
 %s  INNER_BACKSLASH_READ_REST
-%x  INNER_BACKSLASH_EMIT_OUTDENT
 
 %%
 
@@ -187,11 +208,6 @@ string_content      {any}*[^\\]
 /*** control ***/
 
 
-<INNER_BACKSLASH_EMIT_OUTDENT><<EOF>> {
-                  start(INITIAL);
-                  matcher().less(0);
-                  return yy::Parser::make_OUTDENT(location());
-                }
 <<EOF>>                                     return yy::Parser::make_END(location());
 
 
@@ -207,28 +223,19 @@ string_content      {any}*[^\\]
 \\$             //will need to do some exclusive states here
 
   /* return NL, INDENT, *, NL, OUTDENT */
-\\              { start(INNER_BACKSLASH_EMIT_INDENT);
-                  return yy::Parser::make_NL(location());
-                }
-
-<INNER_BACKSLASH_EMIT_INDENT>{ANY} {
+\\              {
                   start(INNER_BACKSLASH_READ_REST);
-                  matcher().less(0);  //FIXME: use push parser instead
+                  push_token(yy::Parser::make_NL(location()));
                   return yy::Parser::make_INDENT(location());
                 }
 
 <INNER_BACKSLASH_READ_REST>\n {
-                  start(INNER_BACKSLASH_EMIT_OUTDENT);
-                  return yy::Parser::make_NL(location());
-                }
-
-<INNER_BACKSLASH_EMIT_OUTDENT>{ANY} {
                   start(INITIAL);
-                  matcher().less(0);
+                  push_token(yy::Parser::make_NL(location()));
                   return yy::Parser::make_OUTDENT(location());
                 }
 
-<INITIAL>\n              return yy::Parser::make_NL(location());
+<INITIAL>\n     return yy::Parser::make_NL(location());
 
 [ \t\r]         //ignore space
 
