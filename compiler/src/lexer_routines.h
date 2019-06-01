@@ -63,7 +63,7 @@ make_IntegerLiteral( const std::string &s
                    );
 
 yy::Parser::symbol_type 
-make_FloatLiteral( const std::string &s
+make_FloatLiteral( std::string s
                  , const yy::Parser::location_type& loc
                  ); 
 

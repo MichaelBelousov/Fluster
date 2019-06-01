@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <limits>
+#include <algorithm>
 
 
 BitBuffer::
@@ -64,7 +65,7 @@ make_IntegerLiteral( const std::string &s
 {
     // FIXME: use atoms::Integer::parse to store big integers
     errno = 0;  // XXX: WHY?
-    fluster::atoms::Integer n = strtoll (s.c_str(), NULL, 10);
+    fluster::atoms::Integer n = strtoll(s.c_str(), NULL, 10);
     if ( n <= std::numeric_limits<long long>::min()
       || n >= std::numeric_limits<long long>::max()
       || errno == ERANGE
@@ -78,14 +79,40 @@ make_IntegerLiteral( const std::string &s
 
 
 yy::Parser::symbol_type 
-make_FloatLiteral( const std::string &s
+make_FloatLiteral( std::string s
                  , const yy::Parser::location_type& loc
                  )
 {
-    char* _;
-    double n = strtod(s.c_str(), &_);
+    const auto s_len = s.size();
+    const auto radix_idx = std::find(s.begin(), s.end(), '.');
+    // FIXME: do not ignore the exponent, it is blasphemously incorrect
+    // *then why allow it in the parser if we're not supporting it yet?*
+    const auto exponent_start = std::find_if(s.begin(), s.end(),
+                                    [](const auto& c){return c=='e'||c=='E';});
+    // NOTE: assume radix exists (assume the lexer works lol)
+    const auto digits_before_radix = static_cast<int>(radix_idx - s.begin());
+    // find returns s.end() if there is no exponent start, so we don't need
+    // a condition
+    const auto digits_after_radix = static_cast<int>(exponent_start - radix_idx - 1);
+
+    // HACK: remove . for strtoll reading of numerator
+    // requires pass-by-value
+    s.erase(radix_idx);
+
+    // FIXME: use atoms::Integer::parse to store big integers
+    const auto numerator = strtoll(s.c_str(), NULL, 10);
+    if ( numerator <= std::numeric_limits<long long>::min()
+      || numerator >= std::numeric_limits<long long>::max()
+      || errno == ERANGE
+       )
+        throw yy::Parser::syntax_error (loc, "float is out of range... ummm...: " + s);
+    // TODO: add an intpow math function
+    const auto denominator = std::pow(10, digits_after_radix);
+
     return yy::Parser::make_FloatLiteral(
-        fluster::ast::lits::Float::Ptr::make(fluster::atoms::Rational(n)),
+        fluster::ast::lits::Float::Ptr::make(fluster::atoms::Rational(
+                numerator,
+                denominator)),
         loc
     );
 }
