@@ -18,7 +18,6 @@ struct Float final
     //const data::Construct::Ptr finalize() const final;
 
     //// Construction
-    Float();
     Float(const atoms::Rational& in_value);
 
     //// Types

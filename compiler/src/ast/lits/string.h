@@ -13,8 +13,10 @@ struct String final
     : public Expr
 {
     //// Construction
-    String();
     String(const atoms::String& in_value);
+
+    //// Methods
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Types
     using Ptr = util::Ptr<String>;

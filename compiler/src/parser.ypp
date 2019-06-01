@@ -90,7 +90,7 @@ skipToNextLine()
             DIV     /* / // */
             MOD     /* % mod // */
 ;
-%left       POW     /* a ^ b */
+%right      POW     /* a ^ b */
             ROOT    /* a ^/ b */
 ;
 
@@ -263,16 +263,13 @@ statement
 
 expr
   /* atomic */
-  /*
   : Identifier
-    { $$ = asExprPtr($1); }
+    { $$ = $1; }
 
   | StringLiteral
-    { $$ = asExprPtr($1); }
-  */
+    { $$ = $1; }
 
-  /* TODO: fix this lousy interface */
-  : IntegerLiteral
+  | IntegerLiteral
     { $$ = $1; }
 
   | FloatLiteral
@@ -303,15 +300,13 @@ expr
     }
 
   /* postfix */
-  /*
   | expr PLUS_PLUS
     %prec POSTINCREMENT
-    { $$ = fluster::ast::ops::PostIncrement::Ptr($2).castUp<fluster::ast::Expr>(); }
+    { $$ = ops::PostIncrement::Ptr::make($1); }
 
   | expr DASH_DASH
     %prec POSTDECREMENT
-    { $$ = fluster::ast::ops::PostDecrement::Ptr($2).castUp<fluster::ast::Expr>(); }
-  */
+    { $$ = ops::PostDecrement::Ptr::make($1); }
 
   /* binary */
   | expr PLUS expr
