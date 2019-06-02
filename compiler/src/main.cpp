@@ -11,13 +11,15 @@ int main(/*int argc, char* argv[]*/)
 
     auto parse_result = fluster::ast::Node::makeRootNode();
 
+    // TODO: add parser driver holding both and returning AST
     Lexer lexer(std::cin);
     Parser parser(lexer, parse_result);
     parser.set_debug_level(3);
 
     if (parser.parse() != 0)
         return -1;
-    else {
+    else
+    {
         std::cout << std::endl << "Result:" << std::endl;
         std::cout << *parse_result << std::endl;
         return 0;

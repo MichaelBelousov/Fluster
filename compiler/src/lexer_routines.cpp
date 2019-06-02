@@ -78,8 +78,6 @@ make_IntegerLiteral( const std::string &s
 }
 
 
-// TODO: make into a class with invoke operator overload and private denoninator,
-// exponent, and numerator converters
 // NOTE: assumes a radix exists as per the lexer specification. Undefined
 // behaviour otherwise
 yy::Parser::symbol_type 
@@ -87,6 +85,9 @@ make_FloatLiteral( std::string s
                  , const yy::Parser::location_type& loc
                  )
 {
+    // PRECONDITION: float format literal is valid
+    // TODO: add debug-enabled precondition checking
+    // TODO: add precondition declaration macro
     const auto p_radix = std::find(s.begin(), s.end(), '.');
     const auto p_exponent_start = std::find_if(s.begin(), s.end(),
                                     [](const auto& c){return c=='e'||c=='E';});
@@ -133,8 +134,11 @@ make_StringLiteral( const std::string &s
                   , const yy::Parser::location_type& loc
                   )
 {
+    // PRECONDITION: assumes string literal format
+    // and length of 2 given quotes
+    const auto strlen = s.length();
     return yy::Parser::make_StringLiteral(
-        fluster::ast::lits::String::Ptr::make(s),
+        fluster::ast::lits::String::Ptr::make(s.substr(1, strlen-2)),
         loc
     );
 }

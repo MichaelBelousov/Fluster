@@ -2,6 +2,8 @@
 # Build configuration for flusterc
 #
 
+# TODO: add step which finds and lists all TODOs in source
+
 project('Fluster', 'cpp',
   version : '0.1',
   license : 'MIT',
@@ -117,8 +119,9 @@ ast_src += [ 'src/ast/lits/float.cpp'
            ]
 
 
-data_src = []
+data_src = [ 'src/data/type.cpp' ]
 
+# TODO: separate atoms source by classes
 atoms_src = [ 'src/atoms/types.cpp' ]
 
 srcs = parser_src + ast_src + data_src + atoms_src
