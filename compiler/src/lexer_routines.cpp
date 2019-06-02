@@ -78,41 +78,51 @@ make_IntegerLiteral( const std::string &s
 }
 
 
+// TODO: make into a class with invoke operator overload and private denoninator,
+// exponent, and numerator converters
+// NOTE: assumes a radix exists as per the lexer specification. Undefined
+// behaviour otherwise
 yy::Parser::symbol_type 
 make_FloatLiteral( std::string s
                  , const yy::Parser::location_type& loc
                  )
 {
-    const auto s_len = s.size();
-    const auto radix_idx = std::find(s.begin(), s.end(), '.');
-    // FIXME: do not ignore the exponent, it is blasphemously incorrect
-    // *then why allow it in the parser if we're not supporting it yet?*
-    const auto exponent_start = std::find_if(s.begin(), s.end(),
+    const auto p_radix = std::find(s.begin(), s.end(), '.');
+    const auto p_exponent_start = std::find_if(s.begin(), s.end(),
                                     [](const auto& c){return c=='e'||c=='E';});
-    // NOTE: assume radix exists (assume the lexer works lol)
-    const auto digits_before_radix = static_cast<int>(radix_idx - s.begin());
-    // find returns s.end() if there is no exponent start, so we don't need
-    // a condition
-    const auto digits_after_radix = static_cast<int>(exponent_start - radix_idx - 1);
+    // find returns s.end() if there is no exponent start
+    const auto num_digits_after_radix = static_cast<int>(p_exponent_start - p_radix - 1);
 
-    // HACK: remove . for strtoll reading of numerator
-    // requires pass-by-value
-    s.erase(radix_idx);
+    // shift out radix
+    for(auto i = p_radix; i < p_exponent_start-1; ++i)
+        *i = *(i+1);
+    *(p_exponent_start-1) = '\0';
 
     // FIXME: use atoms::Integer::parse to store big integers
-    const auto numerator = strtoll(s.c_str(), NULL, 10);
+    const auto exponent = strtoll(
+        s.c_str() + static_cast<int>(p_exponent_start-s.begin()) + 1,  //advance to p_exponent_start
+        nullptr, 10
+    );
+    if ( exponent <= std::numeric_limits<long long>::min()
+      || exponent >= std::numeric_limits<long long>::max()
+      || errno == ERANGE
+       )
+        throw yy::Parser::syntax_error (loc, "float exponent is out of range: " + s);
+
+    const auto numerator = strtoll(s.c_str(), nullptr, 10);
     if ( numerator <= std::numeric_limits<long long>::min()
       || numerator >= std::numeric_limits<long long>::max()
       || errno == ERANGE
        )
-        throw yy::Parser::syntax_error (loc, "float is out of range... ummm...: " + s);
-    // TODO: add an intpow math function
-    const auto denominator = std::pow(10, digits_after_radix);
+        throw yy::Parser::syntax_error (loc, "float significand is out of range: " + s);
+
+    const auto denominator = std::pow(10, num_digits_after_radix);
 
     return yy::Parser::make_FloatLiteral(
         fluster::ast::lits::Float::Ptr::make(fluster::atoms::Rational(
                 numerator,
-                denominator)),
+                denominator,
+                exponent)),
         loc
     );
 }

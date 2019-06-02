@@ -8,21 +8,14 @@ namespace atoms {
 //// Construction
 
 Rational::
-Rational(const Integer& in_numerator, const Integer& in_denominator)
+Rational( const Integer& in_numerator
+        , const Integer& in_denominator
+        , const Integer& in_exponent
+        )
     : numerator(in_numerator)
     , denominator(in_denominator)
+    , exponent(in_exponent)
 {}
-
-// build a rational from a floating point number
-Rational::
-Rational(double in_value)
-{
-    // FIXME: use David Eppstein's fractional approximation for real numbers
-    // FIXME: this doesn't work for a large class of inputs and is only temporary
-    constexpr const long long LARGE_VALUE = 1000000;
-    numerator = static_cast<int>(in_value * LARGE_VALUE);
-    denominator = LARGE_VALUE;
-}
 
 //// Methods
 
@@ -124,7 +117,9 @@ operator<< ( std::ostream& os
            , const Rational& rhs
            )
 {
-    return os << rhs.numerator << "/" << rhs.denominator;
+    return os
+        << rhs.numerator << "/" << rhs.denominator
+        << " x 10^" << rhs.exponent;
 }
 
 

@@ -18,8 +18,10 @@ using Integer = BigInteger;
 struct Rational
 {
     //// Construction
-    Rational(const Integer& in_numerator, const Integer& in_denominator);
-    Rational(double in_value);
+    Rational( const Integer& in_numerator
+            , const Integer& in_denominator
+            , const Integer& in_exponent = 1
+            );
 
     //// Methods
     Rational calcReciprocal() const;
@@ -39,6 +41,7 @@ private:
     //// Members
     Integer numerator;
     Integer denominator;
+    Integer exponent;
 };
 
 using ByteArray = std::vector<Byte>;
