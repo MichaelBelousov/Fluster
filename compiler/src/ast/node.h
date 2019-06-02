@@ -2,6 +2,7 @@
 #define FLUSTER_COMPILER_AST_NODE
 
 #include <iostream>
+#include <memory>
 #include "util/ptrs.h"
 #include "data/construct.h"
 
@@ -34,11 +35,11 @@ struct Node
     //// Construction
     Node(Node::Ptr outer);
     // TODO: make it so only makeParentNode can be used to construct
-    // new nodes, via the private default constructor
+    // new nodes, via a private constructor
 //private:
-    Node();
+    Node() = default;
 
-    virtual ~Node();
+    virtual ~Node() = default;
 
     //// Members
     const util::WeakPtr<Node> outer;

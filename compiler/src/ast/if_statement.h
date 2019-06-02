@@ -25,7 +25,7 @@ struct IfStatement final
     // TODO: make the then and else links blocks
 
     //// Construction
-    IfStatement();
+    IfStatement() = default;
     IfStatement( Expr::Ptr in_cond
                , Node::Ptr in_then
                , Node::Ptr in_else = empty()

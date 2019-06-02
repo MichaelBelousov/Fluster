@@ -35,7 +35,7 @@ struct Identifier final
     : public Expr
 {
     //// Construction
-    Identifier();
+    Identifier() = default;
     Identifier(const std::string& in_name);
 
     //// Methods

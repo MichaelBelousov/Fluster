@@ -8,17 +8,8 @@ namespace fluster { namespace ast {
 //// Construction
 
 Node::
-Node()
-    : outer()
-{}
-
-Node::
 Node(Node::Ptr in_outer)
     : outer(in_outer)
-{}
-
-Node::
-~Node()
 {}
 
 //// Methods

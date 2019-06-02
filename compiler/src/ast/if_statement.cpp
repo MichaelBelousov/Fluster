@@ -31,13 +31,6 @@ print(std::ostream& os, unsigned indent_level) const
 //// Construction
 
 IfStatement::
-IfStatement()
-    : cond()
-    , then()
-    , else_()
-{}
-
-IfStatement::
 IfStatement( Expr::Ptr in_cond
            , Node::Ptr in_then
            , Node::Ptr in_else
