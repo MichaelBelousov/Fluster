@@ -30,8 +30,8 @@
   }
   //unlink the global yylex
   #undef yylex
-  //within bison's parse invoke lexer.get_token
-  #define yylex lexer.get_token
+  //within bison's parse invoke lexer.getToken
+  #define yylex lexer.getToken
 }
 
 %code top {

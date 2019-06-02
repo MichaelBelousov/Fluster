@@ -148,7 +148,7 @@ int main()
 
     while(true)
     {
-        auto lexeme = lexer.get_token();
+        auto lexeme = lexer.getToken();
         std::cout << "@" << lexeme.location << ": "
                   << token_names.at(lexeme.token()) 
                   << std::endl;

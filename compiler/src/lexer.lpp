@@ -16,9 +16,9 @@ this specification.
  /* additional members of the Lexer class */
 %class{
   std::queue<yy::Parser::symbol_type> token_queue;
-  void push_token(const yy::Parser::symbol_type& token);
+  void pushToken(const yy::Parser::symbol_type& token);
 public:
-  yy::Parser::symbol_type get_token();
+  yy::Parser::symbol_type getToken();
 %}
 
 
@@ -27,15 +27,15 @@ public:
 %}
 
 %{
-  void yy::Lexer::push_token(const yy::Parser::symbol_type& token)
+  void yy::Lexer::pushToken(const yy::Parser::symbol_type& token)
   {
     token_queue.emplace(token);
   }
 
-  yy::Parser::symbol_type yy::Lexer::get_token()
+  yy::Parser::symbol_type yy::Lexer::getToken()
   {
     if (token_queue.empty())
-      push_token(lex());
+      pushToken(lex());
 
     auto result = token_queue.front();
     token_queue.pop();
@@ -225,13 +225,13 @@ string_content      {any}*[^\\]
   /* return NL, INDENT, *, NL, OUTDENT */
 \\              {
                   start(INNER_BACKSLASH_READ_REST);
-                  push_token(yy::Parser::make_NL(location()));
+                  pushToken(yy::Parser::make_NL(location()));
                   return yy::Parser::make_INDENT(location());
                 }
 
 <INNER_BACKSLASH_READ_REST>\n {
                   start(INITIAL);
-                  push_token(yy::Parser::make_NL(location()));
+                  pushToken(yy::Parser::make_NL(location()));
                   return yy::Parser::make_OUTDENT(location());
                 }
 
