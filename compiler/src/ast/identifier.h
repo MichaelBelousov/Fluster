@@ -2,33 +2,12 @@
 #define FLUSTER_COMPILER_AST_IDENTIFIER
 
 #include <string>
-#include <regex>
 #include "util/ptrs.h"
 #include "expr.h"
+#include "name.h"
 
 namespace fluster { namespace ast {
 
-
-
-struct Name final
-{
-private:
-    //// Constants
-    static
-    const std::regex valid_pattern;
-
-    //// Members
-    const std::string value;
-
-public:
-    //// Construction
-    Name(const std::string& in_value);
-
-    //// Methods
-    static
-    bool
-    isValidName(const std::string& in);
-};
 
 
 struct Identifier final
