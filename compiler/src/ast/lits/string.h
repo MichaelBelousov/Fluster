@@ -1,6 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_STRING
 #define FLUSTER_COMPILER_AST_LITS_STRING
 
+#include <iostream>
 #include "util/ptrs.h"
 #include "atoms/types.h"
 #include "ast/expr.h"
@@ -12,11 +13,15 @@ namespace fluster { namespace ast { namespace lits {
 struct String final
     : public Expr
 {
-    //// Construction
-    String(const atoms::String& in_value);
-
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
+
+    llvm::Value* generateCode( const llvm::LLVMContext& ctx
+                             , const llvm::IRBuilder<>& builder
+                             ) const override;
+
+    //// Construction
+    String(const atoms::String& in_value);
 
     //// Types
     using Ptr = util::Ptr<String>;

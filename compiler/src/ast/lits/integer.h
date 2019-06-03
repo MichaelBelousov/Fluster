@@ -1,8 +1,9 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_INTEGER
 #define FLUSTER_COMPILER_AST_LITS_INTEGER
 
+#include <iostream>
+#include "llvm/ADT/APInt.h"
 #include "util/ptrs.h"
-#include "atoms/types.h"
 #include "ast/expr.h"
 
 namespace fluster { namespace ast { namespace lits {
@@ -15,17 +16,19 @@ struct Integer final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
-    //const data::Construct::Ptr finalize() const final;
+    llvm::Value* generateCode( const llvm::LLVMContext& ctx
+                             , const llvm::IRBuilder<>& builder
+                             ) const override;
 
     //// Construction
-    Integer(const atoms::Integer& in_value);
+    Integer(const llvm::APInt& in_value);
 
     //// Types
     using Ptr = util::Ptr<Integer>;
 
 private:
     //// Members
-    const atoms::Integer value;
+    const llvm::APInt value;
 };
 
 

@@ -15,6 +15,10 @@ struct Add final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
+    llvm::Value* generateCode( const llvm::LLVMContext& ctx
+                             , const llvm::IRBuilder<>& builder
+                             ) const override;
+
     //// Construction
     Add(Expr::Ptr left, Expr::Ptr right);
 

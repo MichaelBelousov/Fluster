@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <memory>
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Builder.h"
+#include "llvm/IR/Value.h"
 #include "util/ptrs.h"
-#include "data/construct.h"
 
 namespace fluster { namespace ast {
 
@@ -17,12 +19,11 @@ struct Node
     using Ptr = util::Ptr<Node>;
 
     //// Methods
-    friend std::ostream& operator<<(std::ostream& os, const Node& node);
-
-    //virtual const data::Construct::Ptr finalize() const = 0;
-
-    // TODO: make protected
-    virtual void print(std::ostream& os, unsigned indent_level) const;
+    virtual llvm::Value* generateCode
+        ( const llvm::LLVMContext& ctx
+        , const llvm::IRBuilder<>& builder
+        )
+    const override = 0;
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 
@@ -32,17 +33,25 @@ struct Node
 
     static Node::Ptr makeRootNode();
 
+    //// Operators
+    friend std::ostream& operator<<(std::ostream& os, const Node& node);
+
     //// Construction
-    Node(Node::Ptr outer);
     // TODO: make it so only makeParentNode can be used to construct
     // new nodes, via a private constructor
 //private:
+    Node(Node::Ptr outer);
     Node() = default;
-
     virtual ~Node() = default;
 
+protected:
+    // TODO: make protected
+    virtual void print(std::ostream& os, unsigned indent_level) const;
+
+private:
     //// Members
     const util::WeakPtr<Node> outer;
+
 };
 
 

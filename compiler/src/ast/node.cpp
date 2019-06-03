@@ -14,13 +14,6 @@ Node(Node::Ptr in_outer)
 
 //// Methods
 
-std::ostream& 
-operator<<(std::ostream& os, const Node& node)
-{
-    node.print(os, 0);
-    return os;
-}
-
 void
 Node::
 print(std::ostream& os, unsigned indent_level) const
@@ -33,7 +26,17 @@ Node::Ptr
 Node::
 makeRootNode()
 {
-    return Node::Ptr();
+    auto new_root = Node::Ptr();
+    return new_root
+}
+
+//// Operators
+
+std::ostream& 
+operator<<(std::ostream& os, const Node& node)
+{
+    node.print(os, 0);
+    return os;
 }
 
 

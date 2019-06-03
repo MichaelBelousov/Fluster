@@ -1,7 +1,20 @@
+#include "llvm/IR/Constants.h"
 #include "string.h"
 
 namespace fluster { namespace ast { namespace lits {
 
+
+
+//// Methods
+
+llvm::Value*
+Integer::
+generateCode( const llvm::LLVMContext& ctx
+            , const llvm::IRBuilder<>& builder
+            ) const
+{
+    return llvm::ConstantArray::get(ctx, value);
+}
 
 //// Construction
 

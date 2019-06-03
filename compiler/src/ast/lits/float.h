@@ -1,8 +1,9 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_FLOAT
 #define FLUSTER_COMPILER_AST_LITS_FLOAT
 
+#include <iostream>
+#include "llvm/ADT/APFloat.h"
 #include "util/ptrs.h"
-#include "atoms/types.h"
 #include "ast/expr.h"
 
 namespace fluster { namespace ast { namespace lits {
@@ -15,17 +16,19 @@ struct Float final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
-    //const data::Construct::Ptr finalize() const final;
+    llvm::Value* generateCode( const llvm::LLVMContext& ctx
+                             , const llvm::IRBuilder<>& builder
+                             ) const override;
 
     //// Construction
-    Float(const atoms::Rational& in_value);
+    Float(const llvm::APFloat& in_value);
 
     //// Types
     using Ptr = util::Ptr<Float>;
 
 private:
     //// Members
-    const atoms::Rational value;
+    const llvm::APFloat value;
 };
 
 

@@ -1,7 +1,20 @@
+#include <iostream>
+#include "llvm/IR/Constants.h"
 #include "float.h"
 
 namespace fluster { namespace ast { namespace lits {
 
+
+//// Methods
+
+llvm::Value*
+Float::
+generateCode( const llvm::LLVMContext& ctx
+            , const llvm::IRBuilder<>& builder
+            ) const
+{
+    return llvm::ConstantFP::get(ctx, APFloat(value));
+}
 
 //// Construction
 
