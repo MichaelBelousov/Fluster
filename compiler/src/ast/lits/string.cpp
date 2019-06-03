@@ -9,9 +9,7 @@ namespace fluster { namespace ast { namespace lits {
 
 llvm::Value*
 Integer::
-generateCode( const llvm::LLVMContext& ctx
-            , const llvm::IRBuilder<>& builder
-            ) const
+generateCode(GenerationContext& ctx) const
 {
     return llvm::ConstantArray::get(ctx, value);
 }

@@ -4,8 +4,10 @@
 #include <iostream>
 #include <memory>
 #include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/Builder.h>
+#include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/Value.h>
+#include "db/program_database.h"
+#include "context.h"
 #include "util/ptrs.h"
 
 namespace fluster { namespace ast {
@@ -19,16 +21,10 @@ struct Node
     using Ptr = util::Ptr<Node>;
 
     //// Methods
-    virtual llvm::Value* generateCode
-        ( const llvm::LLVMContext& ctx
-        , const llvm::IRBuilder<>& builder
-        )
-    const override = 0;
+    virtual llvm::Value* generateCode(GenerationContext& ctx) const = 0;
 
     //emit the new type to the program database
-    virtual declareElement(ProgramDatabase& db) const
-
-    virtual linkElement(ProgramDatabase& db) const
+    virtual void finalize(db::ProgramDatabase& db) const = 0;
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 
@@ -53,10 +49,7 @@ protected:
     // TODO: make protected
     virtual void print(std::ostream& os, unsigned indent_level) const;
 
-private:
-    //// Members
     const util::WeakPtr<Node> outer;
-
 };
 
 

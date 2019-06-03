@@ -8,16 +8,17 @@ namespace fluster { namespace ast { namespace lits {
     
 //// Methods
 
+
 llvm::Value*
 Integer::
-generateCode( const llvm::LLVMContext& ctx
-            , const llvm::IRBuilder<>& builder
-            ) const
+generateCode(GenerationContext& ctx) const
 {
-    return llvm::ConstantInt::get(ctx, value);
+    return llvm::ConstantInt::get(ctx.context, value);
 }
 
+
 //// Construction
+
 
 Integer::
 Integer(const llvm::APInt& in_value)

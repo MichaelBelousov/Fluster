@@ -12,7 +12,8 @@ GenerationContext()
     , db()
 {}
 
-static GenerationContext the_context();
+
+GenerationContext the_context();
 
 
 

@@ -10,7 +10,9 @@ namespace fluster {
 
 struct Name final
 {
+
     //// Construction
+    // TODO: should probably just forward to string ctor
     Name(const std::string& in_value);
     Name(const char* in_value);
 

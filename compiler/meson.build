@@ -85,6 +85,7 @@ driver_src = [ 'src/arg_parser.cpp' ]
 parser_src = [ lexer
              , 'src/lexer_routines.cpp'
              , parser
+             , 'src/name.cpp'  #TODO: move to another src section
              ]
 
 ast_src = [ 'src/ast/block.cpp'
@@ -125,6 +126,8 @@ data_src = [ 'src/data/type.cpp' ]
 
 db_src = [ 'src/db/type.cpp'
          , 'src/db/primitives.cpp'
+         , 'src/db/program_database.cpp'
+         , 'src/db/program_element.cpp'
          ]
 
 atoms_src = [ 'src/atoms/types.cpp' ]

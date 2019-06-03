@@ -11,6 +11,32 @@ namespace fluster { namespace db {
 
 namespace
 {
+    /*
+     * TODO: abstraction
+    template <std::string& name, auto f>
+    Type::Ptr make_primitive(GenerationContext& ctx)
+    {
+        auto result = Type::Ptr::make();
+        result.db.addOperation(
+            result,
+            {result, result},
+            [](const std::vector<llvm::Value*>& args) {
+                return f(ctx)(args[0], args[1], "i32-add")
+            }
+        );
+
+        return result;
+    }
+
+    Type::Ptr make_i32(GenerationContext& ctx) {
+        static const char* add = "add";
+        return make_primitive
+            < add
+            , [](Generation& ctx) {return ctx.builder.CreateFAdd}
+            > (ctx);
+    }
+    */
+
     Type::Ptr make_i32(GenerationContext ctx)
     {
         auto i32 = Type::Ptr::make();
@@ -76,7 +102,7 @@ namespace
     }
 }
 
-static const Type::Ptr type_type = Type::Ptr::make();
+const Type::Ptr type_type = Type::Ptr::make();
 
 //integer primitive types
 //const Type::Ptr i8(new Type);

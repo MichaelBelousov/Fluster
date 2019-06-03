@@ -18,7 +18,7 @@ namespace fluster { namespace db {
 struct Type;
 using TypePtr = util::Ptr<Type>;
 struct Operatoin;
-using OperationPtr = util::Ptr<Type>;
+using OperationPtr = util::Ptr<Operation>;
 
 // a pending dependency link that must be fulfilled
 struct Reference
@@ -65,14 +65,14 @@ struct ProgramDatabase
     ProgramDatabase() = default;
     ProgramDatabase(ProgramDatabase&&) = default;
 
-private:
-    // list of unsatisfied references to resolve
-    std::vector<Reference> pending_references;
-
-    //Table<Name, Variable::Ptr> variables;
-    //Table<Name, Function::Ptr> functions;
+    //// Members
     Table<Name, TypePtr> types;
     Table<Name, OperationPtr> operations;
+    //Table<Name, Variable::Ptr> variables;
+    //Table<Name, Function::Ptr> functions;
+
+private:
+    std::vector<Reference> pending_references;  //list of unsatisfied references to resolve
 };
 
 

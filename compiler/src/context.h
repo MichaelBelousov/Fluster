@@ -10,6 +10,7 @@
 namespace fluster {
 
 
+//namespace db { struct ProgramDatabase; }
 
 struct GenerationContext
 {
@@ -18,11 +19,11 @@ struct GenerationContext
     llvm::LLVMContext context;
     llvm::IRBuilder<> builder;
     std::unique_ptr<llvm::Module> module;
-    ProgramDatabase db;
+    db::ProgramDatabase db;
 };
 
 // remove use of global later
-extern static GenerationContext the_context;
+extern GenerationContext the_context;
 
 
 
