@@ -80,6 +80,8 @@ endif
 
 includes = include_directories('src')
 
+driver_src = [ 'src/arg_parser.cpp' ]
+
 parser_src = [ lexer
              , 'src/lexer_routines.cpp'
              , parser
@@ -121,19 +123,22 @@ ast_src += [ 'src/ast/lits/float.cpp'
 
 data_src = [ 'src/data/type.cpp' ]
 
-# TODO: separate atoms source by classes
+db_src = [ 'src/db/type.cpp'
+         , 'src/db/primitives.cpp'
+         ]
+
 atoms_src = [ 'src/atoms/types.cpp' ]
 
-srcs = parser_src + ast_src + data_src + atoms_src
+srcs = driver_src + parser_src + ast_src + data_src + atoms_src + db_src
 
-exe = executable('flusterc',
+flusterc = executable('flusterc',
   'src/main.cpp', srcs,
   dependencies : deps,
   cpp_args : [],
   include_directories : includes
 )
 
-runlex_exe = executable('lexonly',
+lexonly = executable('lexonly',
   'src/lexonly.cpp', srcs,
   dependencies : deps,
   cpp_args : [],
@@ -141,4 +146,5 @@ runlex_exe = executable('lexonly',
 )
 #install : true
 
-test('basic', exe)
+test('basic', flusterc)
+test('basic', lexonly)

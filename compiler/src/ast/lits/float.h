@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_LITS_FLOAT
 
 #include <iostream>
-#include "llvm/ADT/APFloat.h"
+#include <llvm/ADT/APFloat.h>
 #include "util/ptrs.h"
 #include "ast/expr.h"
 

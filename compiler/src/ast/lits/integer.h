@@ -2,7 +2,7 @@
 #define FLUSTER_COMPILER_AST_LITS_INTEGER
 
 #include <iostream>
-#include "llvm/ADT/APInt.h"
+#include <llvm/ADT/APInt.h>
 #include "util/ptrs.h"
 #include "ast/expr.h"
 

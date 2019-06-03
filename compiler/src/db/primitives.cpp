@@ -1,5 +1,7 @@
 #include "primitives.h"
 #include "type.h"
+#include "context.h"
+#include <vector>
 
 namespace fluster { namespace db {
 
@@ -7,33 +9,101 @@ namespace fluster { namespace db {
 
 /* Primitive types */
 
-static const Type::Ptr TheType(new Type);
+namespace
+{
+    Type::Ptr make_i32(GenerationContext ctx)
+    {
+        auto i32 = Type::Ptr::make();
+        i32.db.addOperation(
+            "add",
+            Operation::Ptr::make(
+                i32,
+                {i32, i32},
+                [](const std::vector<llvm::Value*>& args) {
+                    // TODO: need to catch semantic exceptions here, etc
+                    return ctx.builder.CreateFAdd(args[0], args[1], "i32-add")
+                }
+            )
+        );
+        return i32;
+    }
+
+    Type::Ptr make_f32(GenerationContext ctx)
+    {
+        auto f32 = Type::Ptr::make();
+        f32.db.addOperation(
+            "add",
+            Operation::Ptr::make(
+                f32,
+                {f32, f32},
+                [](const std::vector<llvm::Value*>& args) {
+                    return ctx.builder.CreateFAdd(args[0], args[1], "f32-add")
+                }
+            )
+        );
+        f32.db.addOperation(
+            "sub",
+            Operation::Ptr::make(
+                f32,
+                {f32, f32},
+                [](const std::vector<llvm::Value*>& args) {
+                    return ctx.builder.CreateFSub(args[0], args[1], "f32-sub")
+                }
+            )
+        );
+        f32.db.addOperation(
+            "mul",
+            Operation::Ptr::make(
+                f32,
+                {f32, f32},
+                [](const std::vector<llvm::Value*>& args) {
+                    return ctx.builder.CreateFMul(args[0], args[1], "f32-mul")
+                }
+            )
+        );
+        f32.db.addOperation(
+            "lt",
+            Operation::Ptr::make(
+                f32,
+                {f32, f32},
+                [](const std::vector<llvm::Value*>& args) {
+                    auto bool_result = CreateFCompULT(args[0], ars[1], "f32-lt");
+                    return ctx.builder.CreateUIToFP(bool_result, Type::getDoubleTy(ctx));
+                }
+            )
+        );
+        return f32;
+    }
+}
+
+static const Type::Ptr type_type = Type::Ptr::make();
 
 //integer primitive types
-const Type::Ptr i8(new Type);
-const Type::Ptr i16(new Type);
-const Type::Ptr i32(new Type);
-const Type::Ptr i64(new Type);
-const Type::Ptr Int(new Type);
-const Type::Ptr APInt(new Type);
+//const Type::Ptr i8(new Type);
+//const Type::Ptr i16(new Type);
+const Type::Ptr i32 = make_i32(the_context);
+//const Type::Ptr i64(new Type);
+//const Type::Ptr Int(new Type);
+//const Type::Ptr APInt(new Type);
 
 //unsigned integer primitive types
-const Type::Ptr u8(new Type);
-const Type::Ptr u16(new Type);
-const Type::Ptr u32(new Type);
-const Type::Ptr u64(new Type);
-const Type::Ptr UInt(new Type);
+//const Type::Ptr u8(new Type);
+//const Type::Ptr u16(new Type);
+//const Type::Ptr u32(new Type);
+//const Type::Ptr u64(new Type);
+//const Type::Ptr UInt(new Type);
+
 
 //floating point primitive types
-const Type::Ptr f32(new Type);
-const Type::Ptr f64(new Type);
-const Type::Ptr Float(new Type);
-const Type::Ptr APFloat(new Type);
+const Type::Ptr f32 = make_f32(the_context);
+//const Type::Ptr f64(new Type);
+//const Type::Ptr Float(new Type);
+//const Type::Ptr APFloat(new Type);
 
 //raw types
-const Type::Ptr Bit(new Type);
-const Type::Ptr Byte(new Type);
-const Type::Ptr Word(new Type);
+//const Type::Ptr Bit(new Type);
+//const Type::Ptr Byte(new Type);
+//const Type::Ptr Word(new Type);
 
 
 

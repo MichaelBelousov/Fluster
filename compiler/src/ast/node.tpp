@@ -10,6 +10,8 @@ namespace fluster { namespace ast {
 
 
 
+// TODO: use a private constructor instead of this nonsense
+// const cast
 template<typename T, typename ...Args>
 Node::Ptr
 Node::
@@ -21,6 +23,7 @@ makeChildNode(Args&& ...args)
     return result;
 }
 
+// TODO: same as above
 template<typename T, typename ...Args>
 Node::Ptr
 Node::

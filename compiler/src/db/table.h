@@ -9,7 +9,7 @@ namespace fluster { namespace db {
 
 
 template<typename ...Args>
-using Table = std::map;
+using Table = std::map<Args...>;
 
 
 

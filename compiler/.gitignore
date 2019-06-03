@@ -1,7 +1,14 @@
-# generated file
+# generated files
 *.gen.*
 
-# build data
+# compiled objects
+*.o
+*.gch
+*.pch
+*.exe
+*.out
+
+# build folder
 build
 
 # debug logs

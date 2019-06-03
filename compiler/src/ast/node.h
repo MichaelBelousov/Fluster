@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <memory>
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/Builder.h"
-#include "llvm/IR/Value.h"
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Builder.h>
+#include <llvm/IR/Value.h>
 #include "util/ptrs.h"
 
 namespace fluster { namespace ast {
@@ -24,6 +24,11 @@ struct Node
         , const llvm::IRBuilder<>& builder
         )
     const override = 0;
+
+    //emit the new type to the program database
+    virtual declareElement(ProgramDatabase& db) const
+
+    virtual linkElement(ProgramDatabase& db) const
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 

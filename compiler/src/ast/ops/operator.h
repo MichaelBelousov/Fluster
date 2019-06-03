@@ -2,15 +2,15 @@
 #define FLUSTER_COMPILER_AST_OPERATOR
 
 // TODO: use a constant for the indentation amount
-#define FLUSTER_COMPILER_OP_PRINT_IMPL(_class, _op_sym) \
-    void _class::print(std::ostream& os, unsigned indent_level) const \
-    { \
-        for (unsigned i = 0; i < indent_level; ++i) os << " "; \
-        os << "<ops:'" << _op_sym << "'>" << std::endl; \
-        for (const auto& operand : operands) \
-            operand->print(os, indent_level+1); \
-        for (unsigned i = 0; i < indent_level; ++i) os << " "; \
-        os << "</ops:'" << _op_sym << "'>" << std::endl; \
+#define FLUSTER_COMPILER_OP_PRINT_IMPL(_class, _op_sym)                 \
+    void _class::print(std::ostream& os, unsigned indent_level) const   \
+    {                                                                   \
+        for (unsigned i = 0; i < indent_level; ++i) os << " ";          \
+        os << "<ops:'" << _op_sym << "'>" << std::endl;                 \
+        for (const auto& operand : operands)                            \
+            operand->print(os, indent_level+1);                         \
+        for (unsigned i = 0; i < indent_level; ++i) os << " ";          \
+        os << "</ops:'" << _op_sym << "'>" << std::endl;                \
     }
 
 #include <array>

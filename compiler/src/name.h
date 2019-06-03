@@ -12,9 +12,13 @@ struct Name final
 {
     //// Construction
     Name(const std::string& in_value);
+    Name(const char* in_value);
 
     //// Members
     const std::string value;
+
+    //// Operators
+    friend bool operator< (const Name& lhs, const Name& rhs);
 
 private:
     //// Methods
