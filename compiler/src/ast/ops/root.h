@@ -22,6 +22,10 @@ struct Root final
 
     //// Types
     using Ptr = util::Ptr<Root>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

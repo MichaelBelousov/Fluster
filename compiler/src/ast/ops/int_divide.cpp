@@ -4,12 +4,33 @@ namespace fluster { namespace ast { namespace ops {
 
 
 
+//// Class Constants
+
+static const std::string IntDivide::tag = "int_divide";
+static const std::string IntDivide::symbol = "//";
+
+//// Methods
+
+llvm::Value*
+IntDivide::
+generateCode(GenerationContext& ctx) const
+{
+    return _generateCode<IntDivide::tag>(ctx);
+}
+
+void
+IntDivide::
+print(std::ostream& os, unsigned indent_level) const
+{
+    _print<IntDivide::symbol>(os, indent_level);
+}
+
+//// Construction
+
 IntDivide::
 IntDivide(Expr::Ptr in_lhs, Expr::Ptr in_rhs)
     : BinaryOperator(in_lhs, in_rhs)
 {}
-
-FLUSTER_COMPILER_OP_PRINT_IMPL(IntDivide, "//")
 
 
 

@@ -16,12 +16,14 @@ struct Power final
     void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
-    Power( Expr::Ptr left
-         , Expr::Ptr right
-         );
+    Power(Expr::Ptr left , Expr::Ptr right);
 
     //// Types
     using Ptr = util::Ptr<Power>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

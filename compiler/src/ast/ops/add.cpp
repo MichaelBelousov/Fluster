@@ -1,27 +1,29 @@
-#include <llvm/IR/Value.h>
 #include "add.h"
 
 namespace fluster { namespace ast { namespace ops {
 
 
 
+//// Class Constants
+
+static const std::string Add::tag = "add";
+static const std::string Add::symbol = "+";
+
 //// Methods
 
 llvm::Value*
 Add::
-generateCode( const llvm::LLVMContext& ctx
-            , const llvm::IRBuilder<>& builder
-            ) const
+generateCode(GenerationContext& ctx) const
 {
-    Value* lhs = lhs->generateCode(ctx, builder);
-    Value* rhs = lhs->generateCode(ctx, builder);
-
-    return Builder.CreateFAdd(lhs, rhs, "add")
-    return Builder.CreateUIToFP(); //...
+    return _generateCode<Add::tag>(ctx);
 }
 
-
-FLUSTER_COMPILER_OP_PRINT_IMPL(Add, "+")
+void
+Add::
+print(std::ostream& os, unsigned indent_level) const
+{
+    print<Add::symbol>(os, indent_level);
+}
 
 //// Construction
 
@@ -32,4 +34,4 @@ Add(Expr::Ptr in_lhs, Expr::Ptr in_rhs)
 
 
 
-} } }
+} } }  //namespace fluster::ast::ops

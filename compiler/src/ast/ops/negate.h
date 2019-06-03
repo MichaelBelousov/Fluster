@@ -19,6 +19,10 @@ struct Negate final
 
     //// Types
     using Ptr = util::Ptr<Negate>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

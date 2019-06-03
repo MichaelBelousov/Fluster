@@ -20,6 +20,10 @@ struct PostDecrement final
 
     //// Types
     using Ptr = util::Ptr<PostDecrement>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

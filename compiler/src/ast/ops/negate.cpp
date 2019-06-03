@@ -4,12 +4,33 @@ namespace fluster { namespace ast { namespace ops {
 
 
 
+//// Class Constants
+
+static const std::string Negate::tag = "negate";
+static const std::string Negate::symbol = "-";
+
+//// Methods
+
+llvm::Value*
+Negate::
+generateCode(GenerationContext& ctx) const
+{
+    return _generateCode<Negate::tag>(ctx);
+}
+
+void
+Negate::
+print(std::ostream& os, unsigned indent_level) const
+{
+    _print<Negate::symbol>(os, indent_level);
+}
+
+//// Construction
+
 Negate::
 Negate(Expr::Ptr in_operand)
     : UnaryOperator(in_operand)
 {}
-
-FLUSTER_COMPILER_OP_PRINT_IMPL(Negate, "-")
 
 
 

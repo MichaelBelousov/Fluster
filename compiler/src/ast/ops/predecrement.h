@@ -20,6 +20,10 @@ struct PreDecrement final
 
     //// Types
     using Ptr = util::Ptr<PreDecrement>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

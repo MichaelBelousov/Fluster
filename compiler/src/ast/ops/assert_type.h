@@ -20,6 +20,10 @@ struct AssertType final
 
     //// Types
     using Ptr = util::Ptr<AssertType>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

@@ -20,6 +20,10 @@ struct Assign final
 
     //// Types
     using Ptr = util::Ptr<Assign>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

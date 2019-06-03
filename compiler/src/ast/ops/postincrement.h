@@ -20,6 +20,10 @@ struct PostIncrement final
 
     //// Types
     using Ptr = util::Ptr<PostIncrement>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

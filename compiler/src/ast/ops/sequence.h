@@ -21,6 +21,10 @@ struct Sequence final
 
     //// Types
     using Ptr = util::Ptr<Sequence>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

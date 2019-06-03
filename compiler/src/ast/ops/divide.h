@@ -20,6 +20,10 @@ struct Divide final
 
     //// Types
     using Ptr = util::Ptr<Divide>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 

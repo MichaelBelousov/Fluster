@@ -1,18 +1,6 @@
 #ifndef FLUSTER_COMPILER_AST_OPERATOR
 #define FLUSTER_COMPILER_AST_OPERATOR
 
-// TODO: use a constant for the indentation amount
-#define FLUSTER_COMPILER_OP_PRINT_IMPL(_class, _op_sym)                 \
-    void _class::print(std::ostream& os, unsigned indent_level) const   \
-    {                                                                   \
-        for (unsigned i = 0; i < indent_level; ++i) os << " ";          \
-        os << "<ops:'" << _op_sym << "'>" << std::endl;                 \
-        for (const auto& operand : operands)                            \
-            operand->print(os, indent_level+1);                         \
-        for (unsigned i = 0; i < indent_level; ++i) os << " ";          \
-        os << "</ops:'" << _op_sym << "'>" << std::endl;                \
-    }
-
 #include <array>
 #include <vector>
 #include <string>
@@ -37,6 +25,26 @@ struct NaryOperator
 {
 protected:
     std::array<Expr::Ptr, N> operands;
+
+    template<std::string& op_symbol>;
+    void _print(std::ostream& os, unsigned indent_level) const
+    {
+        for (unsigned i = 0; i < indent_level; ++i) os << " ";
+        os << "<ops:'" << op_symbol << "'>" << std::endl;
+        for (const auto& operand : operands)
+            operand->print(os, indent_level+1);
+        for (unsigned i = 0; i < indent_level; ++i) os << " ";
+        os << "</ops:'" << op_symbol << "'>" << std::endl;
+    }
+
+    template<std::string& op_tag>;
+    llvm::Value* _generateCode(GenerationContext& ctx) const
+    {
+        llvm::Value* lhs_val = lhs->generateCode(ctx, builder);
+        llvm::Value* rhs_val = lhs->generateCode(ctx, builder);
+        std::vector<llvm::Value*> args = {lhs_val, rhs_val};
+        return db.operations[op_tag](args);
+    }
 };
 
 template<int minimum_operands = 0>

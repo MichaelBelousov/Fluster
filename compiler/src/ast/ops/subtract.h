@@ -22,6 +22,10 @@ struct Subtract final
 
     //// Types
     using Ptr = util::Ptr<Subtract>;
+
+    //// Class Constants
+    static const std::string tag;
+    static const std::string symbol;
 };
 
 
