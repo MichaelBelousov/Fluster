@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string IntDivide::tag = "int_divide";
-static const std::string IntDivide::symbol = "//";
+const std::string IntDivide::tag = "int_divide";
+const std::string IntDivide::symbol = "//";
 
 //// Methods
 

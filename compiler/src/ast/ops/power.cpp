@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string Power::tag = "power";
-static const std::string Power::symbol = "^";
+const std::string Power::tag = "power";
+const std::string Power::symbol = "^";
 
 //// Methods
 

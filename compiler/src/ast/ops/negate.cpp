@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string Negate::tag = "negate";
-static const std::string Negate::symbol = "-";
+const std::string Negate::tag = "negate";
+const std::string Negate::symbol = "-";
 
 //// Methods
 

@@ -7,8 +7,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string SquareRoot::tag = "subtract";
-static const std::string SquareRoot::symbol = "-";
+const std::string SquareRoot::tag = "subtract";
+const std::string SquareRoot::symbol = "-";
 
 //// Methods
 

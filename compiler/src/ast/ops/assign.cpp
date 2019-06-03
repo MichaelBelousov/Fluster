@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string Assign::tag = "assign";
-static const std::string Assign::symbol = "=";
+const std::string Assign::tag = "assign";
+const std::string Assign::symbol = "=";
 
 //// Methods
 

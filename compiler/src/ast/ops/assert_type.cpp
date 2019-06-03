@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string AssertType::tag = "type_assert";
-static const std::string AssertType::symbol = ":";
+const std::string AssertType::tag = "type_assert";
+const std::string AssertType::symbol = ":";
 
 //// Methods
 

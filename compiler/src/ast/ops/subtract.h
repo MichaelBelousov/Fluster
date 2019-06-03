@@ -15,6 +15,8 @@ struct Subtract final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
+
     //// Construction
     Subtract( Expr::Ptr left_operand
             , Expr::Ptr right_operand

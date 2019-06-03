@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string Multiply::tag = "multiply";
-static const std::string Multiply::symbol = "*";
+const std::string Multiply::tag = "multiply";
+const std::string Multiply::symbol = "*";
 
 //// Methods
 

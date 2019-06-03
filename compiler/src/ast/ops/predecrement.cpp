@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string PreDecrement::tag = "predecrement";
-static const std::string PreDecrement::symbol = "--";
+const std::string PreDecrement::tag = "predecrement";
+const std::string PreDecrement::symbol = "--";
 
 //// Methods
 

@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string PreIncrement::tag = "preincrement";
-static const std::string PreIncrement::symbol = "++";
+const std::string PreIncrement::tag = "preincrement";
+const std::string PreIncrement::symbol = "++";
 
 //// Methods
 

@@ -16,6 +16,8 @@ struct Sequence final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
+
     //// Construction
     Sequence(Expr::Ptr in_lhs, Expr::Ptr in_rhs);
 

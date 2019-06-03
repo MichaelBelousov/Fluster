@@ -5,8 +5,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string Root::tag = "root";
-static const std::string Root::symbol = "^/";
+const std::string Root::tag = "root";
+const std::string Root::symbol = "^/";
 
 //// Methods
 

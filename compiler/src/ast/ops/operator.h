@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include "util/ptrs.h"
 #include "ast/expr.h"
 #include "util/preallocated_vector.h"
@@ -26,7 +27,7 @@ struct NaryOperator
 protected:
     std::array<Expr::Ptr, N> operands;
 
-    template<std::string& op_symbol>;
+    template<const std::string& op_symbol>
     void _print(std::ostream& os, unsigned indent_level) const
     {
         for (unsigned i = 0; i < indent_level; ++i) os << " ";
@@ -37,13 +38,17 @@ protected:
         os << "</ops:'" << op_symbol << "'>" << std::endl;
     }
 
-    template<std::string& op_tag>;
+    template<const std::string& op_tag>
     llvm::Value* _generateCode(GenerationContext& ctx) const
     {
-        llvm::Value* lhs_val = lhs->generateCode(ctx, builder);
-        llvm::Value* rhs_val = lhs->generateCode(ctx, builder);
-        std::vector<llvm::Value*> args = {lhs_val, rhs_val};
-        return db.operations[op_tag](args);
+        std::vector<llvm::Value*> args;
+        std::transform(
+                operands.begin(), operands.end(),
+                std::back_inserter(args),
+                [&](const Expr::Ptr& operand) { return operand->generateCode(ctx); }
+        );
+        // TODO: need to catch and throw no such operation exceptions
+        return result_type->db.operations[op_tag]->code_generator(args);
     }
 };
 

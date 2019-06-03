@@ -15,6 +15,8 @@ struct SquareRoot final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
+
     //// Construction
     SquareRoot(Expr::Ptr in_operand);
 

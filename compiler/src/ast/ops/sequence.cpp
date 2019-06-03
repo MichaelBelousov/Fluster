@@ -5,8 +5,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string Sequence::tag = "sequence";
-static const std::string Sequence::symbol = ";";
+const std::string Sequence::tag = "sequence";
+const std::string Sequence::symbol = ";";
 
 //// Methods
 

@@ -15,6 +15,8 @@ struct PostIncrement final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
+
     //// Construction
     PostIncrement(Expr::Ptr in_operand);
 

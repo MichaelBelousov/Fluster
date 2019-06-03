@@ -6,8 +6,8 @@ namespace fluster { namespace ast { namespace ops {
 
 //// Class Constants
 
-static const std::string PostIncrement::tag = "postincrement";
-static const std::string PostIncrement::symbol = "++";
+const std::string PostIncrement::tag = "postincrement";
+const std::string PostIncrement::symbol = "++";
 
 //// Methods
 
