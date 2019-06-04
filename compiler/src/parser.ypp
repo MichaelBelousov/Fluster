@@ -274,65 +274,65 @@ expr
   ;
 
 grouping_expr
-  : assignment_expr SEMICOLON grouping_expr
+  :/* assignment_expr SEMICOLON grouping_expr
     { $$ = ops::Sequence::Ptr::make($1, $3); }
-  | assignment_expr
+  |*/ assignment_expr
   ;
 
 assignment_expr
-  : lambda_expr EQ assignment_expr
+  :/* lambda_expr EQ assignment_expr
     { $$ = ops::Assign::Ptr::make($1, $3); }
-  | lambda_expr
+  |*/ lambda_expr
   ;
 
 lambda_expr
-  : par_list EQ_RANGLE lambda_body
+  :/* par_list EQ_RANGLE lambda_body
     { $$ = ast::Lambda::Ptr::make($1, $3).castUp<fluster::ast::Expr>(); }
-  | typeassert_expr
+  |*/ typeassert_expr
   ;
 
 typeassert_expr
-  : addsub_expr TYPE_ASSERT typeassert_expr
+  :/* addsub_expr TYPE_ASSERT typeassert_expr
     { $$ = ops::AssertType::Ptr::make($1, $3); }
-  | addsub_expr
+  |*/ addsub_expr
   ;
 
 addsub_expr
   : addsub_expr PLUS div_expr
     { $$ = ops::Add::Ptr::make($1, $3); }
-  | addsub_expr DASH div_expr
-    { $$ = ops::Subtract::Ptr::make($1, $3); }
+  /*| addsub_expr DASH div_expr
+    { $$ = ops::Subtract::Ptr::make($1, $3); }*/
   | div_expr
   ;
 
 div_expr
-  : div_expr FSLASH mult_expr
+  :/* div_expr FSLASH mult_expr
     { $$ = ops::Divide::Ptr::make($1, $3); }
   | div_expr FSLASH_FSLASH mult_expr
     { $$ = ops::IntDivide::Ptr::make($1, $3); }
-  | mult_expr
+  |*/ mult_expr
   ;
 
 mult_expr
-  : mult_expr STAR power_expr
+  :/* mult_expr STAR power_expr
     { $$ = ops::Multiply::Ptr::make($1, $3); }
-  | power_expr
+  |*/ power_expr
   ;
 
 power_expr
-  : power_expr CARET root_expr
+  :/* power_expr CARET root_expr
     { $$ = ops::Power::Ptr::make($1, $3); }
-  | root_expr
+  |*/ root_expr
   ;
 
 root_expr
-  : root_expr CARET_FSLASH prefixop_expr
+  :/* root_expr CARET_FSLASH prefixop_expr
     { $$ = ops::Root::Ptr::make($1, $3); }
-  | prefixop_expr
+  |*/ prefixop_expr
   ;
 
 prefixop_expr
-  : PLUS_PLUS prefixop_expr
+  :/* PLUS_PLUS prefixop_expr
     { $$ = ops::PreIncrement::Ptr::make($2); }
   | DASH_DASH prefixop_expr
     { $$ = ops::PreDecrement::Ptr::make($2); }
@@ -344,23 +344,23 @@ prefixop_expr
         $2
       );
     }
-  | postfixop_expr
+  |*/ postfixop_expr
   ;
 
 postfixop_expr
-  : prefixop_expr PLUS_PLUS
+  :/* prefixop_expr PLUS_PLUS
     { $$ = ops::PostIncrement::Ptr::make($1); }
   | prefixop_expr DASH_DASH
     { $$ = ops::PostDecrement::Ptr::make($1); }
-  | atom_expr
+  |*/ atom_expr
   ;
 
 atom_expr
-  : Identifier
+  :/* Identifier
     { $$ = $1; }
   | StringLiteral
     { $$ = $1; }
-  | IntegerLiteral
+  |*/ IntegerLiteral
     { $$ = $1; }
   | FloatLiteral
     { $$ = $1; }

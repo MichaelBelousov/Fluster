@@ -89,36 +89,36 @@ parser_src = [ lexer
              ]
 
 ast_src = [ 'src/ast/block.cpp'
-          , 'src/ast/comma_delimited_list.cpp'
-          , 'src/ast/identifier.cpp'
+          #, 'src/ast/comma_delimited_list.cpp'
+          #, 'src/ast/identifier.cpp'
           , 'src/ast/if_statement.cpp'
-          , 'src/ast/lambda.cpp'
+          #, 'src/ast/lambda.cpp'
           , 'src/ast/node.cpp'
           , 'src/ast/expr.cpp'
           ]
 
 ast_src += [ 'src/ast/ops/add.cpp'
-           , 'src/ast/ops/assert_type.cpp'
-           , 'src/ast/ops/assign.cpp'
-           , 'src/ast/ops/divide.cpp'
-           , 'src/ast/ops/int_divide.cpp'
-           , 'src/ast/ops/multiply.cpp'
-           , 'src/ast/ops/negate.cpp'
-           , 'src/ast/ops/operator.cpp'
-           , 'src/ast/ops/postdecrement.cpp'
-           , 'src/ast/ops/postincrement.cpp'
-           , 'src/ast/ops/power.cpp'
-           , 'src/ast/ops/predecrement.cpp'
-           , 'src/ast/ops/preincrement.cpp'
-           , 'src/ast/ops/root.cpp'
-           , 'src/ast/ops/sequence.cpp'
-           , 'src/ast/ops/square_root.cpp'
-           , 'src/ast/ops/subtract.cpp'
+           #, 'src/ast/ops/assert_type.cpp'
+           #, 'src/ast/ops/assign.cpp'
+           #, 'src/ast/ops/divide.cpp'
+           #, 'src/ast/ops/int_divide.cpp'
+           #, 'src/ast/ops/multiply.cpp'
+           #, 'src/ast/ops/negate.cpp'
+           #, 'src/ast/ops/operator.cpp'
+           #, 'src/ast/ops/postdecrement.cpp'
+           #, 'src/ast/ops/postincrement.cpp'
+           #, 'src/ast/ops/power.cpp'
+           #, 'src/ast/ops/predecrement.cpp'
+           #, 'src/ast/ops/preincrement.cpp'
+           #, 'src/ast/ops/root.cpp'
+           #, 'src/ast/ops/sequence.cpp'
+           #, 'src/ast/ops/square_root.cpp'
+           #, 'src/ast/ops/subtract.cpp'
            ]
 
 ast_src += [ 'src/ast/lits/float.cpp'
            , 'src/ast/lits/integer.cpp'
-           , 'src/ast/lits/string.cpp'
+           #, 'src/ast/lits/string.cpp'
            ]
 
 
@@ -128,6 +128,9 @@ db_src = [ 'src/db/type.cpp'
          , 'src/db/primitives.cpp'
          , 'src/db/program_database.cpp'
          , 'src/db/program_element.cpp'
+         , 'src/db/operation.cpp'
+         , 'src/db/variable.cpp'
+         , 'src/db/path.cpp'
          ]
 
 atoms_src = [ 'src/atoms/types.cpp' ]
