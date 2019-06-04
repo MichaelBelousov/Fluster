@@ -16,9 +16,7 @@ struct Integer final
     //// Methods
     void print(std::ostream& os, unsigned indent_level) const override;
 
-    llvm::Value* generateCode( const llvm::LLVMContext& ctx
-                             , const llvm::IRBuilder<>& builder
-                             ) const override;
+    llvm::Value* generateCode(GenerationContext& ctx) const;
 
     //// Construction
     Integer(const llvm::APInt& in_value);

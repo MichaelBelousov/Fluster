@@ -2,11 +2,17 @@
 #define FLUSTER_COMPILER_DB_PROGRAM_ELEMENT
 
 #include <memory>
+#include <llvm/IR/Value.h>
 #include "util/ptr.h"
 #include "name.h"
 #include "path.h"
 
 namespace fluster { namespace db {
+
+
+
+// forward declaration
+struct GenerationContext;
 
 
 
@@ -18,7 +24,8 @@ struct ProgramElement
 
     //// Methods
     ProgramElement::Ptr makeChildElement(const Name& in_name);
-    virtual ProgramElement::Ptr search(Path search_path);
+    virtual ProgramElement::Ptr search(Path search_path) const;
+    virtual llvm::Value* getLLVMRepr(GenerationContext& ctx) const = 0;
 
     //// Members
     const Name name;
@@ -27,6 +34,7 @@ struct ProgramElement
 
     //// Construction
     ProgramElement(const Name& in_name);
+    virtual ~ProgramElement() = default;
 
 protected:
     ProgramElement( const Name& in_name

@@ -19,7 +19,7 @@ struct ArgParser
     // TODO: use informative static_assert about all types having 
     // to be convertible to string
     template<typename Str, typename ...More>
-    const bool has_flag(Str flag, More ...flag_aliases)
+    bool has_flag(Str flag, More ...flag_aliases)
     {
         std::vector<std::string> aliases = {flag, flag_aliases...};
         for (const auto& arg : args)

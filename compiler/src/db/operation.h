@@ -5,12 +5,13 @@
 #include <functional>
 #include <llvm/IR/Value.h>
 #include "util/ptr.h"
-#include "db/program_element.h"
+#include "program_element.h"
 
 namespace fluster { namespace db {
 
 
 
+struct GenerationContext;
 struct Type;
 using TypePtr = util::Ptr<Type>;
 
@@ -28,6 +29,10 @@ struct Operation
     TypePtr return_type;
     std::vector<TypePtr> arg_types;
     std::function<CallableImpl> code_generator;
+    
+    //// Methods
+    llvm::Value* getLLVMRepr(GenerationContext& ctx) const final;
+    ProgramElement::Ptr search(Path search_path) const final;
 
     //// Construction
     Operation( const Name& in_name

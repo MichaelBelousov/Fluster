@@ -14,16 +14,22 @@ namespace fluster { namespace db {
 
 
 
-// FIXME: ugly forward decleration needs to be done better
+// NOTE: forward decleration needs to be done better
 struct Type;
 using TypePtr = util::Ptr<Type>;
-struct Operatoin;
+struct Operation;
 using OperationPtr = util::Ptr<Operation>;
+struct Variable;
+using VariablePtr = util::Ptr<Variable>;
+struct ProgramElement;
+using ProgramElementPtr = util::Ptr<ProgramElement>;
+
+
 
 // a pending dependency link that must be fulfilled
 struct Reference
 {
-    const ProgramElement::Ptr Referee;
+    const ProgramElementPtr Referee;
     const Path Reference;
 };
 
@@ -42,10 +48,10 @@ struct MultipleDefinitions : public std::exception
 struct ProgramDatabase
 {
     //// Methods
-    ProgramElement::Ptr search(Path path);
+    ProgramElementPtr search(Path path);
 
     // search without access constraints for debug purposes
-    //ProgramElement::Ptr privilegedSearch(Path path);
+    //ProgramElementPtr privilegedSearch(Path path);
 
     // add names
     //void addVariable(const Name& name, Variable::Ptr variable);
@@ -68,7 +74,7 @@ struct ProgramDatabase
     //// Members
     Table<Name, TypePtr> types;
     Table<Name, OperationPtr> operations;
-    //Table<Name, Variable::Ptr> variables;
+    Table<Name, VariablePtr> variables;
     //Table<Name, Function::Ptr> functions;
 
 private:

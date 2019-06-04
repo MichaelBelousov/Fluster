@@ -27,7 +27,7 @@ Node::
 makeRootNode()
 {
     auto new_root = Node::Ptr();
-    return new_root
+    return new_root;
 }
 
 //// Operators

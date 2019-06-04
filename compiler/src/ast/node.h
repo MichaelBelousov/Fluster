@@ -7,10 +7,14 @@
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/Value.h>
 #include "db/program_database.h"
-#include "context.h"
 #include "util/ptrs.h"
 
 namespace fluster { namespace ast {
+
+
+
+// forward declerations
+struct GenerationContext;
 
 
 
@@ -23,8 +27,10 @@ struct Node
     //// Methods
     virtual llvm::Value* generateCode(GenerationContext& ctx) const = 0;
 
-    //emit the new type to the program database
-    virtual void finalize(db::ProgramDatabase& db) const = 0;
+    // TODO: hide from non descendents protected
+    virtual void print(std::ostream& os, unsigned indent_level) const;
+    // emit the new type to the program database
+    //virtual void submitConstruct(db::ProgramDatabase& db) const = 0;
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 
@@ -46,8 +52,6 @@ struct Node
     virtual ~Node() = default;
 
 protected:
-    // TODO: make protected
-    virtual void print(std::ostream& os, unsigned indent_level) const;
 
     const util::WeakPtr<Node> outer;
 };

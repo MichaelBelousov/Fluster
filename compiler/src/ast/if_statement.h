@@ -20,6 +20,8 @@ struct IfStatement final
     Node::Ptr
     empty();
 
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
+
     void print(std::ostream& os, unsigned indent_level) const override;
 
     // TODO: make the then and else links blocks

@@ -18,7 +18,7 @@ struct Identifier final
     Identifier(const std::string& in_name);
 
     //// Methods
-    //const data::Construct::Ptr finalize() const override;
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
 
     //// Types
     using Ptr = util::Ptr<Identifier>;

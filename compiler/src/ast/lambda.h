@@ -14,6 +14,7 @@ struct Lambda final
     : public Expr
 {
     //// Methods
+    llvm::Value* generateCode(GenerationContext& ctx) const final;
 
     //// Construction
     Lambda(CommaDelimitedList::Ptr in_args, Expr::Ptr in_body);
