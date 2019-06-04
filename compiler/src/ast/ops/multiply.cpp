@@ -12,14 +12,14 @@ const std::string Multiply::symbol = "*";
 //// Methods
 
 llvm::Value*
-IntDivide::
+Multiply::
 generateCode(GenerationContext& ctx) const
 {
     return _generateCode<Multiply::tag>(ctx);
 }
 
 void
-IntDivide::
+Multiply::
 print(std::ostream& os, unsigned indent_level) const
 {
     _print<Multiply::symbol>(os, indent_level);

@@ -13,7 +13,7 @@ search(Path path)
 {
     // XXX: this is a stub!
     // should actually throw on failure
-    return ProgramElement::Ptr::make("fake");
+    return nullptr;
 }
 
 

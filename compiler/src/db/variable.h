@@ -24,6 +24,7 @@ struct Variable
 
     //// Methods
     llvm::Value* getLLVMRepr(GenerationContext& ctx) const final;
+
     ProgramElement::Ptr search(Path search_path) const final;
 
     //// Construction

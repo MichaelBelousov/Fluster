@@ -19,7 +19,7 @@ generateCode(GenerationContext& ctx) const
 }
 
 void
-Assign::
+AssertType::
 print(std::ostream& os, unsigned indent_level) const
 {
     _print<AssertType::symbol>(os, indent_level);

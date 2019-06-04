@@ -19,7 +19,10 @@ struct Float final
     llvm::Value* generateCode(GenerationContext& ctx) const override;
 
     //// Construction
-    Float(const llvm::APFloat& in_value);
+    template<typename ...Args>
+    Float(Args&& ...args)
+        : value(std::forward<Args>(args)...)
+    {}
 
     //// Types
     using Ptr = util::Ptr<Float>;

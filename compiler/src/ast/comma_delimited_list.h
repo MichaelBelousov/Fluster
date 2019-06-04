@@ -30,7 +30,9 @@ struct CommaDelimitedList final
     CommaDelimitedList::Ptr
     fromFirst(Node::Ptr first);
 
-private:
+    std::vector<Node::Ptr>::iterator begin();
+    std::vector<Node::Ptr>::iterator end();
+
     //// Members
     std::vector<Node::Ptr> elements;
 };

@@ -1,6 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_INTEGER
 #define FLUSTER_COMPILER_AST_LITS_INTEGER
 
+#include <utility>
 #include <iostream>
 #include <llvm/ADT/APInt.h>
 #include "util/ptrs.h"
@@ -19,7 +20,10 @@ struct Integer final
     llvm::Value* generateCode(GenerationContext& ctx) const;
 
     //// Construction
-    Integer(const llvm::APInt& in_value);
+    template<typename ...Args>
+    Integer(Args&& ...args)
+        : value(std::forward<Args>(args)...)
+    {}
 
     //// Types
     using Ptr = util::Ptr<Integer>;

@@ -1,6 +1,8 @@
 #include <string>
 #include <regex>
 #include "identifier.h"
+#include "db/variable.h"
+#include "context.h"
 
 namespace fluster { namespace ast {
 
@@ -20,7 +22,7 @@ Identifier::
 generateCode(GenerationContext& ctx) const
 {
     // TODO: need to catch and throw no such name exceptions
-    return result_type->db.variables[name];
+    return result_type->db.variables[name]->getLLVMRepr(ctx);
 }
 
 

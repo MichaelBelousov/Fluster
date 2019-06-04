@@ -14,15 +14,16 @@ llvm::Value*
 Lambda::
 generateCode(GenerationContext& ctx) const
 {
+    /*
     std::vector<llvm::Type*> arg_types;
     std::transform(
         args.begin(), args.end(),
         std::back_inserter(arg_types),
-        [](const auto& a){ return a->type->llvm_repr; }
+        [](const auto& a){ return a->type->getLLVMRepr(); }
     );
 
     auto func_llvm_type = llvm::FunctionType::get(
-        body->result_type->llvm_repr,
+        body->result_type->getLLVMRepr(ctx),
         false
     );
 
@@ -55,6 +56,8 @@ generateCode(GenerationContext& ctx) const
     //llvm_func->eraseFromParent();
 
     return llvm_func;
+    */
+    return nullptr;
 }
 
 //// Construction

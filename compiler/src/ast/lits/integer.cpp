@@ -17,15 +17,6 @@ generateCode(GenerationContext& ctx) const
 }
 
 
-//// Construction
-
-
-Integer::
-Integer(const llvm::APInt& in_value)
-    : value(in_value)
-{}
-
-
 void
 Integer::
 print(std::ostream& os, unsigned indent_level) const

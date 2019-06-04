@@ -14,6 +14,20 @@ append(Node::Ptr in)
     elements.emplace_back(in);
 }
 
+std::vector<Node::Ptr>::iterator
+CommaDelimitedList::
+begin()
+{
+    return elements.begin();
+}
+
+std::vector<Node::Ptr>::iterator
+CommaDelimitedList::
+end()
+{
+    return elements.end();
+}
+
 //// Construction
 
 Node::Ptr

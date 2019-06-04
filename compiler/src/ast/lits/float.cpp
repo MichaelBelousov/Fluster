@@ -1,6 +1,7 @@
 #include <iostream>
 #include <llvm/IR/Constants.h>
 #include "float.h"
+#include "context.h"
 
 namespace fluster { namespace ast { namespace lits {
 
@@ -14,12 +15,6 @@ generateCode(GenerationContext& ctx) const
     return llvm::ConstantFP::get(ctx.context, APFloat(value));
 }
 
-//// Construction
-
-Float::
-Float( const atoms::Rational& in_value )
-    : value(in_value)
-{}
 
 void
 Float::
