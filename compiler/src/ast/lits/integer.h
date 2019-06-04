@@ -15,9 +15,9 @@ struct Integer final
     : public Expr
 {
     //// Methods
+    void commit(db::ProgramDatabase& db) const override;
+    llvm::Value* generateCode(GenerationContext& ctx) const override;
     void print(std::ostream& os, unsigned indent_level) const override;
-
-    llvm::Value* generateCode(GenerationContext& ctx) const;
 
     //// Construction
     template<typename ...Args>
@@ -35,6 +35,6 @@ private:
 
 
 
-} } }
+} } }  //namespace fluster::ast::lits
 
 #endif //FLUSTER_COMPILER_AST_LITS_INTEGER

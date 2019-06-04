@@ -2,10 +2,18 @@
 #define FLUSTER_COMPILER_DB_PROGRAM_ELEMENT
 
 #include <memory>
+#include <utility>
 #include <llvm/IR/Value.h>
 #include "util/ptr.h"
 #include "name.h"
 #include "path.h"
+
+/*
+ * A ProgramElement is constructed by AST nodes and committed to a ProgramDatabase.
+ * They are named, and some contain subelements in their own local databases.
+ * They can return their llvm representation, being some existing symbol, a type,
+ * or an operation.
+ */
 
 namespace fluster { namespace db {
 
@@ -23,9 +31,15 @@ struct ProgramElement
     using Ptr = util::Ptr<ProgramElement>;
 
     //// Methods
-    ProgramElement::Ptr makeChildElement(const Name& in_name);
+    template<typename ProgramElementChild, typename ...Args>
+    ProgramElement::Ptr makeChildElement(Args&& ...args)
+    {
+        return ProgramElementChild::Ptr::make(std::forward<Args>(args)...);
+    }
     virtual ProgramElement::Ptr search(Path search_path) const;
-    virtual llvm::Value* getLLVMRepr(GenerationContext& ctx) const = 0;
+    virtual llvm::Value* getLLVMRepr( GenerationContext& ctx
+                                    , const std::vector<llvm::Value*>& args
+                                    ) const = 0;
 
     //// Members
     const Name name;

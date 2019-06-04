@@ -7,8 +7,13 @@ namespace fluster { namespace ast { namespace lits {
 
 //// Methods
 
+void
+String::
+commit(db::ProgramDatabase& db) const
+{}
+
 llvm::Value*
-Integer::
+String::
 generateCode(GenerationContext& ctx) const
 {
     return llvm::ConstantArray::get(ctx, value);

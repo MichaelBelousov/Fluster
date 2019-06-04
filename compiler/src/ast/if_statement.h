@@ -16,15 +16,14 @@ struct IfStatement final
     using Ptr = util::Ptr<IfStatement>;
 
     //// Methods
-    static
-    Node::Ptr
-    empty();
+    void commit(db::ProgramDatabase& db) const override;
 
-    llvm::Value* generateCode(GenerationContext& ctx) const final;
+    llvm::Value* generateCode(GenerationContext& ctx) const override;
 
     void print(std::ostream& os, unsigned indent_level) const override;
 
-    // TODO: make the then and else links blocks
+    //// Class functions
+    static Node::Ptr empty();
 
     //// Construction
     IfStatement() = default;
@@ -34,6 +33,7 @@ struct IfStatement final
                );
 
     //// Members
+    // TODO: make the then and else links blocks/expr nodes
     const Expr::Ptr cond;
     const Node::Ptr then;
     const Node::Ptr else_;

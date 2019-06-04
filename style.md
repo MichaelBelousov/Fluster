@@ -84,6 +84,9 @@ struct A
     //// [Public|Private] Interface
     ... Methods + members
     //// Operators
+    //// Constants
+    //// Overidden Methods
+    //// Static Functions
 };
 ```
 

@@ -10,18 +10,7 @@ namespace fluster { namespace db {
 
 ProgramElement::Ptr
 ProgramElement::
-makeChildElement(const Name& in_name)
-{
-    ProgramElement::Ptr::make(
-        in_name,
-        shared_from_this()
-    );
-}
-
-
-virtual ProgramElement::Ptr
-ProgramElement::
-search(Path search_path)
+search(Path search_path) const
 {
     // XXX: stub, needs
     return ProgramElement::Ptr::make();
@@ -44,7 +33,7 @@ ProgramElement( const Name& in_name
               , ProgramElement::Ptr in_outer
               )
     : name(in_name)
-    , full_path(outer.full_path + {in_name})
+    , full_path(outer->full_path + Path{in_name})
     , outer(in_outer)
 {}
 

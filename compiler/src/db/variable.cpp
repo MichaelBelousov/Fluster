@@ -1,8 +1,5 @@
 #include "variable.h"
-#include <functional>
-#include <llvm/IR/Value.h>
-#include "util/ptr.h"
-#include "program_element.h"
+#include "type.h"
 
 namespace fluster { namespace db {
 
@@ -11,26 +8,29 @@ namespace fluster { namespace db {
 //// Methods
 
 llvm::Value*
-Operation::
-getLLVMRepr(GenerationContext& ctx) const 
+Variable::
+getLLVMRepr(GenerationContext& ctx, const std::vector<llvm::Value*>& _) const 
 {
-    // XXX: need to figure out dynamic arguments for this
-    //return code_generator
-    return nullptr;
+    return in_llvm_value;
 }
 
 ProgramElement::Ptr 
-Operation::
+Variable::
 search(Path search_path) const
 {
-    // XXX: stub
-    return nullptr;
+    if (Path::matchRoot(name, search_path))
+        return shared_from_this();
+    else
+        return type->db->search(Path::next(search_path));
 }
 
 //// Construction
 
-Variable(const Name& in_name)
+Variable::
+Variable(const Name& in_name, Type::Ptr in_type, const llvm::Value* in_llvm_value)
     : ProgramElement(name)
+    , type(in_type)
+    , llvm_value(in_llvm_value)
 {}
 
 //// Operations

@@ -8,6 +8,12 @@ namespace fluster { namespace ast { namespace lits {
 
 //// Methods
 
+void
+Float::
+commit(db::ProgramDatabase& db) const
+{}
+
+
 llvm::Value*
 Float::
 generateCode(GenerationContext& ctx) const

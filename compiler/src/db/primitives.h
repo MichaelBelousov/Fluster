@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include "type.h"
+#include "context.h"
+#include "program_database.h"
 
 namespace fluster { namespace db {
 
@@ -38,6 +40,8 @@ extern static const Type::Ptr f32;
 //extern static const Type::Ptr Bit;
 //extern static const Type::Ptr Byte;
 //extern static const Type::Ptr Word;
+
+void commitPrimitives(ProgramDatabase& db, GenerationContext& ctx);
 
 
 

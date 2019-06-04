@@ -71,8 +71,10 @@ make_IntegerLiteral( const std::string &s
       || errno == ERANGE
        )
         throw yy::Parser::syntax_error (loc, "integer is out of range: " + s);
+
+    constexpr const unsigned num_bits = 64;
     return yy::Parser::make_IntegerLiteral(
-        fluster::ast::lits::Integer::Ptr::make(n),
+        fluster::ast::lits::Integer::Ptr::make(num_bits, n, /*signed=*/true),
         loc
     );
 }

@@ -1,14 +1,32 @@
 #include "block.h"
+#include <llvm/IR/BasicBlock.h>
 
 namespace fluster { namespace ast {
 
 
+//// Methods
 
 void
 Block::
-append(Node::Ptr in)
+commit(db::ProgramDatabase& db) const
 {
-    lines.emplace_back(in);  //std::move
+    for (const auto& line : lines)
+        line->commit(db);
+}
+
+llvm::Value*
+Block::
+generateCode(GenerationContext& ctx) const
+{
+    auto owner = ctx.builder.GetInsertBlock()->getParent();
+    auto block = llvm::BasicBlock::Create(
+        ctx.llvm_context,
+        "block",
+        owner
+    );
+    ctx.builder.SetInsertPoint(block);
+    for (const auto& line : lines)
+        line->generateCode(ctx);
 }
 
 void
@@ -24,6 +42,14 @@ print(std::ostream& os, unsigned indent_level) const
     os << "</block>" << std::endl;
 }
 
+void
+Block::
+append(Node::Ptr in)
+{
+    lines.emplace_back(in);  //XXX: std::move
+}
+
+//// Class Functions
 
 Block::Ptr
 Block::

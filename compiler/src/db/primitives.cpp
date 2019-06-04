@@ -37,23 +37,7 @@ namespace
     }
     */
 
-    Type::Ptr make_i32(GenerationContext ctx)
-    {
-        auto i32 = Type::Ptr::make();
-        i32.db.addOperation(
-            "add",
-            Operation::Ptr::make(
-                i32,
-                {i32, i32},
-                [](const std::vector<llvm::Value*>& args) {
-                    // TODO: need to catch semantic exceptions here, etc
-                    return ctx.builder.CreateFAdd(args[0], args[1], "i32-add")
-                }
-            )
-        );
-        return i32;
-    }
-
+    /*
     Type::Ptr make_f32(GenerationContext ctx)
     {
         auto f32 = Type::Ptr::make();
@@ -100,6 +84,14 @@ namespace
         );
         return f32;
     }
+    */
+}
+
+
+void commitPrimitives(ProgramDatabase& db, GenerationContext& ctx)
+{
+    // XXX: stub
+    //db.addType(make_i32);
 }
 
 const Type::Ptr type_type = Type::Ptr::make();
@@ -107,7 +99,7 @@ const Type::Ptr type_type = Type::Ptr::make();
 //integer primitive types
 //const Type::Ptr i8(new Type);
 //const Type::Ptr i16(new Type);
-const Type::Ptr i32 = make_i32(the_context);
+const Type::Ptr i32 = Type::Ptr::make(); // = make_i32(the_context);
 //const Type::Ptr i64(new Type);
 //const Type::Ptr Int(new Type);
 //const Type::Ptr APInt(new Type);
@@ -121,7 +113,7 @@ const Type::Ptr i32 = make_i32(the_context);
 
 
 //floating point primitive types
-const Type::Ptr f32 = make_f32(the_context);
+const Type::Ptr f32 = Type::Ptr::make(); //= make_f32(the_context);
 //const Type::Ptr f64(new Type);
 //const Type::Ptr Float(new Type);
 //const Type::Ptr APFloat(new Type);

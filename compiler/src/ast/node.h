@@ -9,11 +9,18 @@
 #include "db/program_database.h"
 #include "util/ptrs.h"
 
+/*
+ * Compilation process:
+ * - lexer -> feeds tokens to parser -> builds AST nodes recursively bottom-up
+ * - starting from Root, nodes commit their forms into the database
+ * - finally, nodes generate code with the finalized program (global scope db) database
+ */
+
 namespace fluster { namespace ast {
 
 
 
-// forward declerations
+// forward declarations
 struct GenerationContext;
 
 
@@ -25,12 +32,11 @@ struct Node
     using Ptr = util::Ptr<Node>;
 
     //// Methods
+    virtual void commit(db::ProgramDatabase& db) const = 0;  //commit contents to db
+
     virtual llvm::Value* generateCode(GenerationContext& ctx) const = 0;
 
-    // TODO: hide from non descendents protected
     virtual void print(std::ostream& os, unsigned indent_level) const;
-    // emit the new type to the program database
-    //virtual void submitConstruct(db::ProgramDatabase& db) const = 0;
 
     template<typename T, typename ...Args>
     Node::Ptr makeChildNode(Args&& ...args); 
@@ -52,7 +58,6 @@ struct Node
     virtual ~Node() = default;
 
 protected:
-
     const util::WeakPtr<Node> outer;
 };
 

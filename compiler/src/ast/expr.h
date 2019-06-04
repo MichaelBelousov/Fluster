@@ -15,14 +15,8 @@ struct Expr
     //// Types
     using Ptr = util::Ptr<Expr>;
 
-    //// Methods
-    void print(std::ostream& os, unsigned indent_level) const override;
-
     //// Members
-    const db::Type::Ptr result_type;  //needs to be finalized...?
-
-    //virtual begin //TODO: iterate over children?
-    //virtual end
+    const db::Type::Ptr result_type;
 };
 
 

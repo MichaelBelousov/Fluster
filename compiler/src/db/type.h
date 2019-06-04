@@ -23,6 +23,10 @@ struct Type
     //const Type::Ptr typeof() const noexcept override;
     //const bool is(Type::Ptr other) const noexcept;
     //const bool has(Type::Ptr other) const noexcept;
+    llvm::Value* getLLVMRepr( GenerationContext& ctx
+                            , const std::vector<llvm::Value*>& args
+                            ) const final;
+    ProgramElement::Ptr search(Path search_path) const final;
 
     //static Type::Ptr makeInheritor() noexcept;
     //static Type::Ptr makeImplementor() noexcept;

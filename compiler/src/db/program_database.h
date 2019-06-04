@@ -14,15 +14,11 @@ namespace fluster { namespace db {
 
 
 
-// NOTE: forward decleration needs to be done better
-struct Type;
-using TypePtr = util::Ptr<Type>;
-struct Operation;
-using OperationPtr = util::Ptr<Operation>;
-struct Variable;
-using VariablePtr = util::Ptr<Variable>;
-struct ProgramElement;
-using ProgramElementPtr = util::Ptr<ProgramElement>;
+// forward declarations
+struct Type; using TypePtr = util::Ptr<Type>;
+struct Operation; using OperationPtr = util::Ptr<Operation>;
+struct Variable; using VariablePtr = util::Ptr<Variable>;
+struct ProgramElement; using ProgramElementPtr = util::Ptr<ProgramElement>;
 
 
 
@@ -45,6 +41,7 @@ struct MultipleDefinitions : public std::exception
 };
 
 
+// TODO: rename to scope database?
 struct ProgramDatabase
 {
     //// Methods

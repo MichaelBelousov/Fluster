@@ -1,6 +1,7 @@
 #ifndef FLUSTER_COMPILER_AST_LITS_FLOAT
 #define FLUSTER_COMPILER_AST_LITS_FLOAT
 
+#include <utility>
 #include <iostream>
 #include <llvm/ADT/APFloat.h>
 #include "util/ptrs.h"
@@ -14,9 +15,9 @@ struct Float final
     : public Expr
 {
     //// Methods
-    void print(std::ostream& os, unsigned indent_level) const override;
-
+    void commit(db::ProgramDatabase& db) const override;
     llvm::Value* generateCode(GenerationContext& ctx) const override;
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Construction
     template<typename ...Args>

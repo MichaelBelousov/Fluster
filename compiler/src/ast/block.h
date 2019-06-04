@@ -15,18 +15,21 @@ struct Block final
     //// Types
     using Ptr = util::Ptr<Block>;
 
-    //// Methods
-    void
-    append(Node::Ptr in);
-
+    //// Overidden Methods
+    void commit(db::ProgramDatabase& db) const override;
+    llvm::Value* generateCode(GenerationContext& ctx) const override;
     void print(std::ostream& os, unsigned indent_level) const override;
 
-    //// Construction
-    //Block() = default;
+    //// Methods
+    void append(Node::Ptr in);
 
+    //// Static functions
     static
     Block::Ptr
     empty();
+
+    //// Construction
+    //Block() = default;
 
 private:
     //// Members

@@ -9,18 +9,29 @@ namespace fluster { namespace db {
 
 
 
-using Path = std::deque<Name>;
+struct Path final
+    : public std::deque<Name>
+{
+    //// Types
+    struct NoSuchElement;
 
-extern const Path root_path;
+    //// Constants
+    static const Path root_path;
 
-struct ElementNotFound final
+    //// Methods
+    Path next(const Path& path);
+    Path join(const Path& lhs, const Path& rhs);
+
+    //// Friends
+    friend Path operator+(const Path& lhs, const Path& rhs);
+};
+
+struct Path::NoSuchElement final
     : public std::exception
 {
     const char* what() const noexcept final;
     Path element_path;
 };
-
-Path operator+(const Path& lhs, const Path& rhs);
 
 
 

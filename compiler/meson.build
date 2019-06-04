@@ -94,7 +94,6 @@ ast_src = [ 'src/ast/block.cpp'
           , 'src/ast/if_statement.cpp'
           #, 'src/ast/lambda.cpp'
           , 'src/ast/node.cpp'
-          , 'src/ast/expr.cpp'
           ]
 
 ast_src += [ 'src/ast/ops/add.cpp'

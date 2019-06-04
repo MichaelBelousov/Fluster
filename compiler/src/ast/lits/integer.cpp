@@ -9,6 +9,12 @@ namespace fluster { namespace ast { namespace lits {
 //// Methods
 
 
+void
+Integer::
+commit(db::ProgramDatabase& db) const
+{}
+
+
 llvm::Value*
 Integer::
 generateCode(GenerationContext& ctx) const

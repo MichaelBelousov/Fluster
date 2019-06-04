@@ -19,7 +19,7 @@ search(Path path)
 
 void
 ProgramDatabase::
-addOperation(const Name& name, OperationPtr operation)
+addOperation(const Name& name, Operation::Ptr operation)
 {
     // TODO: perform std::find check to see if that operation is already
     // there, if it is, then throw a multiple definition warning and take the

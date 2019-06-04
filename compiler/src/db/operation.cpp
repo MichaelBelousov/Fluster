@@ -2,7 +2,8 @@
 #include <functional>
 #include <llvm/IR/Value.h>
 #include "util/ptr.h"
-#include "db/program_element.h"
+#include "type.h"
+#include "program_element.h"
 
 namespace fluster { namespace db {
 
@@ -12,19 +13,19 @@ namespace fluster { namespace db {
 
 llvm::Value*
 Operation::
-getLLVMRepr(GenerationContext& ctx) const 
+getLLVMRepr(GenerationContext& ctx, const std::vector<llvm::Value*>& args) const 
 {
-    // XXX: need to figure out dynamic arguments for this
-    //return code_generator
-    return nullptr;
+    return code_generator(args);
 }
 
 ProgramElement::Ptr 
 Operation::
 search(Path search_path) const
 {
-    // XXX: stub
-    return nullptr;
+    if (Path::matchRoot(name, search_path))
+        return shared_from_this();
+    else
+        throw(Path::NoSuchElement());
 }
 
 //// Construction
@@ -32,8 +33,8 @@ search(Path search_path) const
 // TODO: use makeElement
 Operation::
 Operation( const Name& in_name
-         , TypePtr in_return_type
-         , const std::vector<TypePtr>& in_arg_types
+         , Type::Ptr in_return_type
+         , const std::vector<Type::Ptr>& in_arg_types
          , const std::function<CallableImpl>& in_code_generator
          )
     : ProgramElement(in_name)

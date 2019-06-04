@@ -5,16 +5,37 @@ namespace fluster { namespace db {
 
 
 
-const Path root_path = {};
+//// Constants
 
+const Path Path::root_path = {};
+
+//// Path::ElementNotFound
 
 const char*
-ElementNotFound::
+Path::NoSuchElement::
 what() const noexcept
 {
     return "element not found";
 }
 
+//// Methods
+
+Path
+Path::
+next(const Path& path)
+{
+    Path result = path;
+    if (!path.empty())
+        result.pop_front();
+    return result;
+}
+
+Path 
+Path::
+join(const Path& lhs, const Path& rhs)
+{
+    return lhs + rhs;
+}
 
 Path operator+ (const Path& lhs, const Path& rhs)
 {
