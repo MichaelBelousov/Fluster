@@ -41,7 +41,7 @@ bool
 Name::
 isValidName(const std::string& in)
 {
-    return !std::regex_match(in, valid_pattern);
+    return std::regex_match(in, valid_pattern);
 }
 
 

@@ -74,7 +74,7 @@ struct BinaryOperator
     BinaryOperator( Expr::Ptr in_lhs
                   , Expr::Ptr in_rhs
                   );
-    // TODO: make into a function so they can be optimized out?
+    // TODO: make into functions so they can be optimized out?
     Expr::Ptr& lhs;
     Expr::Ptr& rhs;
 };
@@ -91,7 +91,7 @@ struct InvokeOperation
     : public VariateOperator<1>
 {
     Expr::Ptr& invokee = operands[0];  //XXX: invalid during construction?
-    //Span<operands, 1>& arguments;
+    //Span<operands, 1>& arguments; or just begin() end()
 };
 
 
