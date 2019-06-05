@@ -19,12 +19,8 @@ llvm::Value*
 Block::
 generateCode(GenerationContext& ctx) const
 {
-    auto owner = ctx.builder.GetInsertBlock()->getParent();
-    auto block = llvm::BasicBlock::Create(
-        ctx.context,
-        "block",
-        owner
-    );
+    //auto owner = ctx.builder.GetInsertBlock()->getParent();
+    auto block = llvm::BasicBlock::Create(ctx.context);
     ctx.builder.SetInsertPoint(block);
     for (const auto& line : lines)
         line->generateCode(ctx);

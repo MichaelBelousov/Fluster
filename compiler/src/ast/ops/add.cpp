@@ -1,4 +1,5 @@
 #include "add.h"
+#include "db/type.h"
 
 namespace fluster { namespace ast { namespace ops {
 
@@ -15,7 +16,9 @@ void
 Add::
 commit(db::ProgramDatabase& db) const
 {
-    //do nothing
+    // XXX: horrible, need to create committed objects with the asserted type
+    *const_cast<db::Type::Ptr*>(&result_type) =
+        db.operations.at(Name("add"))->return_type;
 }
 
 llvm::Value*

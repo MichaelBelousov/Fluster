@@ -33,9 +33,8 @@ int main(int argc, char* argv[])
 
         std::cout << std::endl << "committing constructs:" << std::endl;
         fluster::GenerationContext ctx;
-        fluster::db::ProgramDatabase program_db;
-        fluster::db::commitPrimitives(program_db, ctx);
-        parse_result->commit(program_db);
+        fluster::db::commitPrimitives(ctx);
+        parse_result->commit(ctx.db);
 
         std::cout << std::endl << "generating code" << std::endl;
         parse_result->generateCode(ctx);

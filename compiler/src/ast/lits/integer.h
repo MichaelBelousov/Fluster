@@ -6,6 +6,7 @@
 #include <llvm/ADT/APInt.h>
 #include "util/ptrs.h"
 #include "ast/expr.h"
+#include "db/primitives.h"
 
 namespace fluster { namespace ast { namespace lits {
 
@@ -22,7 +23,8 @@ struct Integer final
     //// Construction
     template<typename ...Args>
     Integer(Args&& ...args)
-        : value(std::forward<Args>(args)...)
+        : Expr(db::i64)
+        , value(std::forward<Args>(args)...)
     {}
 
     //// Types

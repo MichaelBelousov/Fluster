@@ -5,6 +5,7 @@
 #include "util/ptrs.h"
 #include "expr.h"
 #include "name.h"
+#include "db/type.h"
 
 namespace fluster { namespace ast {
 

@@ -15,8 +15,14 @@ struct Expr
     //// Types
     using Ptr = util::Ptr<Expr>;
 
+    //// Construction
+    Expr() = default;
+    Expr(db::Type::Ptr in_result_type);
+
     //// Members
-    const db::Type::Ptr result_type;
+    db::Type::Ptr result_type;
+    // XXX: result_type is set once the code is commited
+    // should be done using a type, could be done using a flag
 };
 
 

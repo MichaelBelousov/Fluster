@@ -9,6 +9,7 @@
 #include "util/ptrs.h"
 #include "ast/expr.h"
 #include "util/preallocated_vector.h"
+#include "context.h"
 
 namespace fluster { namespace ast { namespace ops {
 
@@ -19,6 +20,7 @@ struct Operator
 {
     using Ptr = util::Ptr<Operator>;
 };
+
 
 template<int N>
 struct NaryOperator
@@ -42,15 +44,18 @@ protected:
     llvm::Value* _generateCode(GenerationContext& ctx) const
     {
         std::vector<llvm::Value*> args;
+        args.reserve(operands.size());
+
         std::transform(
                 operands.begin(), operands.end(),
                 std::back_inserter(args),
                 [&](const Expr::Ptr& operand) { return operand->generateCode(ctx); }
         );
         // TODO: need to catch and throw no such operation exceptions
-        return result_type->db.operations[op_tag]->code_generator(ctx, args);
+        return ctx.db.operations.at(op_tag)->code_generator(ctx, args);
     }
 };
+
 
 template<int minimum_operands = 0>
 struct VariateOperator
@@ -79,6 +84,7 @@ struct BinaryOperator
     Expr::Ptr& rhs;
 };
 
+
 struct TernaryOperator
     : public NaryOperator<3>
 {
@@ -86,6 +92,7 @@ struct TernaryOperator
     Expr::Ptr& second = operands[1];
     Expr::Ptr& third  = operands[2];
 };
+
 
 struct InvokeOperation
     : public VariateOperator<1>

@@ -1,4 +1,5 @@
 #include "operator.h"
+#include "db/type.h"
 
 namespace fluster { namespace ast { namespace ops {
 
