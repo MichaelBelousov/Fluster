@@ -6,6 +6,7 @@
 #include "context.h"
 #include "db/program_database.h"
 #include "db/primitives.h"
+#include <llvm/Support/raw_ostream.h>
 
 using yy::Lexer, yy::Parser;
 
@@ -36,8 +37,21 @@ int main(int argc, char* argv[])
         fluster::db::commitPrimitives(ctx);
         parse_result->commit(ctx.db);
 
-        std::cout << std::endl << "generating code" << std::endl;
+        std::cout << std::endl << "generating code:" << std::endl;
         parse_result->generateCode(ctx);
+        ctx.finalize();
+
+        std::cout << std::endl << "module dump:" << std::endl;
+        //ctx.module->dump();
+
+        std::cout << std::endl << "module IR:" << std::endl;
+        ctx.module->print(llvm::outs(), nullptr);
+        ctx.emit();
+
+        std::cout << std::endl << "optimize" << std::endl;
+        ctx.optimize();
+        ctx.module->print(llvm::outs(), nullptr);
+        ctx.emit();
 
         return 0;
     }
