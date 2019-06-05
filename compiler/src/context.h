@@ -22,9 +22,6 @@ struct GenerationContext
     db::ProgramDatabase db;
 };
 
-// remove use of global later
-extern GenerationContext the_context;
-
 
 
 }  //namespace fluster

@@ -3,6 +3,9 @@
 #include "parser.gen.h"
 #include "arg_parser.h"
 #include "ast/ast.h"
+#include "context.h"
+#include "db/program_database.h"
+#include "db/primitives.h"
 
 using yy::Lexer, yy::Parser;
 
@@ -25,8 +28,18 @@ int main(int argc, char* argv[])
     }
     else
     {
-        std::cout << std::endl << "Result:" << std::endl;
+        std::cout << std::endl << "ast:" << std::endl;
         std::cout << *parse_result << std::endl;
+
+        std::cout << std::endl << "committing constructs:" << std::endl;
+        fluster::GenerationContext ctx;
+        fluster::db::ProgramDatabase program_db;
+        fluster::db::commitPrimitives(program_db, ctx);
+        parse_result->commit(program_db);
+
+        std::cout << std::endl << "generating code" << std::endl;
+        parse_result->generateCode(ctx);
+
         return 0;
     }
 }

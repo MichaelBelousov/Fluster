@@ -53,6 +53,7 @@ bool operator< (const Name& lhs, const Name& rhs)
     return lhs.value < rhs.value;
 }
 
+
 bool operator== (const Name& lhs, const Name& rhs)
 {
     return lhs.value == rhs.value;
@@ -63,6 +64,25 @@ std::ostream& operator<< (std::ostream& os, const Name& name)
 {
     os << name.value;
     return os;
+}
+
+
+//// InternalInvalidName
+
+
+InternalInvalidName::
+InternalInvalidName(const Name& in_name)
+    : name(in_name)
+{}
+
+const char*
+InternalInvalidName::
+what() const noexcept
+{
+    // TODO: copy problematic name into buffer and show it
+    std::string msg("Invalid name found internally, there might be a lexer bug");
+    msg += name.value;
+    return msg.c_str();
 }
 
 

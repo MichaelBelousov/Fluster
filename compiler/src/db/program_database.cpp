@@ -57,6 +57,19 @@ addOperation(const Name& name, Operation::Ptr operation)
 
 void
 ProgramDatabase::
+addType(const Name& name, Type::Ptr type)
+{
+    // TODO: perform std::find check to see if that operation is already
+    // there, if it is, then throw a multiple definition warning and take the
+    // latter
+
+    //check if there are any pending references to this name, compare types, and resolve or throw
+    types[name] = type;
+}
+
+
+void
+ProgramDatabase::
 finalize()
 {
     //if there are any unresolved references still, throw

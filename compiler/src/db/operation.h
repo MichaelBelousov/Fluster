@@ -15,7 +15,7 @@ struct Type; using TypePtr = util::Ptr<Type>;
 
 //TODO: inherit from callable/invokable ProgramElement
 
-using CallableImpl = llvm::Value*(const std::vector<llvm::Value*>&);
+using CallableImpl = llvm::Value*(GenerationContext&, const std::vector<llvm::Value*>&);
 
 struct Operation
     : public ProgramElement

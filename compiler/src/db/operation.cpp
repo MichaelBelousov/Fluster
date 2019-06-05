@@ -16,7 +16,7 @@ llvm::Value*
 Operation::
 getLLVMRepr(GenerationContext& ctx, const std::vector<llvm::Value*>& args) const 
 {
-    return code_generator(args);
+    return code_generator(ctx, args);
 }
 
 ProgramElement::Ptr 

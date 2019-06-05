@@ -2,6 +2,7 @@
 #define FLUSTER_COMPILER_NAME
 
 #include <iostream>
+#include <exception>
 #include <string>
 #include <regex>
 
@@ -31,6 +32,13 @@ private:
 
     //// Constants
     static const std::regex valid_pattern;
+};
+
+struct InternalInvalidName final : public std::exception
+{
+    InternalInvalidName(const Name& name);
+    const char* what() const noexcept final;
+    const Name name;
 };
 
 

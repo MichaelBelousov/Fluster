@@ -13,8 +13,5 @@ GenerationContext()
 {}
 
 
-GenerationContext the_context();
-
-
 
 }  //namespace fluster

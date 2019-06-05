@@ -86,6 +86,7 @@ parser_src = [ lexer
              , 'src/lexer_routines.cpp'
              , parser
              , 'src/name.cpp'  #TODO: move to another src section
+             , 'src/context.cpp'
              ]
 
 ast_src = [ 'src/ast/block.cpp'

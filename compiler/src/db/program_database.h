@@ -59,10 +59,10 @@ struct ProgramDatabase
     // add names
     //void addVariable(const Name& name, Variable::Ptr variable);
     //void addFunction(const Name& name, Function::Ptr function);
-    //void addType(const Name& name, TypePtr type);
 
     /* @throws MultipleDefinitions */
     void addOperation(const Name& name, OperationPtr operation);
+    void addType(const Name& name, TypePtr type);
 
     // attempt to make sure all dependencies are satisfied
     // should return Consistent or Complete >ProgramDatabase

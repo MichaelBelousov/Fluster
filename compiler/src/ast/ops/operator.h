@@ -48,7 +48,7 @@ protected:
                 [&](const Expr::Ptr& operand) { return operand->generateCode(ctx); }
         );
         // TODO: need to catch and throw no such operation exceptions
-        return result_type->db.operations[op_tag]->code_generator(args);
+        return result_type->db.operations[op_tag]->code_generator(ctx, args);
     }
 };
 
