@@ -131,6 +131,8 @@
 %token      KW_WITH    /* declare context */
 %token      KW_STRUCT  /* declare structure */
 %token      KW_CLASS   /* declare dynamic-type reference structure */
+%token      KW_FUNC    /* declare dynamic-type reference structure */
+%token      KW_MTHD    /* declare dynamic-type reference structure */
 
 /*** Lexer Symbols ***/
 

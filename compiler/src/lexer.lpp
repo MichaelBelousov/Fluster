@@ -163,6 +163,9 @@ string_content      {any}*[^\\]
 \<struct\>      return yy::Parser::make_KW_STRUCT(location());
 \<class\>       return yy::Parser::make_KW_CLASS(location());
 
+\<func\>        return yy::Parser::make_KW_FUNC(location());
+\<mthd\>        return yy::Parser::make_KW_MTHD(location());
+
 \<typeof\>      return yy::Parser::make_KW_TYPEOF(location());
 \<cloneof\>     return yy::Parser::make_KW_CLONEOF(location());
 \<import\>      return yy::Parser::make_KW_IMPORT(location());
