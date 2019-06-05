@@ -19,11 +19,14 @@ struct Path final
     static const Path root_path;
 
     //// Methods
-    Path next(const Path& path);
-    Path join(const Path& lhs, const Path& rhs);
+    Path next();
+    static Path join(const Path& lhs, const Path& rhs);
 
     //// Friends
     friend Path operator+(const Path& lhs, const Path& rhs);
+    friend bool operator==(const Path& lhs, const Path& rhs);
+    friend bool operator==(const Path& lhs, const Name& rhs);
+    friend bool operator==(const Name& lhs, const Path& rhs);
 };
 
 struct Path::NoSuchElement final

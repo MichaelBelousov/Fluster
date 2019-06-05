@@ -18,10 +18,10 @@ ProgramElement::Ptr
 Variable::
 search(Path search_path) const
 {
-    if (Path::matchRoot(name, search_path))
+    if (search_path == name)
         return shared_from_this();
     else
-        return type->db->search(Path::next(search_path));
+        return type->db.search(search_path.next());
 }
 
 //// Construction

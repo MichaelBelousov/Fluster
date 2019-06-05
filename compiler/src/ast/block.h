@@ -15,7 +15,7 @@ struct Block final
     //// Types
     using Ptr = util::Ptr<Block>;
 
-    //// Overidden Methods
+    //// Overridden Methods
     void commit(db::ProgramDatabase& db) const override;
     llvm::Value* generateCode(GenerationContext& ctx) const override;
     void print(std::ostream& os, unsigned indent_level) const override;

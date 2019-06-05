@@ -18,7 +18,7 @@ llvm::Value*
 Float::
 generateCode(GenerationContext& ctx) const
 {
-    return llvm::ConstantFP::get(ctx.context, APFloat(value));
+    return llvm::ConstantFP::get(ctx.llvm_context, APFloat(value));
 }
 
 

@@ -37,15 +37,30 @@ join(const Path& lhs, const Path& rhs)
     return lhs + rhs;
 }
 
-Path operator+ (const Path& lhs, const Path& rhs)
+//// Operators
+
+bool operator+ (const Path& lhs, const Path& rhs)
 {
     Path result = lhs;
     std::copy(rhs.begin(), lhs.end(), std::back_inserter(result));
     return result;
 }
 
+bool operator==(const Path& lhs, const Path& rhs)
+{
+    return lhs == rhs;
+}
+
+bool operator==(const Path& lhs, const Name& rhs)
+{
+    return lhs.length() == 1 && lhs[0] == rhs;
+}
+
+bool operator==(const Name& lhs, const Path& rhs)
+{
+    return rhs == lhs;
+}
+
 
 
 } } //namespace fluster::db
-
-#endif //FLUSTER_COMPILER_DB_PROGRAM_DATABASE

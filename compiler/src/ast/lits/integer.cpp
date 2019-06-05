@@ -19,7 +19,7 @@ llvm::Value*
 Integer::
 generateCode(GenerationContext& ctx) const
 {
-    return llvm::ConstantInt::get(ctx.context, value);
+    return llvm::ConstantInt::get(ctx.llvm_context, value);
 }
 
 

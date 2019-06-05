@@ -1,6 +1,7 @@
 #ifndef FLUSTER_COMPILER_NAME
 #define FLUSTER_COMPILER_NAME
 
+#include <iostream>
 #include <string>
 #include <regex>
 
@@ -21,6 +22,7 @@ struct Name final
 
     //// Operators
     friend bool operator< (const Name& lhs, const Name& rhs);
+    friend std::ostream& operator<< (std::ostream& os, const Name& name);
 
 private:
     //// Methods

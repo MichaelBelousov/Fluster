@@ -54,5 +54,12 @@ bool operator< (const Name& lhs, const Name& rhs)
 }
 
 
+std::ostream& operator<< (std::ostream& os, const Name& name)
+{
+    os << name.value;
+    return os;
+}
+
+
 
 }  //namespace fluster

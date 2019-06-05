@@ -1,5 +1,6 @@
 #include "block.h"
 #include <llvm/IR/BasicBlock.h>
+#include "context.h"
 
 namespace fluster { namespace ast {
 

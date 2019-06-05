@@ -14,11 +14,12 @@ struct Identifier final
     : public Expr
 {
     //// Construction
-    Identifier() = default;
     Identifier(const std::string& in_name);
 
-    //// Methods
-    llvm::Value* generateCode(GenerationContext& ctx) const final;
+    //// Overridden Methods
+    void commit(db::ProgramDatabase& db) const override;
+    llvm::Value* generateCode(GenerationContext& ctx) const override;
+    void print(std::ostream& os, unsigned indent_level) const override;
 
     //// Types
     using Ptr = util::Ptr<Identifier>;

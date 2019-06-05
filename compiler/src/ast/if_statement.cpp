@@ -1,6 +1,8 @@
+#include "if_statement.h"
 #include <llvm/IR/BasicBlock.h>
 #include "node.h"
-#include "if_statement.h"
+#include "context.h"
+#include <vector>
 
 namespace fluster { namespace ast {
 
@@ -22,7 +24,8 @@ generateCode(GenerationContext& ctx) const
 {
     const auto cond_val = cond->generateCode(ctx);
     //invoke the truth operation for that type
-    auto cond_truth = cond_val->result_type->db.operations["truth"]();
+    std::vector<llvm::Value*> truth_op_args = {cond_val};
+    auto cond_truth = cond->result_type->db.operations["truth"](truth_op_args);
 
     //compare to boolean true (integer 1)
     cond_truth = ctx.builder.CreateICmpEQ(
@@ -69,8 +72,6 @@ empty()
     return IfStatement::Ptr::make().castUp<Node>();
 }
 
-
-//// Constructino
 
 void
 IfStatement::
