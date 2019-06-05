@@ -11,6 +11,13 @@ const std::string Add::symbol = "+";
 
 //// Methods
 
+void
+Add::
+commit(db::ProgramDatabase& db) const
+{
+    //do nothing
+}
+
 llvm::Value*
 Add::
 generateCode(GenerationContext& ctx) const

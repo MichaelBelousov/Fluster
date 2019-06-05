@@ -1,19 +1,44 @@
 #include "program_database.h"
+#include <utility>
 #include "operation.h"
+#include "variable.h"
+#include "type.h"
 
 namespace fluster { namespace db {
 
 
 
+//// NoSuchElement
+
+const char*
+NoSuchElement::
+what() const noexcept
+{
+    return "element not found";
+}
+
 //// Methods
 
 ProgramElement::Ptr 
 ProgramDatabase::
-search(Path path)
+search(Path search_path)
 {
-    // XXX: this is a stub!
-    // should actually throw on failure
-    return nullptr;
+    // TODO: is search_path empty? It shouldn't be possible, no?
+    auto name = search_path[0];
+
+    auto type_found = types.find(name);
+    if (type_found != types.end())
+        return type_found->second->search(search_path.next());
+
+    auto op_found = operations.find(name);
+    if (op_found != operations.end())
+        return op_found->second->search(search_path.next());
+
+    auto var_found = variables.find(name);
+    if (var_found != variables.end())
+        return var_found->second->search(search_path.next());
+
+    throw NoSuchElement();
 }
 
 

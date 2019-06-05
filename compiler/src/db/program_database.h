@@ -25,19 +25,25 @@ struct ProgramElement; using ProgramElementPtr = util::Ptr<ProgramElement>;
 // a pending dependency link that must be fulfilled
 struct Reference
 {
-    const ProgramElementPtr Referee;
+    const ProgramElementPtr Referer;
     const Path Reference;
 };
 
 
-struct UnresolvedReferences : public std::exception
+struct UnresolvedReferences final : public std::exception
 {
     std::vector<Reference> references;
 };
 
-struct MultipleDefinitions : public std::exception
+struct MultipleDefinitions final : public std::exception
 {
     //std::vector<ProgramElements>
+};
+
+struct NoSuchElement final : public std::exception
+{
+    const char* what() const noexcept final;
+    Path element_path;
 };
 
 

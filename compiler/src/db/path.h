@@ -12,9 +12,6 @@ namespace fluster { namespace db {
 struct Path final
     : public std::deque<Name>
 {
-    //// Types
-    struct NoSuchElement;
-
     //// Constants
     static const Path root_path;
 
@@ -22,18 +19,14 @@ struct Path final
     Path next();
     static Path join(const Path& lhs, const Path& rhs);
 
+    //// Construction
+    using std::deque<Name>::deque;
+
     //// Friends
     friend Path operator+(const Path& lhs, const Path& rhs);
     friend bool operator==(const Path& lhs, const Path& rhs);
     friend bool operator==(const Path& lhs, const Name& rhs);
     friend bool operator==(const Name& lhs, const Path& rhs);
-};
-
-struct Path::NoSuchElement final
-    : public std::exception
-{
-    const char* what() const noexcept final;
-    Path element_path;
 };
 
 

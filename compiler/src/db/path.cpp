@@ -1,5 +1,6 @@
-#include "db/path.h"
+#include "path.h"
 #include <algorithm>
+#include "program_database.h"
 
 namespace fluster { namespace db {
 
@@ -9,26 +10,19 @@ namespace fluster { namespace db {
 
 const Path Path::root_path = {};
 
-//// Path::ElementNotFound
-
-const char*
-Path::NoSuchElement::
-what() const noexcept
-{
-    return "element not found";
-}
-
 //// Methods
 
 Path
 Path::
-next(const Path& path)
+next()
 {
-    Path result = path;
-    if (!path.empty())
+    Path result = *this;
+    if (!result.empty())
         result.pop_front();
     return result;
 }
+
+//// Static Functions
 
 Path 
 Path::
@@ -39,7 +33,7 @@ join(const Path& lhs, const Path& rhs)
 
 //// Operators
 
-bool operator+ (const Path& lhs, const Path& rhs)
+Path operator+ (const Path& lhs, const Path& rhs)
 {
     Path result = lhs;
     std::copy(rhs.begin(), lhs.end(), std::back_inserter(result));
@@ -53,7 +47,7 @@ bool operator==(const Path& lhs, const Path& rhs)
 
 bool operator==(const Path& lhs, const Name& rhs)
 {
-    return lhs.length() == 1 && lhs[0] == rhs;
+    return lhs.size() == 1 && lhs[0] == rhs;
 }
 
 bool operator==(const Name& lhs, const Path& rhs)

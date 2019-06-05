@@ -4,6 +4,7 @@
 #include "util/ptr.h"
 #include "type.h"
 #include "program_element.h"
+#include "program_database.h"
 
 namespace fluster { namespace db {
 
@@ -20,12 +21,12 @@ getLLVMRepr(GenerationContext& ctx, const std::vector<llvm::Value*>& args) const
 
 ProgramElement::Ptr 
 Operation::
-search(Path search_path) const
+search(Path search_path)
 {
-    if (Path::matchRoot(name, search_path))
+    if (search_path == name)
         return shared_from_this();
     else
-        throw(Path::NoSuchElement());
+        throw NoSuchElement();
 }
 
 //// Construction
@@ -39,13 +40,13 @@ Operation( const Name& in_name
          )
     : ProgramElement(in_name)
     , return_type(in_return_type)
-    , in_arg_types(in_arg_types)
-    , in_code_generator(in_code_generator)
+    , arg_types(in_arg_types)
+    , code_generator(in_code_generator)
 {}
 
 //// Operations
 
-friend bool operator< (const Operation& lhs, const Operation& rhs)
+bool operator< (const Operation& lhs, const Operation& rhs)
 {
     return lhs.name < rhs.name;
 }

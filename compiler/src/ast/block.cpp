@@ -21,7 +21,7 @@ generateCode(GenerationContext& ctx) const
 {
     auto owner = ctx.builder.GetInsertBlock()->getParent();
     auto block = llvm::BasicBlock::Create(
-        ctx.llvm_context,
+        ctx.context,
         "block",
         owner
     );

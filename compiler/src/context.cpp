@@ -7,7 +7,7 @@ namespace fluster {
 GenerationContext::
 GenerationContext()
     : context()
-    , builder(llvm_context)
+    , builder(context)
     , module()
     , db()
 {}

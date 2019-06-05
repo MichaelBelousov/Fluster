@@ -23,21 +23,23 @@ IfStatement::
 generateCode(GenerationContext& ctx) const
 {
     const auto cond_val = cond->generateCode(ctx);
-    //invoke the truth operation for that type
     std::vector<llvm::Value*> truth_op_args = {cond_val};
-    auto cond_truth = cond->result_type->db.operations["truth"](truth_op_args);
+    // invoke the truth operation for that type
+    // XXX: blows up on failed find which is a nullptr
+    // use at?
+    auto cond_truth = cond->result_type->db.operations.at("truth")->getLLVMRepr(ctx, truth_op_args);
 
     //compare to boolean true (integer 1)
     cond_truth = ctx.builder.CreateICmpEQ(
         cond_truth,
-        llvm::ConstantInt::get(ctx.llvm_context, llvm::APInt(1, 1))
+        llvm::ConstantInt::get(ctx.context, llvm::APInt(1, 1))
     );
 
     auto owner = ctx.builder.GetInsertBlock()->getParent();
 
-    auto then_block = llvm::BasicBlock::Create(ctx.llvm_context, "then_block", owner);
-    auto else_block = llvm::BasicBlock::Create(ctx.llvm_context, "else_block", owner);
-    auto join_block = llvm::BasicBlock::Create(ctx.llvm_context, "continue", owner);
+    auto then_block = llvm::BasicBlock::Create(ctx.context, "then_block", owner);
+    auto else_block = llvm::BasicBlock::Create(ctx.context, "else_block", owner);
+    auto join_block = llvm::BasicBlock::Create(ctx.context, "continue", owner);
                 
     ctx.builder.CreateCondBr(cond_truth, then_block, else_block);
 
@@ -57,7 +59,7 @@ generateCode(GenerationContext& ctx) const
     // populate 'join' block
     owner->getBasicBlockList().push_back(join_block);
     ctx.builder.SetInsertPoint(join_block);
-    llvm::PHINode* pn = ctx.builder.CreatePHI(llvm::Type::getDoubleTy(ctx.llvm_context), 2);
+    llvm::PHINode* pn = ctx.builder.CreatePHI(llvm::Type::getDoubleTy(ctx.context), 2);
     pn->addIncoming(then_val, then_block);
     pn->addIncoming(else_val, else_block);
 

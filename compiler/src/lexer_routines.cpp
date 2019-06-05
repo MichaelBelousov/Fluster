@@ -46,6 +46,7 @@ void setBits( const unsigned bit_offset
     }
 }
 
+/*
 yy::Parser::symbol_type 
 make_Identifier( const std::string &s
                , const yy::Parser::location_type& loc
@@ -56,6 +57,7 @@ make_Identifier( const std::string &s
         loc
     );
 }
+*/
 
 
 yy::Parser::symbol_type 
@@ -121,16 +123,15 @@ make_FloatLiteral( std::string s
 
     const auto denominator = std::pow(10, num_digits_after_radix);
 
+    /*fluster::ast::lits::Float::Ptr::make(fluster::atoms::Rational(numerator, denominator, exponent))*/
     return yy::Parser::make_FloatLiteral(
-        fluster::ast::lits::Float::Ptr::make(fluster::atoms::Rational(
-                numerator,
-                denominator,
-                exponent)),
+        fluster::ast::lits::Float::Ptr::make(std::pow(numerator/denominator, exponent)),
         loc
     );
 }
 
 
+/*
 yy::Parser::symbol_type
 make_StringLiteral( const std::string &s
                   , const yy::Parser::location_type& loc
@@ -145,7 +146,6 @@ make_StringLiteral( const std::string &s
     );
 }
 
-/*
 yy::Parser::symbol_type 
 make_HexBytesLiteral (const std::string &s, const yy::Parser::location_type& loc)
 {

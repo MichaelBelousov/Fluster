@@ -41,7 +41,7 @@ generateCode(GenerationContext& ctx) const
     }
 
     BasicBlock* func_block = llvm::BasicBlock::Create(
-        ctx.llvm_context,
+        ctx.context,
         "func_block",
         llvm_func
     );

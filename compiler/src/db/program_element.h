@@ -15,12 +15,12 @@
  * or an operation.
  */
 
+
+// forward declarations
+namespace fluster { struct GenerationContext; }
+
+
 namespace fluster { namespace db {
-
-
-
-// forward declaration
-struct GenerationContext;
 
 
 
@@ -36,7 +36,7 @@ struct ProgramElement
     {
         return ProgramElementChild::Ptr::make(std::forward<Args>(args)...);
     }
-    virtual ProgramElement::Ptr search(Path search_path) const;
+    virtual ProgramElement::Ptr search(Path search_path) = 0;
     virtual llvm::Value* getLLVMRepr( GenerationContext& ctx
                                     , const std::vector<llvm::Value*>& args
                                     ) const = 0;
@@ -51,9 +51,7 @@ struct ProgramElement
     virtual ~ProgramElement() = default;
 
 protected:
-    ProgramElement( const Name& in_name
-                  , ProgramElement::Ptr in_outer
-                  );
+    ProgramElement(const Name& in_name, ProgramElement::Ptr in_outer);
 };
 
 

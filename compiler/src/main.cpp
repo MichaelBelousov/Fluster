@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 {
     std::ios::sync_with_stdio(false);
 
-    auto argparser = ArgParser(argc, argv);
+    auto argparser = fluster::ArgParser(argc, argv);
 
     // TODO: add parser driver holding both and returning AST
     auto parse_result = fluster::ast::Node::makeRootNode();

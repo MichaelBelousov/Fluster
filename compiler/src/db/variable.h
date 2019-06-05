@@ -23,10 +23,10 @@ struct Variable
     llvm::Value* getLLVMRepr( GenerationContext& ctx
                             , const std::vector<llvm::Value*>& args
                             ) const final;
-    ProgramElement::Ptr search(Path search_path) const final;
+    ProgramElement::Ptr search(Path search_path) final;
 
     //// Construction
-    Variable(const Name& in_name, TypePtr in_type, const llvm::Value* in_llvm_value);
+    Variable(const Name& in_name, TypePtr in_type, llvm::Value*const in_llvm_value);
 
     //// Operations
     friend bool operator< (const Variable& lhs, const Variable& rhs);
@@ -34,7 +34,7 @@ struct Variable
 private:
     //// Members
     const TypePtr type;
-    const llvm::Value*const llvm_value;
+    llvm::Value*const llvm_value;
 };
 
 

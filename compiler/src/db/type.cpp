@@ -16,7 +16,7 @@ getLLVMRepr(GenerationContext& ctx, const std::vector<llvm::Value*>& _) const
 
 ProgramElement::Ptr
 Type::
-search(Path search_path) const
+search(Path search_path)
 {
     if (search_path == name)
         return shared_from_this();

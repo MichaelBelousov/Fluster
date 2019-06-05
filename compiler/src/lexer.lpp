@@ -192,7 +192,7 @@ string_content      {any}*[^\\]
 0o{octal}*                                  //return make_OctalBitsLiteral(str(), location());
 
   /* string literal */
-\"(?u:{string_content})\"                   return make_StringLiteral(str(), location());
+\"(?u:{string_content})\"                   //return make_StringLiteral(str(), location());
 
   /* raw string literal */
 \`(?u:{string_content})\`                   //return make_RawStringLiteral(str(), location());

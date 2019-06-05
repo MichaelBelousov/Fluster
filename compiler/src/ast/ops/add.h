@@ -13,9 +13,9 @@ struct Add final
     : public BinaryOperator
 {
     //// Methods
+    void commit(db::ProgramDatabase& db) const override;
+    llvm::Value* generateCode(GenerationContext& ctx) const override;
     void print(std::ostream& os, unsigned indent_level) const override;
-
-    llvm::Value* generateCode(GenerationContext& ctx) const final;
 
     //// Construction
     Add(Expr::Ptr left, Expr::Ptr right);

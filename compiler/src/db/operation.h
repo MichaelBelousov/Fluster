@@ -11,12 +11,11 @@ namespace fluster { namespace db {
 
 
 
-struct GenerationContext;
 struct Type; using TypePtr = util::Ptr<Type>;
 
 //TODO: inherit from callable/invokable ProgramElement
 
-using CallableImpl = llvm::Value*(std::vector<llvm::Value*>&);
+using CallableImpl = llvm::Value*(const std::vector<llvm::Value*>&);
 
 struct Operation
     : public ProgramElement
@@ -33,7 +32,7 @@ struct Operation
     llvm::Value* getLLVMRepr( GenerationContext& ctx
                             , const std::vector<llvm::Value*>& args
                             ) const final;
-    ProgramElement::Ptr search(Path search_path) const final;
+    ProgramElement::Ptr search(Path search_path) final;
 
     //// Construction
     Operation( const Name& in_name

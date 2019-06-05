@@ -26,7 +26,7 @@ struct Type
     llvm::Value* getLLVMRepr( GenerationContext& ctx
                             , const std::vector<llvm::Value*>& args
                             ) const final;
-    ProgramElement::Ptr search(Path search_path) const final;
+    ProgramElement::Ptr search(Path search_path) final;
 
     //static Type::Ptr makeInheritor() noexcept;
     //static Type::Ptr makeImplementor() noexcept;

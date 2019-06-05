@@ -215,11 +215,11 @@
 %type <fluster::ast::IfStatement::Ptr> if
 %type <fluster::ast::Node::Ptr> if_follow_up
 %type <fluster::ast::Node::Ptr> line
+/*
 %type <fluster::ast::Expr::Ptr> lambda_body
 %type <fluster::ast::CommaDelimitedList::Ptr> commalist_
 %type <fluster::ast::CommaDelimitedList::Ptr> commalist
 %type <fluster::ast::CommaDelimitedList::Ptr> par_list
-/*
 %type <fluster::ast::Node::Ptr> Brack_list
 %type <fluster::ast::Node::Ptr> Brace_list
 %type <fluster::ast::Node::Ptr> Angle_list
@@ -369,14 +369,14 @@ atom_expr
   ;
 
 
+/*
 lambda_body
   : expr
     { $$ = $1; }
-/*
   | NL block
     { $$ = fluster::ast::ResultHaver::Ptr($2); }
-*/
   ;
+*/
 
 
 /* control flow */
@@ -404,6 +404,7 @@ if_follow_up
     { $$ = $3; }
   ;
 
+/*
 commalist_
   : expr
     { $$ = fluster::ast::CommaDelimitedList::fromFirst($1); }
@@ -421,7 +422,6 @@ par_list
     { $$ = $2; }
   ;
 
-/*
 Brack_list
   : LBRACK commalist RBRACK
     { $$ = $2; }

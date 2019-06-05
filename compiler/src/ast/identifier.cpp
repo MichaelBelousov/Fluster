@@ -13,7 +13,10 @@ namespace fluster { namespace ast {
 void
 Identifier::
 commit(db::ProgramDatabase& db) const
-{}
+{
+    //auto var = Variable::Ptr::make(name, )
+    //db.addVariable(var)
+}
 
 llvm::Value*
 Identifier::

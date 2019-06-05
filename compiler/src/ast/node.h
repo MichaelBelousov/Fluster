@@ -16,12 +16,12 @@
  * - finally, nodes generate code with the finalized program (global scope db) database
  */
 
-namespace fluster { namespace ast {
-
-
-
 // forward declarations
-struct GenerationContext;
+namespace fluster { struct GenerationContext; }
+
+
+
+namespace fluster { namespace ast {
 
 
 

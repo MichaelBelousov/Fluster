@@ -53,6 +53,11 @@ bool operator< (const Name& lhs, const Name& rhs)
     return lhs.value < rhs.value;
 }
 
+bool operator== (const Name& lhs, const Name& rhs)
+{
+    return lhs.value == rhs.value;
+}
+
 
 std::ostream& operator<< (std::ostream& os, const Name& name)
 {

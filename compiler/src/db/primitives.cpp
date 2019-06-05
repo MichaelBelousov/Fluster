@@ -2,6 +2,7 @@
 #include "type.h"
 #include "context.h"
 #include <vector>
+#include "name.h"
 
 namespace fluster { namespace db {
 
@@ -94,12 +95,12 @@ void commitPrimitives(ProgramDatabase& db, GenerationContext& ctx)
     //db.addType(make_i32);
 }
 
-const Type::Ptr type_type = Type::Ptr::make();
+const Type::Ptr type_type = Type::Ptr::make(Name("Type"), true);
 
 //integer primitive types
 //const Type::Ptr i8(new Type);
 //const Type::Ptr i16(new Type);
-const Type::Ptr i32 = Type::Ptr::make(); // = make_i32(the_context);
+const Type::Ptr i32 = Type::Ptr::make(Name("i32"), true); // = make_i32(the_context);
 //const Type::Ptr i64(new Type);
 //const Type::Ptr Int(new Type);
 //const Type::Ptr APInt(new Type);
@@ -113,7 +114,7 @@ const Type::Ptr i32 = Type::Ptr::make(); // = make_i32(the_context);
 
 
 //floating point primitive types
-const Type::Ptr f32 = Type::Ptr::make(); //= make_f32(the_context);
+const Type::Ptr f32 = Type::Ptr::make(Name("f32"), true); //= make_f32(the_context);
 //const Type::Ptr f64(new Type);
 //const Type::Ptr Float(new Type);
 //const Type::Ptr APFloat(new Type);

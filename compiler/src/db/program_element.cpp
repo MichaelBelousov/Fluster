@@ -5,18 +5,6 @@ namespace fluster { namespace db {
 
 
 
-//// Methods
-
-
-ProgramElement::Ptr
-ProgramElement::
-search(Path search_path) const
-{
-    // XXX: stub, needs
-    return ProgramElement::Ptr::make();
-}
-
-
 //// Construction
 
 

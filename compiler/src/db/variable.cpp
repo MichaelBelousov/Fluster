@@ -11,12 +11,12 @@ llvm::Value*
 Variable::
 getLLVMRepr(GenerationContext& ctx, const std::vector<llvm::Value*>& _) const 
 {
-    return in_llvm_value;
+    return llvm_value;
 }
 
 ProgramElement::Ptr 
 Variable::
-search(Path search_path) const
+search(Path search_path)
 {
     if (search_path == name)
         return shared_from_this();
@@ -27,7 +27,7 @@ search(Path search_path) const
 //// Construction
 
 Variable::
-Variable(const Name& in_name, Type::Ptr in_type, const llvm::Value* in_llvm_value)
+Variable(const Name& in_name, Type::Ptr in_type, llvm::Value*const in_llvm_value)
     : ProgramElement(name)
     , type(in_type)
     , llvm_value(in_llvm_value)
@@ -35,7 +35,7 @@ Variable(const Name& in_name, Type::Ptr in_type, const llvm::Value* in_llvm_valu
 
 //// Operations
 
-friend bool operator< (const Variable& lhs, const Variable& rhs)
+bool operator< (const Variable& lhs, const Variable& rhs)
 {
     return lhs.name < rhs.name;
 }

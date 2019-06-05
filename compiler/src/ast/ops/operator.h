@@ -74,7 +74,6 @@ struct BinaryOperator
     BinaryOperator( Expr::Ptr in_lhs
                   , Expr::Ptr in_rhs
                   );
-
     // TODO: make into a function so they can be optimized out?
     Expr::Ptr& lhs;
     Expr::Ptr& rhs;

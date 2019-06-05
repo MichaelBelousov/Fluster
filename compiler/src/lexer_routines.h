@@ -52,10 +52,12 @@ BitBuffer loadAsciiBitLiteral( const std::string& literal
     return result;
 }
 
+/*
 yy::Parser::symbol_type 
 make_Identifier( const std::string &s
                , const yy::Parser::location_type& loc
                );
+*/
 
 yy::Parser::symbol_type 
 make_IntegerLiteral( const std::string &s
@@ -67,12 +69,12 @@ make_FloatLiteral( std::string s
                  , const yy::Parser::location_type& loc
                  ); 
 
+/*
 yy::Parser::symbol_type
 make_StringLiteral( const std::string &s
                   , const yy::Parser::location_type& loc
                   );
 
-/*
 yy::Parser::symbol_type
 make_HexBytesLiteral( const std::string &s
                     , const yy::Parser::location_type& loc
