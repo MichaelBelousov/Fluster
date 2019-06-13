@@ -195,6 +195,19 @@
 %token <fluster::ast::lits::String::Ptr> StringLiteral
 
 %type <fluster::ast::Expr::Ptr> expr
+%type <fluster::ast::Expr::Ptr> grouping_expr
+%type <fluster::ast::Expr::Ptr> assignment_expr
+%type <fluster::ast::Expr::Ptr> lambda_expr
+%type <fluster::ast::Expr::Ptr> typeassert_expr
+%type <fluster::ast::Expr::Ptr> addsub_expr
+%type <fluster::ast::Expr::Ptr> div_expr
+%type <fluster::ast::Expr::Ptr> mult_expr
+%type <fluster::ast::Expr::Ptr> power_expr
+%type <fluster::ast::Expr::Ptr> root_expr
+%type <fluster::ast::Expr::Ptr> prefixop_expr
+%type <fluster::ast::Expr::Ptr> postfixop_expr
+%type <fluster::ast::Expr::Ptr> atom_expr
+
 %type <fluster::ast::Node::Ptr> statement
 %type <fluster::ast::Block::Ptr> program
 %type <fluster::ast::Block::Ptr> code
@@ -202,7 +215,6 @@
 %type <fluster::ast::IfStatement::Ptr> if
 %type <fluster::ast::Node::Ptr> if_follow_up
 %type <fluster::ast::Node::Ptr> line
-%type <fluster::ast::Lambda::Ptr> lambda_expr
 %type <fluster::ast::Expr::Ptr> lambda_body
 %type <fluster::ast::CommaDelimitedList::Ptr> commalist_
 %type <fluster::ast::CommaDelimitedList::Ptr> commalist
@@ -256,7 +268,98 @@ statement
   ;
 
 expr
-  /* atomic */
+  : grouping_expr
+  ;
+
+grouping_expr
+  : assignment_expr SEMICOLON grouping_expr
+    { $$ = ops::Sequence::Ptr::make($1, $3); }
+  /*| assignment_expr COMMA grouping_expr*/
+  | assignment_expr
+  ;
+
+assignment_expr
+  : lambda_expr EQ assignment_expr
+    { $$ = ops::Assign::Ptr::make($1, $3); }
+  | lambda_expr
+  ;
+
+lambda_expr
+  : par_list EQ_RANGLE lambda_body
+  %prec LAMBDA
+    { $$ = ast::Lambda::Ptr::make($1, $3).castUp<fluster::ast::Expr>(); }
+  | typeassert_expr
+  ;
+
+typeassert_expr
+  : addsub_expr TYPE_ASSERT typeassert_expr
+    { $$ = ops::AssertType::Ptr::make($1, $3); }
+  | addsub_expr
+  ;
+
+addsub_expr
+  : addsub_expr PLUS div_expr
+    { $$ = ops::Add::Ptr::make($1, $3); }
+  | addsub_expr DASH div_expr
+    { $$ = ops::Subtract::Ptr::make($1, $3); }
+  | div_expr
+  ;
+
+div_expr
+  : div_expr FSLASH mult_expr
+    { $$ = ops::Divide::Ptr::make($1, $3); }
+  | div_expr FSLASH_FSLASH mult_expr
+    { $$ = ops::IntDivide::Ptr::make($1, $3); }
+  | mult_expr
+  ;
+
+mult_expr
+  : mult_expr STAR power_expr
+    { $$ = ops::Multiply::Ptr::make($1, $3); }
+  | power_expr
+  ;
+
+power_expr
+  : power_expr CARET root_expr
+    { $$ = ops::Power::Ptr::make($1, $3); }
+  | root_expr
+  ;
+
+root_expr
+  : root_expr CARET_FSLASH prefixop_expr
+    { $$ = ops::Root::Ptr::make($1, $3); }
+  | prefixop_expr
+  ;
+
+prefixop_expr
+  : PLUS_PLUS prefixop_expr
+    { $$ = ops::PreIncrement::Ptr::make($2); }
+  | DASH_DASH prefixop_expr
+    { $$ = ops::PreDecrement::Ptr::make($2); }
+  | DASH prefixop_expr
+    { $$ = ops::Negate::Ptr::make($2); }
+  | CARET_FSLASH prefixop_expr
+    { $$ = ops::Root::Ptr::make(
+        fluster::ast::lits::Integer::Ptr::make(2),
+        $2
+      );
+    }
+  | postfixop_expr
+  ;
+
+postfixop_expr
+  : prefixop_expr PLUS_PLUS
+    %prec POSTINCREMENT
+    { $$ = ops::PostIncrement::Ptr::make($1); }
+
+  | prefixop_expr DASH_DASH
+    %prec POSTDECREMENT
+    { $$ = ops::PostDecrement::Ptr::make($1); }
+
+  | atom_expr
+  ;
+
+atom_expr
   : Identifier
     { $$ = $1; }
 
@@ -271,84 +374,8 @@ expr
 
   | LPAR expr RPAR
     { $$ = $2; }
-
-  /* prefix */
-  | PLUS_PLUS expr
-    %prec PREINCREMENT
-    { $$ = ops::PreIncrement::Ptr::make($2); }
-
-  | DASH_DASH expr
-    %prec PREDECREMENT
-    { $$ = ops::PreDecrement::Ptr::make($2); }
-
-  | DASH expr
-    %prec NEGATE
-    { $$ = ops::Negate::Ptr::make($2); }
-
-  | CARET_FSLASH expr
-    %prec SQUARE_ROOT
-    { $$ = ops::Root::Ptr::make(
-        fluster::ast::lits::Integer::Ptr::make(2),
-        $2
-      );
-    }
-
-  /* postfix */
-  | expr PLUS_PLUS
-    %prec POSTINCREMENT
-    { $$ = ops::PostIncrement::Ptr::make($1); }
-
-  | expr DASH_DASH
-    %prec POSTDECREMENT
-    { $$ = ops::PostDecrement::Ptr::make($1); }
-
-  /* binary */
-  | expr SEMICOLON expr
-    %prec SEQ_EXEC
-    { $$ = ops::Sequence::Ptr::make($1, $3); }
-
-  | expr PLUS expr
-    %prec ADD
-    { $$ = ops::Add::Ptr::make($1, $3); }
-
-  | expr DASH expr
-    %prec SUB
-    { $$ = ops::Subtract::Ptr::make($1, $3); }
-
-  | expr STAR expr
-    %prec MULT
-    { $$ = ops::Multiply::Ptr::make($1, $3); }
-
-  | expr FSLASH expr
-    %prec DIV
-    { $$ = ops::Divide::Ptr::make($1, $3); }
-
-  | expr FSLASH_FSLASH expr
-    %prec DIV
-    { $$ = ops::IntDivide::Ptr::make($1, $3); }
-
-  | expr CARET_FSLASH expr
-    %prec ROOT
-    { $$ = ops::Root::Ptr::make($1, $3); }
-
-  | expr CARET expr
-    %prec POW
-    { $$ = ops::Power::Ptr::make($1, $3); }
-
-  | expr EQ expr
-    %prec ASSIGN
-    { $$ = ops::Assign::Ptr::make($1, $3); }
-
-  | expr COLON expr
-    %prec TYPE_ASSERT
-    { $$ = ops::AssertType::Ptr::make($1, $3); }
-
-  /* other */
-
-  | lambda_expr
-    { $$ = $1.castUp<fluster::ast::Expr>(); }
-
   ;
+
 
 lambda_body
   : expr
@@ -357,13 +384,6 @@ lambda_body
   | NL block
     { $$ = fluster::ast::ResultHaver::Ptr($2); }
 */
-  ;
-
-
-lambda_expr
-  : par_list EQ_RANGLE lambda_body
-  %prec LAMBDA
-    { $$ = ast::Lambda::Ptr::make($1, $3); }
   ;
 
 
