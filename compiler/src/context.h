@@ -12,7 +12,12 @@
 namespace fluster {
 
 
-//namespace db { struct ProgramDatabase; }
+
+/*
+ * each translation unit is its own namespace, and should have an 'exec'
+ * function, which is its entry point. The compiler's argument determines the
+ * actual program entry point, main.
+ */
 
 struct GenerationContext
 {
