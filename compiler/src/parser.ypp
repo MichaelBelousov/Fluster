@@ -267,6 +267,8 @@ statement
     { $$ = $1.castUp<ast::Node>(); }
   ;
 
+/* in effect, each *_expr nonterminal is here a precedence level. */
+
 expr
   : grouping_expr
   ;
@@ -274,7 +276,6 @@ expr
 grouping_expr
   : assignment_expr SEMICOLON grouping_expr
     { $$ = ops::Sequence::Ptr::make($1, $3); }
-  /*| assignment_expr COMMA grouping_expr*/
   | assignment_expr
   ;
 
@@ -286,7 +287,6 @@ assignment_expr
 
 lambda_expr
   : par_list EQ_RANGLE lambda_body
-  %prec LAMBDA
     { $$ = ast::Lambda::Ptr::make($1, $3).castUp<fluster::ast::Expr>(); }
   | typeassert_expr
   ;
@@ -349,29 +349,21 @@ prefixop_expr
 
 postfixop_expr
   : prefixop_expr PLUS_PLUS
-    %prec POSTINCREMENT
     { $$ = ops::PostIncrement::Ptr::make($1); }
-
   | prefixop_expr DASH_DASH
-    %prec POSTDECREMENT
     { $$ = ops::PostDecrement::Ptr::make($1); }
-
   | atom_expr
   ;
 
 atom_expr
   : Identifier
     { $$ = $1; }
-
   | StringLiteral
     { $$ = $1; }
-
   | IntegerLiteral
     { $$ = $1; }
-
   | FloatLiteral
     { $$ = $1; }
-
   | LPAR expr RPAR
     { $$ = $2; }
   ;
